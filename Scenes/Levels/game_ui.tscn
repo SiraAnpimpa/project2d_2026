@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cs52s37v04q41" path="res://Assets/Icons/icons8-heart-48.png" id="9_nvrsl"]
 [ext_resource type="Texture2D" uid="uid://dbdk5x30xx2t4" path="res://Assets/Icons/icons8-up-50.png" id="9_qi3vf"]
 [ext_resource type="Texture2D" uid="uid://m44t4aut6o62" path="res://Assets/Icons/icons8-arrow-right-50.png" id="10_ioybj"]
-[ext_resource type="Texture2D" uid="uid://b7f4d7rpedxw3" path="res://Assets/Spritesheet/WandT2.png" id="13_v4do5"]
+[ext_resource type="Texture2D" uid="uid://spbd1uheqjv6" path="res://Gemini_Generated_Image_2t1nhc2t1nhc2t1n-removebg-preview.png" id="13_b47np"]
 [ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="14_b47np"]
 
 [sub_resource type="Animation" id="Animation_3cagf"]
@@ -225,7 +225,7 @@ offset_top = 10.0
 offset_right = 1100.0
 offset_bottom = 99.0
 focus_mode = 0
-icon = ExtResource("13_v4do5")
+icon = ExtResource("13_b47np")
 flat = true
 expand_icon = true
 

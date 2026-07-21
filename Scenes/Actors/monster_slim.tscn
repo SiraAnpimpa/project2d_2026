@@ -2,7 +2,17 @@
 
 [ext_resource type="PackedScene" uid="uid://d27bcsmx82vfa" path="res://Scenes/Actors/enemy.tscn" id="1_b7voo"]
 [ext_resource type="Script" uid="uid://bx5lotsye1r4s" path="res://Scenes/Actors/monster_small.gd" id="2_a8voy"]
+[ext_resource type="Texture2D" uid="uid://ynj3vkkfugwb" path="res://Scenes/Actors/K/Knight_01__WALK_000.png" id="3_caomq"]
+[ext_resource type="Texture2D" uid="uid://jwgc422b6fbf" path="res://Scenes/Actors/K/Knight_01__WALK_001.png" id="4_i4d51"]
 [ext_resource type="Texture2D" uid="uid://dv87lp4aq8wj3" path="res://Assets/Spritesheet/Slime1_Walk_without_shadow.png" id="4_l5hy0"]
+[ext_resource type="Texture2D" uid="uid://cihpbjc0fj3ls" path="res://Scenes/Actors/K/Knight_01__WALK_002.png" id="5_4kvek"]
+[ext_resource type="Texture2D" uid="uid://bj0smnogvmcp1" path="res://Scenes/Actors/K/Knight_01__WALK_003.png" id="6_l7t21"]
+[ext_resource type="Texture2D" uid="uid://domw5jad0milk" path="res://Scenes/Actors/K/Knight_01__WALK_004.png" id="7_fx8d6"]
+[ext_resource type="Texture2D" uid="uid://dv8y2p5w6gs58" path="res://Scenes/Actors/K/Knight_01__WALK_005.png" id="8_06ehe"]
+[ext_resource type="Texture2D" uid="uid://ccrlc3karku1h" path="res://Scenes/Actors/K/Knight_01__WALK_006.png" id="9_d55ix"]
+[ext_resource type="Texture2D" uid="uid://0pnd32xq1nem" path="res://Scenes/Actors/K/Knight_01__WALK_007.png" id="10_jatlv"]
+[ext_resource type="Texture2D" uid="uid://cqdkt87431ypd" path="res://Scenes/Actors/K/Knight_01__WALK_008.png" id="11_bqauc"]
+[ext_resource type="Texture2D" uid="uid://dccd8to5pagxo" path="res://Scenes/Actors/K/Knight_01__WALK_009.png" id="12_4nc3x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ynp2i"]
 atlas = ExtResource("4_l5hy0")
@@ -38,6 +48,41 @@ region = Rect2(448, 127, 64, 42)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_l7ctk"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_caomq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_i4d51")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_4kvek")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_l7t21")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_fx8d6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_06ehe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_d55ix")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_jatlv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_bqauc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_4nc3x")
+}],
+"loop": 1,
+"name": &"kight2",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ynp2i")
@@ -83,10 +128,12 @@ scale = Vector2(1, 0.8)
 position = Vector2(0, -1)
 
 [node name="AnimateSprite" type="AnimatedSprite2D" parent="Sprite" index="0" unique_id=87960724]
-position = Vector2(0, -37)
-scale = Vector2(2, 2)
+position = Vector2(-6.999998, -48)
+scale = Vector2(0.296, 0.246)
 sprite_frames = SubResource("SpriteFrames_l7ctk")
-animation = &"slim"
+animation = &"kight2"
+autoplay = "kight2"
+frame_progress = 0.35243067
 
 [node name="Ray" parent="Sprite" index="1" unique_id=1415425330]
 visible = false

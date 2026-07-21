@@ -1,8 +1,11 @@
-[gd_scene format=3 uid="uid://cppg5yoxwv0dy"]
+[gd_scene format=4 uid="uid://cppg5yoxwv0dy"]
 
 [ext_resource type="PackedScene" uid="uid://bjntpxb1c8jxn" path="res://Scenes/Levels/base_level.tscn" id="1_3fxa7"]
 [ext_resource type="Texture2D" uid="uid://dkc8rdq3j7ppf" path="res://Assets/BG/mountainA.png" id="2_2e1f7"]
 [ext_resource type="PackedScene" uid="uid://towe6jtciome" path="res://Scenes/Levels/level_03.tscn" id="2_q8k1b"]
+[ext_resource type="TileSet" uid="uid://bvk6vx5i1riqd" path="res://Scenes/Prefabs/ground_tile_set.tres" id="4_h5kks"]
+[ext_resource type="PackedScene" uid="uid://b48s52q3f64kl" path="res://Scenes/Actors/monster_mushroom.tscn" id="5_ao2uv"]
+[ext_resource type="PackedScene" uid="uid://ek7hxkqp2wff" path="res://Scenes/Actors/monster_slim.tscn" id="6_06uw3"]
 
 [node name="BaseLevel" unique_id=1997201631 instance=ExtResource("1_3fxa7")]
 
@@ -21,5 +24,29 @@ position = Vector2(270.25, 217.24998)
 scale = Vector2(2.1334267, 2.4474432)
 texture = ExtResource("2_2e1f7")
 
+[node name="Ground" type="TileMapLayer" parent="Level" parent_id_path=PackedInt32Array(1752500785) index="2" unique_id=170090471]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAAGAA0AAAADAAEAAAAHAA0AAAADAAEAAAALAA0AAAADAAEAAAAMAA0AAAADAAEAAAASAA0AAAADAAEAAAD//wkAAAAEAAEAAAD//wgAAAAEAAEAAAD//wcAAAAEAAEAAAADAAcAAAAEAAEAAAADAAgAAAAEAAEAAAADAAkAAAAEAAEAAAADAAYAAAAEAAEAAAADAAUAAAAEAAEAAAADAAQAAAAEAAEAAAADAAMAAAAEAAEAAAADAAIAAAAEAAEAAAD//wIAAAAEAAEAAAD+/wcAAAAEAAEAAAD+/wgAAAAEAAEAAAD9/wgAAAAEAAEAAAD9/wkAAAAEAAEAAAD8/wkAAAAEAAEAAAD7/wkAAAAEAAEAAAD6/wkAAAAEAAEAAAD5/wkAAAAEAAEAAAD4/wkAAAAEAAEAAAD3/wkAAAAEAAEAAAD2/wkAAAAEAAEAAAD2/wgAAAAEAAEAAAD1/wgAAAAEAAEAAAD1/wcAAAAEAAEAAAD0/wcAAAAEAAEAAADz/wcAAAAEAAEAAADz/wYAAAAEAAEAAADy/wYAAAAEAAEAAADy/wUAAAAEAAEAAAD3/wQAAAAEAAEAAAD4/wQAAAAEAAEAAAD5/wQAAAAEAAEAAAD6/wQAAAAEAAEAAAD6/wMAAAAEAAEAAAD7/wMAAAAEAAEAAAD8/wMAAAAEAAEAAAD8/wIAAAAEAAEAAAAEAAMAAAAEAAEAAAAFAAQAAAAEAAEAAAAFAAUAAAAEAAEAAAAFAAYAAAAEAAEAAAAGAAYAAAAEAAEAAAAGAAcAAAAEAAEAAAAHAAcAAAAEAAEAAAAIAAcAAAAEAAEAAAAJAAcAAAAEAAEAAAAKAAcAAAAEAAEAAAALAAcAAAAEAAEAAAAMAAcAAAAEAAEAAAANAAcAAAAEAAEAAAAOAAcAAAAEAAEAAAAPAAcAAAAEAAEAAAAQAAcAAAAEAAEAAAARAAcAAAAEAAEAAAASAAcAAAAEAAEAAAATAAcAAAAEAAEAAAAUAAcAAAAEAAEAAAAVAAcAAAAEAAEAAAAWAAcAAAAEAAEAAAAXAAcAAAAEAAEAAAATAAYAAAAEAAEAAAATAAUAAAAEAAEAAAATAAQAAAAEAAEAAAAUAAQAAAAEAAEAAAAUAAMAAAAEAAEAAAAUAAIAAAAEAAEAAAAVAAIAAAAEAAEAAAAVAAEAAAAEAAEAAAAVAAAAAAAEAAEAAAAWAAAAAAAEAAEAAAAWAP//AAAEAAEAAAAVAP//AAAEAAEAAAAWAAEAAAAEAAEAAAAWAAIAAAAEAAEAAAAWAAMAAAAEAAEAAAAXAAMAAAAEAAEAAAAXAAQAAAAEAAEAAAAXAAUAAAAEAAEAAAAXAAYAAAAEAAEAAAAVAAMAAAAEAAEAAAAVAAQAAAAEAAEAAAAVAAUAAAAEAAEAAAAWAAUAAAAEAAEAAAAWAAYAAAAEAAEAAAAWAAQAAAAEAAEAAAAUAAUAAAAEAAEAAAAUAAYAAAAEAAEAAAAVAAYAAAAEAAEAAAAAAAgAAAAEAAEAAAABAAgAAAAEAAEAAAACAAgAAAAEAAEAAAA=")
+tile_set = ExtResource("4_h5kks")
+
 [node name="Label" parent="UserInterface" parent_id_path=PackedInt32Array(1799764374) index="1" unique_id=1103718868]
 text = "Level 2"
+
+[node name="Enemies2" type="Node2D" parent="." index="8" unique_id=1482016523]
+
+[node name="Enemy" parent="Enemies2" index="0" unique_id=600502477 instance=ExtResource("5_ao2uv")]
+position = Vector2(807, 374)
+speed = 30.0
+metadata/_edit_lock_ = true
+
+[node name="Enemy4" parent="Enemies2" index="1" unique_id=919733273 instance=ExtResource("5_ao2uv")]
+position = Vector2(-348, 171)
+speed = 30.0
+
+[node name="Enemy3" parent="Enemies2" index="2" unique_id=1594830283 instance=ExtResource("5_ao2uv")]
+position = Vector2(521, 441)
+speed = 50.0
+
+[node name="Enemy5" parent="Enemies2" index="3" unique_id=526519314 instance=ExtResource("6_06uw3")]
+position = Vector2(-359, 570)
+speed = 20.0

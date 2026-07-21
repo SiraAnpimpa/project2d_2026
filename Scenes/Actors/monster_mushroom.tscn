@@ -1,71 +1,54 @@
 [gd_scene format=3 uid="uid://b48s52q3f64kl"]
 
 [ext_resource type="PackedScene" uid="uid://d27bcsmx82vfa" path="res://Scenes/Actors/enemy.tscn" id="1_a4af2"]
-[ext_resource type="Texture2D" uid="uid://bgo8qsi7vlfr1" path="res://Assets/Spritesheet/Mushroom-Run.png" id="2_2oid6"]
 [ext_resource type="Script" uid="uid://bx5lotsye1r4s" path="res://Scenes/Actors/monster_small.gd" id="2_tyn28"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_na032"]
-atlas = ExtResource("2_2oid6")
-region = Rect2(0, 22, 80, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cy5wp"]
-atlas = ExtResource("2_2oid6")
-region = Rect2(80, 22, 80, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_aldu0"]
-atlas = ExtResource("2_2oid6")
-region = Rect2(160, 22, 80, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5jiam"]
-atlas = ExtResource("2_2oid6")
-region = Rect2(240, 22, 80, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_se70e"]
-atlas = ExtResource("2_2oid6")
-region = Rect2(320, 22, 80, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fblqy"]
-atlas = ExtResource("2_2oid6")
-region = Rect2(400, 22, 80, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k3ucb"]
-atlas = ExtResource("2_2oid6")
-region = Rect2(480, 22, 80, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_x2ha1"]
-atlas = ExtResource("2_2oid6")
-region = Rect2(560, 22, 80, 42)
+[ext_resource type="Texture2D" uid="uid://dil6pwhshwql6" path="res://Scenes/Actors/K/Knight_03__WALK_000.png" id="3_b0x8u"]
+[ext_resource type="Texture2D" uid="uid://l0oyna1rj12w" path="res://Scenes/Actors/K/Knight_03__WALK_001.png" id="4_8g5y5"]
+[ext_resource type="Texture2D" uid="uid://ciigirad3yw1h" path="res://Scenes/Actors/K/Knight_03__WALK_002.png" id="5_qs8ce"]
+[ext_resource type="Texture2D" uid="uid://bsured8atj2li" path="res://Scenes/Actors/K/Knight_03__WALK_003.png" id="6_oxm22"]
+[ext_resource type="Texture2D" uid="uid://bviieo6si8mma" path="res://Scenes/Actors/K/Knight_03__WALK_004.png" id="7_lgsx7"]
+[ext_resource type="Texture2D" uid="uid://kffelkub8b05" path="res://Scenes/Actors/K/Knight_03__WALK_005.png" id="8_1pjpm"]
+[ext_resource type="Texture2D" uid="uid://bb22q0k53gbgd" path="res://Scenes/Actors/K/Knight_03__WALK_006.png" id="9_5x8hn"]
+[ext_resource type="Texture2D" uid="uid://dggiaed0iihls" path="res://Scenes/Actors/K/Knight_03__WALK_007.png" id="10_d1iqb"]
+[ext_resource type="Texture2D" uid="uid://1kpcn8r7uhq1" path="res://Scenes/Actors/K/Knight_03__WALK_008.png" id="11_qnyj8"]
+[ext_resource type="Texture2D" uid="uid://m1slwcps021m" path="res://Scenes/Actors/K/Knight_03__WALK_009.png" id="12_3pdfo"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_l7ctk"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_na032")
+"texture": ExtResource("3_b0x8u")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_cy5wp")
+"texture": ExtResource("4_8g5y5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_aldu0")
+"texture": ExtResource("5_qs8ce")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5jiam")
+"texture": ExtResource("6_oxm22")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_se70e")
+"texture": ExtResource("7_lgsx7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fblqy")
+"texture": ExtResource("8_1pjpm")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_k3ucb")
+"texture": ExtResource("9_5x8hn")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x2ha1")
+"texture": ExtResource("10_d1iqb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_qnyj8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_3pdfo")
 }],
 "loop": 1,
-"name": &"mushroom",
-"speed": 10.0
+"name": &"Knight",
+"speed": 5.0
 }]
 
 [node name="Enemy" unique_id=600502477 instance=ExtResource("1_a4af2")]
@@ -80,7 +63,9 @@ position = Vector2(0, -33)
 scale = Vector2(1.5, 1.5)
 
 [node name="AnimateSprite" type="AnimatedSprite2D" parent="Sprite" parent_id_path=PackedInt32Array(1445111960) index="0" unique_id=87960724]
-position = Vector2(0, -42)
-scale = Vector2(2, 2)
+position = Vector2(-6.999996, -46)
+scale = Vector2(0.25399742, 0.24648435)
 sprite_frames = SubResource("SpriteFrames_l7ctk")
-animation = &"mushroom"
+animation = &"Knight"
+autoplay = "Knight"
+frame_progress = 0.9224684

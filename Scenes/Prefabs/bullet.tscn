@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://c5y568p25r7rl"]
 
-[ext_resource type="Texture2D" uid="uid://dsqhpet4dfpn8" path="res://Assets/Spritesheet/bullet.png" id="1_pkqe3"]
 [ext_resource type="Script" uid="uid://lfkiq2j22hff" path="res://Scenes/Prefabs/bullet.gd" id="1_yovq8"]
+[ext_resource type="Texture2D" uid="uid://spbd1uheqjv6" path="res://Gemini_Generated_Image_2t1nhc2t1nhc2t1n-removebg-preview.png" id="2_l1ius"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pkqe3"]
 friction = 0.5
 bounce = 0.8
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mqoqv"]
-radius = 6.708204
+radius = 35.057095
 
 [node name="Bullet" type="RigidBody2D" unique_id=737966296 groups=["Bullet"]]
 collision_layer = 2
@@ -21,6 +21,6 @@ rotation = 1.5707964
 shape = SubResource("CircleShape2D_mqoqv")
 
 [node name="Bullet" type="Sprite2D" parent="." unique_id=308939572]
-position = Vector2(-0.1641778, -0.3124994)
-scale = Vector2(0.24490353, 0.2572188)
-texture = ExtResource("1_pkqe3")
+position = Vector2(3, -1)
+scale = Vector2(0.12650603, 0.12574852)
+texture = ExtResource("2_l1ius")

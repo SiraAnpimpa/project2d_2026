@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dxp77wq60c2rr" path="res://Assets/Textures/CloudTexture.png" id="3_6q7nd"]
 [ext_resource type="PackedScene" uid="uid://bvoon20abmdym" path="res://Scenes/Sprites/student.tscn" id="4_pdd2n"]
 [ext_resource type="Texture2D" uid="uid://dia1dp34sme5l" path="res://Assets/Spritesheet/light_w.png" id="4_wn7ci"]
+[ext_resource type="Texture2D" uid="uid://cq675kcnqqyn" path="res://Knight_02__IDLE_000.png" id="6_sfcrp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4sts"]
 radius = 20.985498
@@ -99,5 +100,11 @@ editor_draw_drag_margin = true
 
 [node name="BulletMarker" type="Marker2D" parent="." unique_id=511055809]
 position = Vector2(28.983788, -38.012367)
+
+[node name="Knight02Idle000" type="Sprite2D" parent="." unique_id=1945341922]
+visible = false
+position = Vector2(-8.015781, -36.99659)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("6_sfcrp")
 
 [connection signal="body_entered" from="Collision" to="." method="_on_collision_body_entered"]

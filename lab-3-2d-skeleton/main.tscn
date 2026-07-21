@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://b47us2svmuh48"]
+
+[ext_resource type="PackedScene" uid="uid://cpl24oxabu0mt" path="res://death.tscn" id="1_lquwl"]
+[ext_resource type="PackedScene" uid="uid://ct5gdouupgpi6" path="res://fight.tscn" id="2_7mycd"]
+[ext_resource type="PackedScene" uid="uid://bpeqadrxxd7x2" path="res://jump.tscn" id="3_272bh"]
+[ext_resource type="PackedScene" uid="uid://w40hfvgolghr" path="res://Stand.tscn" id="4_5vw27"]
+[ext_resource type="PackedScene" uid="uid://dmohauvdpcet1" path="res://walk.tscn" id="5_kek77"]
+
+[node name="main" type="Node2D" unique_id=634703353]
+
+[node name="Node2D" parent="." unique_id=647606959 instance=ExtResource("1_lquwl")]
+position = Vector2(146, 159)
+scale = Vector2(0.5, 0.5)
+
+[node name="Node2D2" parent="." unique_id=8866481 instance=ExtResource("2_7mycd")]
+position = Vector2(410, 149)
+scale = Vector2(0.5, 0.5)
+
+[node name="Node2D3" parent="." unique_id=1626300911 instance=ExtResource("3_272bh")]
+position = Vector2(656, 136)
+scale = Vector2(0.5, 0.5)
+
+[node name="Node2D4" parent="." unique_id=281407860 instance=ExtResource("4_5vw27")]
+position = Vector2(289, 475)
+scale = Vector2(0.5, 0.5)
+
+[node name="Node2D5" parent="." unique_id=1810632671 instance=ExtResource("5_kek77")]
+position = Vector2(650, 453)
+scale = Vector2(0.5, 0.5)

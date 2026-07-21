@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://bajrtxxftc6wt"]
 
+[ext_resource type="Texture2D" uid="uid://b1d77yip5s36l" path="res://Scenes/Levels/360_F_541863571_uUsJX0PXBhKBGdX5xsImPWLRr9EDq6LA.jpg" id="1_0lh7m"]
 [ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="1_2g1tp"]
 [ext_resource type="Texture2D" uid="uid://1ay25i0wdihg" path="res://Assets/Icons/cpkku_dark.png" id="2_fnvqj"]
 [ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="3_fnvqj"]
+[ext_resource type="Texture2D" uid="uid://srpi8b81tqvo" path="res://Gemini_Generated_Image_du9z21du9z21du9z-removebg-preview.png" id="5_qu31k"]
 
 [node name="Node2D" type="Node2D" unique_id=264957255]
 
@@ -12,8 +14,14 @@ anchors_preset = 0
 offset_right = 1154.0
 offset_bottom = 650.0
 
+[node name="360F541863571UUsJx0pxBhKbGdX5XsImPwlRr9eDq6la" type="Sprite2D" parent="Control" unique_id=1506210776]
+position = Vector2(576.5, 323.5)
+scale = Vector2(1.598611, 1.7972223)
+texture = ExtResource("1_0lh7m")
+
 [node name="CpkkuDark" type="Sprite2D" parent="Control" unique_id=813724852]
-position = Vector2(584, 71)
+position = Vector2(600.00006, 102)
+scale = Vector2(1.6132813, 1.6081082)
 texture = ExtResource("2_fnvqj")
 
 [node name="Title" type="Label" parent="Control" unique_id=1640205557]
@@ -21,16 +29,16 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -148.0
-offset_top = 295.0
-offset_right = 153.0
-offset_bottom = 327.0
+offset_left = -143.0
+offset_top = 342.0
+offset_right = 224.0
+offset_bottom = 414.0
 grow_horizontal = 2
 theme = ExtResource("1_2g1tp")
-theme_override_colors/font_color = Color(0.88235295, 0.18039216, 0.1882353, 1)
+theme_override_colors/font_color = Color(0.31992817, 0.3764141, 0.9840701, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
 text = "Development Team"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -40,10 +48,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -167.0
-offset_top = 177.0
-offset_right = 207.0
-offset_bottom = 209.0
+offset_left = -185.0
+offset_top = 268.0
+offset_right = 246.0
+offset_bottom = 345.0
 grow_horizontal = 2
 theme = ExtResource("1_2g1tp")
 theme_override_constants/outline_size = 10
@@ -56,17 +64,19 @@ vertical_alignment = 1
 [node name="btnExit" parent="Control" unique_id=1633606001 instance=ExtResource("3_fnvqj")]
 layout_mode = 0
 offset_left = 33.0
+offset_top = 0.0
 offset_right = 159.0
+offset_bottom = 54.0
 
 [node name="Title3" type="Label" parent="Control" unique_id=1657901293]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -148.0
-offset_top = 129.0
-offset_right = 153.0
-offset_bottom = 161.0
+offset_left = -232.0
+offset_top = 207.0
+offset_right = 318.0
+offset_bottom = 239.0
 grow_horizontal = 2
 theme = ExtResource("1_2g1tp")
 theme_override_constants/outline_size = 10
@@ -80,16 +90,18 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -187.0
-offset_top = 360.0
-offset_right = 193.0
-offset_bottom = 407.0
+offset_left = -222.0
+offset_top = 420.0
+offset_right = 309.0
+offset_bottom = 484.0
 grow_horizontal = 2
 theme = ExtResource("1_2g1tp")
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 16
-text = "1. 
-2.
-3.
-4."
+theme_override_font_sizes/font_size = 25
+text = "1. พงศธร ประทุมทราย ทำเกม 683380429-5"
 vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Control" unique_id=229140680]
+position = Vector2(214.00002, 437)
+scale = Vector2(0.636, 0.592)
+texture = ExtResource("5_qu31k")

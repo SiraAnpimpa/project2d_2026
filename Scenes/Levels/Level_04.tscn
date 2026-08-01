@@ -5,8 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://b46lxwc5r3dy4" path="res://Scenes/Levels/game_win.tscn" id="3_v1del"]
 [ext_resource type="PackedScene" uid="uid://cyti38f0lagf2" path="res://Scenes/Prefabs/level_finish_door.tscn" id="4_57wva"]
 [ext_resource type="TileSet" uid="uid://bvk6vx5i1riqd" path="res://Scenes/Prefabs/ground_tile_set.tres" id="5_nfvq6"]
-[ext_resource type="PackedScene" uid="uid://cb8e62red7kc0" path="res://Scenes/Prefabs/trap_1.tscn" id="6_h31d5"]
-[ext_resource type="PackedScene" uid="uid://bp4l1nlnh8oq1" path="res://Scenes/Prefabs/trap_2.tscn" id="7_hrgoi"]
 [ext_resource type="PackedScene" uid="uid://bfmh3fm2de78o" path="res://Scenes/Prefabs/Coin.tscn" id="8_1ntqt"]
 [ext_resource type="PackedScene" uid="uid://b48s52q3f64kl" path="res://Scenes/Actors/monster_mushroom.tscn" id="9_0xxnf"]
 
@@ -47,51 +45,8 @@ text = "Level 4"
 
 [node name="Ground" type="TileMapLayer" parent="Level2" index="0" unique_id=1935898198]
 use_parent_material = true
-tile_map_data = PackedByteArray("AAAVABAAAAABAAIAAAAWABAAAAABAAIAAAAXABAAAAABAAIAAAAYABAAAAABAAIAAAAZABAAAAABAAIAAAAaABAAAAABAAIAAAAbABAAAAABAAIAAAAcABAAAAABAAIAAAAdABAAAAABAAIAAAAeABAAAAABAAIAAAAfABAAAAABAAIAAAAgABAAAAABAAIAAAAhABAAAAABAAIAAAAgAA4AAAABAAIAAAAdAA0AAAABAAIAAAAaAAwAAAABAAIAAAAXAAsAAAABAAIAAAAUAAoAAAABAAIAAAARAAkAAAABAAIAAAAhAA8AAAABAAAAAAAhAA4AAAABAAAAAAAiAA4AAAABAAAAAAAiAA8AAAABAAAAAAAiABAAAAABAAAAAAAiAA0AAAABAAAAAAAjAA4AAAABAAAAAAAjAA0AAAABAAAAAAAjAAwAAAABAAAAAAAjAAsAAAABAAAAAAAiAAsAAAABAAAAAAAiAAwAAAABAAAAAAAjAAoAAAABAAAAAAAjAAkAAAABAAAAAAAiAAkAAAABAAAAAAAiAAoAAAABAAAAAAAiAAgAAAABAAAAAAAiAAcAAAABAAAAAAAjAAcAAAABAAAAAAAjAAgAAAABAAAAAAAkAAgAAAABAAAAAAAkAAcAAAABAAAAAAAkAAkAAAABAAAAAAAkAAoAAAABAAAAAAAkAAsAAAABAAAAAAAkAAwAAAABAAAAAAAkAA0AAAABAAAAAAAkAA4AAAABAAAAAAAkAA8AAAABAAAAAAAjAA8AAAABAAAAAAAkABAAAAABAAAAAAAjABAAAAABAAAAAAAjAAYAAAABAAAAAAAOAAgAAAABAAIAAAALAAcAAAABAAIAAAAIAAgAAAABAAIAAAAFAAkAAAABAAIAAAACAAoAAAABAAIAAAD//wsAAAABAAIAAAD+/w0AAAABAAIAAAD9/w0AAAABAAIAAAD8/w0AAAABAAIAAAD7/xEAAAABAAIAAAD6/xEAAAABAAIAAAD5/xEAAAABAAIAAAD+/w4AAAABAAIAAAD4/xEAAAABAAIAAAD3/xEAAAABAAIAAAD2/xEAAAABAAIAAAD1/xEAAAABAAIAAAD0/xEAAAABAAIAAAD5/w4AAAABAAIAAAD2/w4AAAABAAIAAADz/w4AAAABAAIAAAD+/w8AAAADAAAAAAD+/xAAAAADAAAAAAD+/xEAAAADAAAAAAD9/xEAAAADAAAAAAD8/xEAAAADAAAAAADz/w8AAAAEAAMAAADz/xAAAAAEAAMAAADz/xEAAAAEAAMAAAA=")
+tile_map_data = PackedByteArray("AAAVABAAAAABAAIAAAAWABAAAAABAAIAAAAXABAAAAABAAIAAAAYABAAAAABAAIAAAAZABAAAAABAAIAAAAaABAAAAABAAIAAAAbABAAAAABAAIAAAAcABAAAAABAAIAAAAdABAAAAABAAIAAAAeABAAAAABAAIAAAAfABAAAAABAAIAAAAgABAAAAABAAIAAAAhABAAAAABAAIAAAAgAA4AAAABAAIAAAAdAA0AAAABAAIAAAAaAAwAAAABAAIAAAAXAAsAAAABAAIAAAAUAAoAAAABAAIAAAAhAA8AAAABAAAAAAAhAA4AAAABAAAAAAAiAA4AAAABAAAAAAAiAA8AAAABAAAAAAAiABAAAAABAAAAAAAiAA0AAAABAAAAAAAjAA4AAAABAAAAAAAjAA0AAAABAAAAAAAjAAwAAAABAAAAAAAjAAsAAAABAAAAAAAiAAsAAAABAAAAAAAiAAwAAAABAAAAAAAjAAoAAAABAAAAAAAjAAkAAAABAAAAAAAiAAkAAAABAAAAAAAiAAoAAAABAAAAAAAiAAgAAAABAAAAAAAiAAcAAAABAAAAAAAjAAcAAAABAAAAAAAjAAgAAAABAAAAAAAkAAgAAAABAAAAAAAkAAcAAAABAAAAAAAkAAkAAAABAAAAAAAkAAoAAAABAAAAAAAkAAsAAAABAAAAAAAkAAwAAAABAAAAAAAkAA0AAAABAAAAAAAkAA4AAAABAAAAAAAkAA8AAAABAAAAAAAjAA8AAAABAAAAAAAkABAAAAABAAAAAAAjABAAAAABAAAAAAAjAAYAAAABAAAAAAAFAAkAAAABAAIAAAACAAoAAAABAAIAAAD//wsAAAABAAIAAAD+/w0AAAABAAIAAAD9/w0AAAABAAIAAAD8/w0AAAABAAIAAAD7/xEAAAABAAIAAAD6/xEAAAABAAIAAAD5/xEAAAABAAIAAAD+/w4AAAABAAIAAAD4/xEAAAABAAIAAAD3/xEAAAABAAIAAAD2/xEAAAABAAIAAAD1/xEAAAABAAIAAAD0/xEAAAABAAIAAAD5/w4AAAABAAIAAAD2/w4AAAABAAIAAADz/w4AAAABAAIAAAD+/w8AAAADAAAAAAD+/xAAAAADAAAAAAD+/xEAAAADAAAAAAD9/xEAAAADAAAAAAD8/xEAAAADAAAAAADz/w8AAAAEAAMAAADz/xAAAAAEAAMAAADz/xEAAAAEAAMAAAAIAAgAAAABAAIAAAALAAcAAAABAAIAAAAOAAgAAAABAAIAAAARAAkAAAABAAIAAAA=")
 tile_set = ExtResource("5_nfvq6")
-
-[node name="Trap1" parent="Level2" index="1" unique_id=1930518021 instance=ExtResource("6_h31d5")]
-visible = false
-position = Vector2(1389, 768)
-
-[node name="Trap2" parent="Level2" index="2" unique_id=287969788 instance=ExtResource("6_h31d5")]
-visible = false
-position = Vector2(1212, 707)
-
-[node name="Trap3" parent="Level2" index="3" unique_id=1422015122 instance=ExtResource("6_h31d5")]
-visible = false
-position = Vector2(555, 924)
-
-[node name="Trap6" parent="Level2" index="4" unique_id=1894763376 instance=ExtResource("7_hrgoi")]
-visible = false
-position = Vector2(1043, 346)
-rotation = -1.5707964
-
-[node name="Trap4" parent="Level2" index="5" unique_id=771131226 instance=ExtResource("6_h31d5")]
-visible = false
-position = Vector2(388, 597)
-
-[node name="Trap7" parent="Level2" index="6" unique_id=1104159613 instance=ExtResource("7_hrgoi")]
-visible = false
-position = Vector2(505, 352)
-rotation = -1.5707964
-
-[node name="Trap5" parent="Level2" index="7" unique_id=374766926 instance=ExtResource("6_h31d5")]
-visible = false
-position = Vector2(131, 598)
-
-[node name="Trap8" parent="Level2" index="8" unique_id=335230348 instance=ExtResource("6_h31d5")]
-visible = false
-position = Vector2(-201, 596)
-
-[node name="Trap9" parent="Level2" index="9" unique_id=1019744331 instance=ExtResource("6_h31d5")]
-visible = false
-position = Vector2(-470, 594)
-
-[node name="Trap10" parent="Level2" index="10" unique_id=58548442 instance=ExtResource("7_hrgoi")]
-visible = false
-position = Vector2(-54, 354)
-rotation = -1.5707964
 
 [node name="Coins2" type="Node2D" parent="." index="13" unique_id=1353961118]
 z_index = 2
@@ -117,7 +72,7 @@ position = Vector2(1507, 683)
 position = Vector2(1307, 619)
 
 [node name="Coin8" parent="Coins2" index="6" unique_id=54688001 instance=ExtResource("8_1ntqt")]
-position = Vector2(1123, 553)
+position = Vector2(1119, 541)
 
 [node name="Coin9" parent="Coins2" index="7" unique_id=1770256130 instance=ExtResource("8_1ntqt")]
 position = Vector2(930, 489)
@@ -148,6 +103,6 @@ speed = 30.0
 position = Vector2(-150, 3)
 speed = 30.0
 
-[node name="Enemy" parent="Enemy/Enemy" index="5" unique_id=1790108932 instance=ExtResource("9_0xxnf")]
-position = Vector2(-126, 8)
+[node name="Enemy2" parent="Enemy" index="6" unique_id=1790108932 instance=ExtResource("9_0xxnf")]
+position = Vector2(-276, 11)
 speed = 30.0

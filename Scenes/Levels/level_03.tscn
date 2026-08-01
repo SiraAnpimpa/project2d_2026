@@ -48,32 +48,24 @@ position = Vector2(1186, 601)
 [node name="Trap3" parent="Level2" index="3" unique_id=1422015122 instance=ExtResource("5_xtkfo")]
 position = Vector2(904, 599)
 
-[node name="Trap6" parent="Level2" index="4" unique_id=1894763376 instance=ExtResource("6_oi8m4")]
-position = Vector2(1043, 346)
-rotation = -1.5707964
-
-[node name="Trap4" parent="Level2" index="5" unique_id=771131226 instance=ExtResource("5_xtkfo")]
+[node name="Trap4" parent="Level2" index="4" unique_id=771131226 instance=ExtResource("5_xtkfo")]
 position = Vector2(388, 597)
 
-[node name="Trap7" parent="Level2" index="6" unique_id=1104159613 instance=ExtResource("6_oi8m4")]
+[node name="Trap7" parent="Level2" index="5" unique_id=1104159613 instance=ExtResource("6_oi8m4")]
 position = Vector2(758, 343)
 rotation = -1.5707964
 
-[node name="Trap5" parent="Level2" index="7" unique_id=374766926 instance=ExtResource("5_xtkfo")]
+[node name="Trap5" parent="Level2" index="6" unique_id=374766926 instance=ExtResource("5_xtkfo")]
 position = Vector2(131, 598)
 
-[node name="Trap8" parent="Level2" index="8" unique_id=335230348 instance=ExtResource("5_xtkfo")]
+[node name="Trap8" parent="Level2" index="7" unique_id=335230348 instance=ExtResource("5_xtkfo")]
 position = Vector2(-201, 596)
 
-[node name="Trap9" parent="Level2" index="9" unique_id=1019744331 instance=ExtResource("5_xtkfo")]
+[node name="Trap9" parent="Level2" index="8" unique_id=1019744331 instance=ExtResource("5_xtkfo")]
 position = Vector2(-470, 594)
 
-[node name="Trap10" parent="Level2" index="10" unique_id=58548442 instance=ExtResource("6_oi8m4")]
+[node name="Trap10" parent="Level2" index="9" unique_id=58548442 instance=ExtResource("6_oi8m4")]
 position = Vector2(-54, 354)
-rotation = -1.5707964
-
-[node name="Trap11" parent="Level2" index="11" unique_id=1225010674 instance=ExtResource("6_oi8m4")]
-position = Vector2(-343, 360)
 rotation = -1.5707964
 
 [node name="Coins2" type="Node2D" parent="." index="11" unique_id=1000525410]

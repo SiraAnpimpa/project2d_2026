@@ -1,9 +1,17 @@
 [gd_scene format=3 uid="uid://b6tvaxw54wsq0"]
 
 [ext_resource type="Script" uid="uid://tkynu7pd01lh" path="res://Scenes/Levels/menu.gd" id="1_hq2ph"]
+[ext_resource type="Texture2D" uid="uid://d1bn7s0v5ln0h" path="res://Gemini_Generated_Image_9r31ll9r31ll9r31.png" id="2_7pnm7"]
+[ext_resource type="AudioStream" uid="uid://cf6n0wxrdhw0u" path="res://Scenes/Managers/Walen - Warrior (freetouse.com).mp3" id="3_7pnm7"]
 
 [node name="Node2D" type="Node2D" unique_id=827773846]
 script = ExtResource("1_hq2ph")
+
+[node name="GeminiGeneratedImage9r31Ll9r31Ll9r31" type="Sprite2D" parent="." unique_id=1962449398]
+position = Vector2(577.00006, 136)
+scale = Vector2(1.3608491, 0.80854434)
+texture = ExtResource("2_7pnm7")
+metadata/_edit_lock_ = true
 
 [node name="UI" type="Control" parent="." unique_id=2061607031]
 layout_mode = 3
@@ -59,6 +67,12 @@ offset_right = 78.5
 offset_bottom = 435.0
 grow_horizontal = 2
 text = "Credit"
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=20492814]
+stream = ExtResource("3_7pnm7")
+volume_db = -15.0
+autoplay = true
+bus = &"music"
 
 [connection signal="pressed" from="UI/btnStart" to="." method="_on_btn_start_pressed"]
 [connection signal="pressed" from="UI/btnContinue" to="." method="_on_btn_continue_pressed"]

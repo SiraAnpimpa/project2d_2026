@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dggiaed0iihls" path="res://Scenes/Actors/K/Knight_03__WALK_007.png" id="10_d1iqb"]
 [ext_resource type="Texture2D" uid="uid://1kpcn8r7uhq1" path="res://Scenes/Actors/K/Knight_03__WALK_008.png" id="11_qnyj8"]
 [ext_resource type="Texture2D" uid="uid://m1slwcps021m" path="res://Scenes/Actors/K/Knight_03__WALK_009.png" id="12_3pdfo"]
+[ext_resource type="AudioStream" uid="uid://bpoe6um4t1bss" path="res://Scenes/Managers/universfield-male-death-scream-horror-352706.mp3" id="13_b0x8u"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_l7ctk"]
 animations = [{
@@ -69,3 +70,6 @@ sprite_frames = SubResource("SpriteFrames_l7ctk")
 animation = &"Knight"
 autoplay = "Knight"
 frame_progress = 0.9224684
+
+[node name="DeathSfx" parent="." index="4" unique_id=1907249660]
+stream = ExtResource("13_b0x8u")

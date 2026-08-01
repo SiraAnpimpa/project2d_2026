@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cyti38f0lagf2" path="res://Scenes/Prefabs/level_finish_door.tscn" id="2_3b8rg"]
 [ext_resource type="PackedScene" uid="uid://w7m6tehvvy3g" path="res://Scenes/Actors/player.tscn" id="4_hr04v"]
 [ext_resource type="PackedScene" uid="uid://cdwabmqtlxr1y" path="res://Scenes/Levels/game_ui.tscn" id="5_71eip"]
-[ext_resource type="AudioStream" uid="uid://dhmn57nc23ah1" path="res://Assets/Sound/walen.ogg" id="6_34r03"]
+[ext_resource type="AudioStream" uid="uid://cf6n0wxrdhw0u" path="res://Scenes/Managers/Walen - Warrior (freetouse.com).mp3" id="6_iemmg"]
 [ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="7_xghcx"]
 
 [node name="BaseLevel" type="Node2D" unique_id=1997201631]
@@ -60,7 +60,8 @@ metadata/_edit_lock_ = true
 [node name="Text" type="Node2D" parent="." unique_id=416249055]
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=724032201]
-stream = ExtResource("6_34r03")
+stream = ExtResource("6_iemmg")
+volume_db = -15.0
 bus = &"music"
 
 [connection signal="hit_enemy" from="Player" to="." method="_on_player_hit_enemy"]

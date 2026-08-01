@@ -13,6 +13,11 @@
 [ext_resource type="Texture2D" uid="uid://0pnd32xq1nem" path="res://Scenes/Actors/K/Knight_01__WALK_007.png" id="10_jatlv"]
 [ext_resource type="Texture2D" uid="uid://cqdkt87431ypd" path="res://Scenes/Actors/K/Knight_01__WALK_008.png" id="11_bqauc"]
 [ext_resource type="Texture2D" uid="uid://dccd8to5pagxo" path="res://Scenes/Actors/K/Knight_01__WALK_009.png" id="12_4nc3x"]
+[ext_resource type="AudioStream" uid="uid://bpoe6um4t1bss" path="res://Scenes/Managers/universfield-male-death-scream-horror-352706.mp3" id="14_i4d51"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_caomq"]
+radius = 38.69
+height = 183.65
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ynp2i"]
 atlas = ExtResource("4_l5hy0")
@@ -121,8 +126,9 @@ position = Vector2(0, -17)
 scale = Vector2(1, 0.8)
 
 [node name="CollisionShape2D2" parent="HitArea" parent_id_path=PackedInt32Array(1115411835) index="0" unique_id=2008793250]
-position = Vector2(0, -17)
+position = Vector2(-3, -61)
 scale = Vector2(1, 0.8)
+shape = SubResource("CapsuleShape2D_caomq")
 
 [node name="Sprite" parent="." index="3" unique_id=1445111960]
 position = Vector2(0, -1)
@@ -134,6 +140,10 @@ sprite_frames = SubResource("SpriteFrames_l7ctk")
 animation = &"kight2"
 autoplay = "kight2"
 frame_progress = 0.35243067
+metadata/_edit_lock_ = true
 
 [node name="Ray" parent="Sprite" index="1" unique_id=1415425330]
 visible = false
+
+[node name="DeathSfx" parent="." index="4" unique_id=1907249660]
+stream = ExtResource("14_i4d51")

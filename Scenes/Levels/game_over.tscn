@@ -1,9 +1,16 @@
 [gd_scene format=3 uid="uid://c15tw24t3axhb"]
 
+[ext_resource type="Texture2D" uid="uid://csay82030dsyo" path="res://Gemini_Generated_Image_j0ttwij0ttwij0tt.png" id="1_5lehs"]
 [ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="2_buq0o"]
 [ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="2_chlux"]
+[ext_resource type="AudioStream" uid="uid://cfouo2rhad4yv" path="res://Scenes/Levels/alphix-game-over-417465.mp3" id="4_cfvhd"]
 
 [node name="GameOver" type="Node2D" unique_id=826370530]
+
+[node name="GeminiGeneratedImageJ0Ttwij0Ttwij0Tt" type="Sprite2D" parent="." unique_id=179000032]
+position = Vector2(580, 92.49997)
+scale = Vector2(1.3632075, 0.87895566)
+texture = ExtResource("1_5lehs")
 
 [node name="Title" type="Label" parent="." unique_id=1965507633]
 offset_left = 419.0
@@ -33,3 +40,9 @@ offset_right = 723.0
 offset_bottom = 413.0
 shortcut = null
 text = "Play Again"
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=459433182]
+stream = ExtResource("4_cfvhd")
+volume_db = -15.0
+autoplay = true
+bus = &"music"

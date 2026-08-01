@@ -1,9 +1,16 @@
 [gd_scene format=3 uid="uid://b46lxwc5r3dy4"]
 
 [ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="1_5l1gm"]
+[ext_resource type="Texture2D" uid="uid://bi7aj7cqfuj00" path="res://Scenes/Managers/Gemini_Generated_Image_f96sykf96sykf96s.png" id="1_81byk"]
 [ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="2_81byk"]
+[ext_resource type="AudioStream" uid="uid://b1eodvbybfphf" path="res://Scenes/Managers/mrstokes302-you-win-sfx-mrstokes302-442128.mp3" id="4_67x06"]
 
 [node name="GameOver" type="Node2D" unique_id=826370530]
+
+[node name="GeminiGeneratedImageF96Sykf96Sykf96s" type="Sprite2D" parent="." unique_id=606988687]
+position = Vector2(576, 15)
+scale = Vector2(1.3655661, 1)
+texture = ExtResource("1_81byk")
 
 [node name="Title" type="Label" parent="." unique_id=1965507633]
 offset_left = 438.0
@@ -33,3 +40,9 @@ offset_right = 723.0
 offset_bottom = 413.0
 shortcut = null
 text = "Play Again"
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1748812747]
+stream = ExtResource("4_67x06")
+volume_db = -15.0
+autoplay = true
+bus = &"music"

@@ -1,0 +1,153 @@
+[gd_scene format=4 uid="uid://darrnnrsriosd"]
+
+[ext_resource type="PackedScene" uid="uid://bjntpxb1c8jxn" path="res://Scenes/Levels/base_level.tscn" id="1_3cakd"]
+[ext_resource type="Texture2D" uid="uid://c0lw0ujallir8" path="res://john-paul-07a.jpg" id="2_rlh7l"]
+[ext_resource type="PackedScene" uid="uid://b46lxwc5r3dy4" path="res://Scenes/Levels/game_win.tscn" id="3_v1del"]
+[ext_resource type="PackedScene" uid="uid://cyti38f0lagf2" path="res://Scenes/Prefabs/level_finish_door.tscn" id="4_57wva"]
+[ext_resource type="TileSet" uid="uid://bvk6vx5i1riqd" path="res://Scenes/Prefabs/ground_tile_set.tres" id="5_nfvq6"]
+[ext_resource type="PackedScene" uid="uid://cb8e62red7kc0" path="res://Scenes/Prefabs/trap_1.tscn" id="6_h31d5"]
+[ext_resource type="PackedScene" uid="uid://bp4l1nlnh8oq1" path="res://Scenes/Prefabs/trap_2.tscn" id="7_hrgoi"]
+[ext_resource type="PackedScene" uid="uid://bfmh3fm2de78o" path="res://Scenes/Prefabs/Coin.tscn" id="8_1ntqt"]
+[ext_resource type="PackedScene" uid="uid://b48s52q3f64kl" path="res://Scenes/Actors/monster_mushroom.tscn" id="9_0xxnf"]
+
+[node name="BaseLevel" unique_id=1997201631 instance=ExtResource("1_3cakd")]
+
+[node name="JohnPaul07a" type="Sprite2D" parent="." index="0" unique_id=1207975394]
+position = Vector2(632.99994, 506.49994)
+scale = Vector2(3.132308, 3.1643593)
+texture = ExtResource("2_rlh7l")
+metadata/_edit_lock_ = true
+
+[node name="LevelFinishDoor" parent="." index="1" unique_id=1788542095]
+visible = false
+position = Vector2(-932, 769)
+next_scene = ExtResource("3_v1del")
+
+[node name="LevelFinishDoor2" parent="." index="2" unique_id=1136132539 instance=ExtResource("4_57wva")]
+visible = false
+z_index = 1
+position = Vector2(-1864, 1538)
+next_scene = ExtResource("3_v1del")
+
+[node name="LevelFinishDoor3" parent="." index="3" unique_id=157242631 instance=ExtResource("4_57wva")]
+visible = false
+position = Vector2(-800, 846)
+
+[node name="LevelFinishDoor4" parent="." index="4" unique_id=2107677644 instance=ExtResource("4_57wva")]
+position = Vector2(-799, 850)
+next_scene = ExtResource("3_v1del")
+
+[node name="Player" parent="." index="6" unique_id=850213228]
+position = Vector2(1612.9999, 902.9999)
+
+[node name="Label" parent="UserInterface" parent_id_path=PackedInt32Array(1799764374) index="1" unique_id=1103718868]
+text = "Level 4"
+
+[node name="Level2" type="Node2D" parent="." index="12" unique_id=979285166]
+
+[node name="Ground" type="TileMapLayer" parent="Level2" index="0" unique_id=1935898198]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAAVABAAAAABAAIAAAAWABAAAAABAAIAAAAXABAAAAABAAIAAAAYABAAAAABAAIAAAAZABAAAAABAAIAAAAaABAAAAABAAIAAAAbABAAAAABAAIAAAAcABAAAAABAAIAAAAdABAAAAABAAIAAAAeABAAAAABAAIAAAAfABAAAAABAAIAAAAgABAAAAABAAIAAAAhABAAAAABAAIAAAAgAA4AAAABAAIAAAAdAA0AAAABAAIAAAAaAAwAAAABAAIAAAAXAAsAAAABAAIAAAAUAAoAAAABAAIAAAARAAkAAAABAAIAAAAhAA8AAAABAAAAAAAhAA4AAAABAAAAAAAiAA4AAAABAAAAAAAiAA8AAAABAAAAAAAiABAAAAABAAAAAAAiAA0AAAABAAAAAAAjAA4AAAABAAAAAAAjAA0AAAABAAAAAAAjAAwAAAABAAAAAAAjAAsAAAABAAAAAAAiAAsAAAABAAAAAAAiAAwAAAABAAAAAAAjAAoAAAABAAAAAAAjAAkAAAABAAAAAAAiAAkAAAABAAAAAAAiAAoAAAABAAAAAAAiAAgAAAABAAAAAAAiAAcAAAABAAAAAAAjAAcAAAABAAAAAAAjAAgAAAABAAAAAAAkAAgAAAABAAAAAAAkAAcAAAABAAAAAAAkAAkAAAABAAAAAAAkAAoAAAABAAAAAAAkAAsAAAABAAAAAAAkAAwAAAABAAAAAAAkAA0AAAABAAAAAAAkAA4AAAABAAAAAAAkAA8AAAABAAAAAAAjAA8AAAABAAAAAAAkABAAAAABAAAAAAAjABAAAAABAAAAAAAjAAYAAAABAAAAAAAOAAgAAAABAAIAAAALAAcAAAABAAIAAAAIAAgAAAABAAIAAAAFAAkAAAABAAIAAAACAAoAAAABAAIAAAD//wsAAAABAAIAAAD+/w0AAAABAAIAAAD9/w0AAAABAAIAAAD8/w0AAAABAAIAAAD7/xEAAAABAAIAAAD6/xEAAAABAAIAAAD5/xEAAAABAAIAAAD+/w4AAAABAAIAAAD4/xEAAAABAAIAAAD3/xEAAAABAAIAAAD2/xEAAAABAAIAAAD1/xEAAAABAAIAAAD0/xEAAAABAAIAAAD5/w4AAAABAAIAAAD2/w4AAAABAAIAAADz/w4AAAABAAIAAAD+/w8AAAADAAAAAAD+/xAAAAADAAAAAAD+/xEAAAADAAAAAAD9/xEAAAADAAAAAAD8/xEAAAADAAAAAADz/w8AAAAEAAMAAADz/xAAAAAEAAMAAADz/xEAAAAEAAMAAAA=")
+tile_set = ExtResource("5_nfvq6")
+
+[node name="Trap1" parent="Level2" index="1" unique_id=1930518021 instance=ExtResource("6_h31d5")]
+visible = false
+position = Vector2(1389, 768)
+
+[node name="Trap2" parent="Level2" index="2" unique_id=287969788 instance=ExtResource("6_h31d5")]
+visible = false
+position = Vector2(1212, 707)
+
+[node name="Trap3" parent="Level2" index="3" unique_id=1422015122 instance=ExtResource("6_h31d5")]
+visible = false
+position = Vector2(555, 924)
+
+[node name="Trap6" parent="Level2" index="4" unique_id=1894763376 instance=ExtResource("7_hrgoi")]
+visible = false
+position = Vector2(1043, 346)
+rotation = -1.5707964
+
+[node name="Trap4" parent="Level2" index="5" unique_id=771131226 instance=ExtResource("6_h31d5")]
+visible = false
+position = Vector2(388, 597)
+
+[node name="Trap7" parent="Level2" index="6" unique_id=1104159613 instance=ExtResource("7_hrgoi")]
+visible = false
+position = Vector2(505, 352)
+rotation = -1.5707964
+
+[node name="Trap5" parent="Level2" index="7" unique_id=374766926 instance=ExtResource("6_h31d5")]
+visible = false
+position = Vector2(131, 598)
+
+[node name="Trap8" parent="Level2" index="8" unique_id=335230348 instance=ExtResource("6_h31d5")]
+visible = false
+position = Vector2(-201, 596)
+
+[node name="Trap9" parent="Level2" index="9" unique_id=1019744331 instance=ExtResource("6_h31d5")]
+visible = false
+position = Vector2(-470, 594)
+
+[node name="Trap10" parent="Level2" index="10" unique_id=58548442 instance=ExtResource("7_hrgoi")]
+visible = false
+position = Vector2(-54, 354)
+rotation = -1.5707964
+
+[node name="Coins2" type="Node2D" parent="." index="13" unique_id=1353961118]
+z_index = 2
+
+[node name="Coin" parent="Coins2" index="0" unique_id=251510796 instance=ExtResource("8_1ntqt")]
+position = Vector2(-419.99982, 869.00006)
+rotation = 0.2617994
+
+[node name="Coin5" parent="Coins2" index="1" unique_id=1469187440 instance=ExtResource("8_1ntqt")]
+position = Vector2(2143, 867)
+rotation = 0.5235988
+
+[node name="Coin2" parent="Coins2" index="2" unique_id=2130457660 instance=ExtResource("8_1ntqt")]
+position = Vector2(1885, 815)
+
+[node name="Coin6" parent="Coins2" index="3" unique_id=1688131396 instance=ExtResource("8_1ntqt")]
+position = Vector2(1694, 742)
+
+[node name="Coin4" parent="Coins2" index="4" unique_id=1547909618 instance=ExtResource("8_1ntqt")]
+position = Vector2(1507, 683)
+
+[node name="Coin7" parent="Coins2" index="5" unique_id=1088437251 instance=ExtResource("8_1ntqt")]
+position = Vector2(1307, 619)
+
+[node name="Coin8" parent="Coins2" index="6" unique_id=54688001 instance=ExtResource("8_1ntqt")]
+position = Vector2(1123, 553)
+
+[node name="Coin9" parent="Coins2" index="7" unique_id=1770256130 instance=ExtResource("8_1ntqt")]
+position = Vector2(930, 489)
+
+[node name="Coin10" parent="Coins2" index="8" unique_id=1971605083 instance=ExtResource("8_1ntqt")]
+position = Vector2(741, 430)
+
+[node name="Coin11" parent="Coins2" index="9" unique_id=1327822585 instance=ExtResource("8_1ntqt")]
+position = Vector2(541, 492)
+
+[node name="Coin12" parent="Coins2" index="10" unique_id=357955761 instance=ExtResource("8_1ntqt")]
+position = Vector2(347, 555)
+
+[node name="Coin13" parent="Coins2" index="11" unique_id=591782069 instance=ExtResource("8_1ntqt")]
+position = Vector2(161, 621)
+
+[node name="Coin14" parent="Coins2" index="12" unique_id=2110240291 instance=ExtResource("8_1ntqt")]
+position = Vector2(-30, 680)
+
+[node name="Coin15" parent="Coins2" index="13" unique_id=2104811980 instance=ExtResource("8_1ntqt")]
+position = Vector2(-228, 803)
+
+[node name="Enemy" parent="." index="14" unique_id=600502477 instance=ExtResource("9_0xxnf")]
+position = Vector2(-220, 1060)
+speed = 30.0
+
+[node name="Enemy" parent="Enemy" index="5" unique_id=365729304 instance=ExtResource("9_0xxnf")]
+position = Vector2(-150, 3)
+speed = 30.0
+
+[node name="Enemy" parent="Enemy/Enemy" index="5" unique_id=1790108932 instance=ExtResource("9_0xxnf")]
+position = Vector2(-126, 8)
+speed = 30.0

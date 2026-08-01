@@ -30,3 +30,7 @@ func _on_btn_credit_pressed() -> void:
 
 func _on_btn_continue_pressed() -> void:
 	GameManager.load_game()
+
+
+func _on_music_player_finished() -> void:
+	pass # Replace with function body.

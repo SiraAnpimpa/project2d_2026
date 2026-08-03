@@ -1,0 +1,232 @@
+[gd_scene format=3 uid="uid://nitu4ltj8bv1"]
+
+[ext_resource type="PackedScene" uid="uid://d27bcsmx82vfa" path="res://Scenes/Actors/enemy.tscn" id="1_1bukj"]
+[ext_resource type="Script" uid="uid://bs3w8bbq5d7jq" path="res://diana.gd" id="2_70rm4"]
+[ext_resource type="Texture2D" uid="uid://4d0uiign1b7d" path="res://Assets/Spritesheet/Diana1_1.png" id="3_o6fna"]
+[ext_resource type="FontFile" uid="uid://b3ivysmhcn84h" path="res://Assets/Fonts/Kodchasan-Bold.ttf" id="9_3mhtm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y40cs"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(512, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xck62"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(768, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijdw2"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(1024, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3mhtm"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(1280, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_02gps"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(1536, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3c11"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(2048, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_675gh"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(1536, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ff2tu"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7dnv4"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmtms"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjr1d"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(1536, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwri2"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(1792, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6o2g"]
+atlas = ExtResource("3_o6fna")
+region = Rect2(2048, 512, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r71vb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y40cs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xck62")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijdw2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3mhtm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_02gps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3c11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_675gh")
+}],
+"loop": 1,
+"name": &"Attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ff2tu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7dnv4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rmtms")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjr1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwri2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j6o2g")
+}],
+"loop": 1,
+"name": &"tried",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_6feey"]
+resource_name = "Attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite/AnimateSprite:sprite_frames")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite/AnimateSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_skbka"]
+_data = {
+&"Attack": SubResource("Animation_6feey")
+}
+
+[node name="Diana" unique_id=600502477 instance=ExtResource("1_1bukj")]
+script = ExtResource("2_70rm4")
+max_hp = 100
+attacks_before_rest = 5
+rest_duration = 4.0
+attack_cooldown = 0.8
+attack_range = 80.0
+detect_range = 300.0
+chase_speed = 60.0
+bolt_scene = null
+patrol_point_a = NodePath("")
+patrol_point_b = NodePath("")
+patrol_speed = 50.0
+
+[node name="CollisionShape2D" parent="." index="0" unique_id=587424215]
+position = Vector2(-2, -78)
+rotation = 1.5851669
+scale = Vector2(4.6552515, 2.1479018)
+
+[node name="CollisionShape2D2" parent="HitArea" parent_id_path=PackedInt32Array(1115411835) index="0" unique_id=2008793250]
+position = Vector2(0, -30.000002)
+scale = Vector2(2.3337717, -1.085743)
+
+[node name="AnimateSprite" type="AnimatedSprite2D" parent="Sprite" parent_id_path=PackedInt32Array(1445111960) index="0" unique_id=87960724]
+position = Vector2(6.000001, -103)
+rotation = 0.0042104125
+scale = Vector2(0.8038124, 0.8038124)
+sprite_frames = SubResource("SpriteFrames_r71vb")
+animation = &"Attack"
+frame_progress = 0.109734975
+
+[node name="wallRay" parent="Sprite/Ray" parent_id_path=PackedInt32Array(1415425330) index="1" unique_id=807141594]
+scale = Vector2(2.2691689, 0.74970996)
+
+[node name="pivot" type="Node2D" parent="." index="4" unique_id=825171607]
+position = Vector2(-96, -130)
+
+[node name="UI" type="CanvasLayer" parent="." index="6" unique_id=324438886]
+
+[node name="ProgressBar" type="ProgressBar" parent="UI" index="0" unique_id=1812132164]
+custom_minimum_size = Vector2(200, 0)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -218.0
+offset_top = -64.0
+offset_right = -18.0
+offset_bottom = -37.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(2.4712336, 2.4712336)
+size_flags_vertical = 8
+value = 100.0
+
+[node name="Label" type="Label" parent="UI/ProgressBar" index="0" unique_id=1169137241]
+layout_mode = 0
+offset_left = 6.4744997
+offset_top = -21.851435
+offset_right = 51.4745
+offset_bottom = 1.1485653
+theme_override_fonts/font = ExtResource("9_3mhtm")
+text = "Diana"
+
+[node name="Label" type="Label" parent="UI" index="1" unique_id=1120111710]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.99994
+offset_top = -43.99997
+offset_right = 6.1035156e-05
+offset_bottom = -20.99997
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.4673707, 2.4673707)
+size_flags_horizontal = 4
+text = "Boss Slained"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="7" unique_id=1450767273]
+libraries/ = SubResource("AnimationLibrary_skbka")

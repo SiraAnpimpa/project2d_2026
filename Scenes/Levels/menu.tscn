@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://b6tvaxw54wsq0"]
 
 [ext_resource type="Script" uid="uid://tkynu7pd01lh" path="res://Scenes/Levels/menu.gd" id="1_hq2ph"]
+[ext_resource type="Texture2D" uid="uid://hjrau08t4f7c" path="res://Scenes/Levels/map.png" id="2_7pnm7"]
+[ext_resource type="FontFile" uid="uid://qgc4vi5osk7v" path="res://Assets/Fonts/Star Choco.ttf" id="3_lli10"]
 
 [node name="Node2D" type="Node2D" unique_id=827773846]
 script = ExtResource("1_hq2ph")
@@ -11,15 +13,20 @@ anchors_preset = 0
 offset_right = 1153.0
 offset_bottom = 524.0
 
+[node name="Map" type="Sprite2D" parent="UI" unique_id=116109583]
+position = Vector2(574, 348)
+scale = Vector2(0.9365328, 0.8103533)
+texture = ExtResource("2_7pnm7")
+
 [node name="btnStart" type="Button" parent="UI" unique_id=843125025]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -76.5
-offset_top = 155.0
-offset_right = 78.5
-offset_bottom = 219.0
+offset_left = -75.0
+offset_top = 319.0
+offset_right = 80.0
+offset_bottom = 383.0
 grow_horizontal = 2
 text = "Start"
 
@@ -28,10 +35,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -76.5
-offset_top = 224.0
-offset_right = 78.5
-offset_bottom = 288.0
+offset_left = -75.0
+offset_top = 388.0
+offset_right = 80.0
+offset_bottom = 452.0
 grow_horizontal = 2
 disabled = true
 text = "Continue"
@@ -41,26 +48,59 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -77.0
-offset_top = 294.0
-offset_right = 78.0
-offset_bottom = 358.0
+offset_left = -75.5
+offset_top = 458.0
+offset_right = 79.5
+offset_bottom = 522.0
 grow_horizontal = 2
 text = "Option"
+
+[node name="btnExit" type="Button" parent="UI" unique_id=1599805793]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -75.5
+offset_top = 528.0
+offset_right = 79.5
+offset_bottom = 592.0
+grow_horizontal = 2
+text = "Exit
+"
 
 [node name="btnCredit" type="Button" parent="UI" unique_id=378335107]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -76.5
-offset_top = 371.0
-offset_right = 78.5
-offset_bottom = 435.0
+offset_left = 405.5
+offset_top = 570.0
+offset_right = 560.5
+offset_bottom = 634.0
 grow_horizontal = 2
 text = "Credit"
+
+[node name="Label" type="Label" parent="UI" unique_id=2027068200]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = -121.0
+offset_right = 61.0
+offset_bottom = -78.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.24609375, 0.1566925, 0.1566925, 1)
+theme_override_fonts/font = ExtResource("3_lli10")
+theme_override_font_sizes/font_size = 121
+text = "Gale Adventure
+to Somewhere..."
 
 [connection signal="pressed" from="UI/btnStart" to="." method="_on_btn_start_pressed"]
 [connection signal="pressed" from="UI/btnContinue" to="." method="_on_btn_continue_pressed"]
 [connection signal="pressed" from="UI/btnOption" to="." method="_on_btn_option_pressed"]
+[connection signal="pressed" from="UI/btnExit" to="." method="_on_btn_exit_pressed"]
 [connection signal="pressed" from="UI/btnCredit" to="." method="_on_btn_credit_pressed"]

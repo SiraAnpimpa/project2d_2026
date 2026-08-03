@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://d2khtcjca651y"]
+
+[ext_resource type="Texture2D" uid="uid://3ss32kja735i" path="res://Assets/Tileset/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Autumn BG/ladder.png" id="1_cq4ai"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3d4q"]
+
+[node name="Ladder" type="Area2D" unique_id=1778176338 groups=["Ladder"]]
+collision_layer = 16
+
+[node name="Ladder2" type="Sprite2D" parent="." unique_id=900613666]
+position = Vector2(38.649353, -140.21188)
+scale = Vector2(0.52577114, 0.52577114)
+texture = ExtResource("1_cq4ai")
+
+[node name="Ladder3" type="Sprite2D" parent="." unique_id=1321598636]
+position = Vector2(38.649353, -440.2119)
+scale = Vector2(0.52577114, 0.52577114)
+texture = ExtResource("1_cq4ai")
+
+[node name="Ladder4" type="Sprite2D" parent="." unique_id=1928659684]
+position = Vector2(38.649353, -669.2119)
+scale = Vector2(0.52577114, 0.52577114)
+texture = ExtResource("1_cq4ai")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=158700232]
+position = Vector2(36, -413.2119)
+rotation = 1.5675219
+scale = Vector2(-40.96069, 2.3499458)
+shape = SubResource("RectangleShape2D_x3d4q")

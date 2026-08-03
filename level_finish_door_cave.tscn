@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bjpke6vtdiivu"]
+
+[ext_resource type="Script" uid="uid://dlsrb11rgmv50" path="res://Scenes/Prefabs/level_finish_door.gd" id="1_kvw1u"]
+[ext_resource type="Texture2D" uid="uid://bkrlv203xey3m" path="res://Assets/Spritesheet/cave.png" id="2_oa8xb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_34g1n"]
+size = Vector2(66, 80)
+
+[node name="LevelFinishDoorCavever" type="Area2D" unique_id=1136132539]
+collision_mask = 2
+script = ExtResource("1_kvw1u")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1854125426]
+position = Vector2(-2, -16)
+scale = Vector2(0.39953998, 0.39953998)
+texture = ExtResource("2_oa8xb")
+region_rect = Rect2(320, 320, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1149726814]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_34g1n")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://im7uuje3l57h"]
+
+[ext_resource type="Script" uid="uid://b1n02unx66wlx" path="res://ariette_bolt.gd" id="1_tf1ip"]
+[ext_resource type="Texture2D" uid="uid://bj4qtujlq3v03" path="res://Assets/Fonts/Bullet 24x24 Free Part 1A.png" id="2_tf1ip"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5feu"]
+atlas = ExtResource("2_tf1ip")
+region = Rect2(0, 240, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qiamx"]
+atlas = ExtResource("2_tf1ip")
+region = Rect2(24, 240, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjt2l"]
+atlas = ExtResource("2_tf1ip")
+region = Rect2(48, 240, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmvbc"]
+atlas = ExtResource("2_tf1ip")
+region = Rect2(72, 240, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nlqj2"]
+atlas = ExtResource("2_tf1ip")
+region = Rect2(96, 240, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okauw"]
+atlas = ExtResource("2_tf1ip")
+region = Rect2(120, 240, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0eg68"]
+atlas = ExtResource("2_tf1ip")
+region = Rect2(144, 240, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqk2d"]
+atlas = ExtResource("2_tf1ip")
+region = Rect2(168, 240, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3d4q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5feu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qiamx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjt2l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmvbc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nlqj2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_okauw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0eg68")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqk2d")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 14.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nrr5j"]
+
+[node name="ArietteBolt" type="Area2D" unique_id=1532023378 groups=["EnemyBullet"]]
+scale = Vector2(1.7643411, 1.7643411)
+collision_layer = 5
+collision_mask = 13
+script = ExtResource("1_tf1ip")
+speed = 500.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=4831116]
+position = Vector2(-0.56678385, 2.3283064e-10)
+rotation = -0.004961729
+scale = Vector2(0.82739395, 0.64056367)
+sprite_frames = SubResource("SpriteFrames_x3d4q")
+frame_progress = 0.2530956
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=928155348]
+position = Vector2(0, -8.881784e-16)
+rotation = 3.1415927
+scale = Vector2(0.53889453, 0.43195647)
+shape = SubResource("CircleShape2D_nrr5j")

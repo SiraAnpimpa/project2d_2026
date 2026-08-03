@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bxndhb2rbsus7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cbe0t"]
+
+[node name="TrapVains" type="StaticBody2D" unique_id=1930518021 groups=["Traps"]]
+collision_layer = 9
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1851405835]
+scale = Vector2(2.3285902, 0.80206764)
+shape = SubResource("RectangleShape2D_cbe0t")
+
+[node name="Node2D" type="Node2D" parent="CollisionShape2D" unique_id=1512725227]
+scale = Vector2(1.3252691, 1.3252691)

@@ -9,8 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://ctp5xew3mi5hs" path="res://Assets/Icons/icons8-music-48.png" id="7_r4nak"]
 [ext_resource type="Texture2D" uid="uid://c14r70talvlty" path="res://Assets/Icons/icons8-arrow-left-50.png" id="8_fouhp"]
 [ext_resource type="Texture2D" uid="uid://djscvie6h1kd5" path="res://Assets/Icons/icons8-cancel-48.png" id="8_nvrsl"]
-[ext_resource type="Texture2D" uid="uid://cs52s37v04q41" path="res://Assets/Icons/icons8-heart-48.png" id="9_nvrsl"]
 [ext_resource type="Texture2D" uid="uid://dbdk5x30xx2t4" path="res://Assets/Icons/icons8-up-50.png" id="9_qi3vf"]
+[ext_resource type="Texture2D" uid="uid://di2ithqrkq6l1" path="res://Assets/Spritesheet/hetkh2FINAL.png" id="10_b47np"]
 [ext_resource type="Texture2D" uid="uid://m44t4aut6o62" path="res://Assets/Icons/icons8-arrow-right-50.png" id="10_ioybj"]
 [ext_resource type="Texture2D" uid="uid://b7f4d7rpedxw3" path="res://Assets/Spritesheet/WandT2.png" id="13_v4do5"]
 [ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="14_b47np"]
@@ -52,10 +52,10 @@ grow_horizontal = 2
 [node name="ScoreLabel" type="Label" parent="GameUI/TopBar" unique_id=1067951808]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 16.0
-offset_top = 63.0
-offset_right = 186.0
-offset_bottom = 105.0
+offset_left = 12.0
+offset_top = 70.0
+offset_right = 182.0
+offset_bottom = 112.0
 theme_override_colors/font_color = Color(0.910156, 0.730469, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 10
@@ -66,6 +66,14 @@ text = "Score: 3"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GameUI/TopBar" unique_id=1609764920]
 libraries/ = SubResource("AnimationLibrary_6pfiu")
 autoplay = &"welcome"
+
+[node name="btnExit" parent="GameUI/TopBar" unique_id=1633606001 instance=ExtResource("14_b47np")]
+layout_mode = 0
+offset_left = 1074.0
+offset_top = 10.0
+offset_right = 1147.0
+offset_bottom = 64.0
+text = "Exit"
 
 [node name="HpRect" type="ColorRect" parent="GameUI/TopBar" unique_id=987609954]
 layout_mode = 0
@@ -83,7 +91,6 @@ offset_right = 138.0
 offset_bottom = 30.0
 theme = ExtResource("4_fjdxc")
 value = 100.0
-metadata/_edit_lock_ = true
 
 [node name="HPLabel" type="Label" parent="GameUI/TopBar" unique_id=2043418135]
 unique_name_in_owner = true
@@ -172,13 +179,16 @@ text = "HP"
 [node name="LifeRect" type="TextureRect" parent="GameUI/TopBar" unique_id=1631342937]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 10.0
-offset_right = 256.0
-offset_bottom = 58.0
-texture = ExtResource("9_nvrsl")
+offset_top = 11.715
+offset_right = 305.225
+offset_bottom = 59.715
+scale = Vector2(0.893, 0.984)
+pivot_offset = Vector2(10, 10)
+texture = ExtResource("10_b47np")
 stretch_mode = 1
 
 [node name="BottomBar" type="ColorRect" parent="GameUI" unique_id=1990197770]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -228,14 +238,6 @@ focus_mode = 0
 icon = ExtResource("13_v4do5")
 flat = true
 expand_icon = true
-
-[node name="btnExit" parent="GameUI/BottomBar" unique_id=1633606001 instance=ExtResource("14_b47np")]
-layout_mode = 0
-offset_left = 1074.0
-offset_top = -535.0
-offset_right = 1147.0
-offset_bottom = -481.0
-text = "Exit"
 
 [node name="AlertLabel" type="Label" parent="GameUI/BottomBar" unique_id=1518313051]
 visible = false

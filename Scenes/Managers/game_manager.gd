@@ -11,7 +11,7 @@ var max_hp  :int = 100
 var sfx_on = true
 var music_on = true
 
-var player :Player = null
+var player : Node2D = null
 var current_level : String = "res://Scenes/Levels/level_01.tscn"
 var save_path := "user://game.save"
 var save_player_position = Vector2.ZERO

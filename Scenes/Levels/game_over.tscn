@@ -1,35 +1,26 @@
 [gd_scene format=3 uid="uid://c15tw24t3axhb"]
 
+[ext_resource type="Texture2D" uid="uid://5qj84eb3uoh4" path="res://Scenes/died.jpg" id="1_aqwrb"]
 [ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="2_buq0o"]
-[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="2_chlux"]
 
 [node name="GameOver" type="Node2D" unique_id=826370530]
 
-[node name="Title" type="Label" parent="." unique_id=1965507633]
-offset_left = 419.0
-offset_top = 227.0
-offset_right = 720.0
-offset_bottom = 259.0
-theme = ExtResource("2_chlux")
-theme_override_colors/font_color = Color(0.88235295, 0.18039216, 0.1882353, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 24
-text = "Game Over"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Died" type="Sprite2D" parent="." unique_id=973451890]
+position = Vector2(583, 323)
+scale = Vector2(0.9446854, 1.0277276)
+texture = ExtResource("1_aqwrb")
 
 [node name="btnExit" parent="." unique_id=1633606001 instance=ExtResource("2_buq0o")]
-offset_left = 438.0
-offset_top = 359.0
-offset_right = 564.0
-offset_bottom = 413.0
+offset_left = 356.0
+offset_top = 536.0
+offset_right = 482.0
+offset_bottom = 590.0
 text = "Exit to Menu"
 
 [node name="btnPlay" parent="." unique_id=1146872882 instance=ExtResource("2_buq0o")]
-offset_left = 597.0
-offset_top = 359.0
-offset_right = 723.0
-offset_bottom = 413.0
+offset_left = 705.0
+offset_top = 536.0
+offset_right = 831.0
+offset_bottom = 590.0
 shortcut = null
 text = "Play Again"

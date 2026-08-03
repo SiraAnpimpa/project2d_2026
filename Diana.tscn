@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://nitu4ltj8bv1"]
+
+[ext_resource type="PackedScene" uid="uid://d27bcsmx82vfa" path="res://Scenes/Actors/enemy.tscn" id="1_1bukj"]
+[ext_resource type="Script" uid="uid://bs3w8bbq5d7jq" path="res://diana.gd" id="2_70rm4"]
+[ext_resource type="PackedScene" uid="uid://buivpopn6cr4" path="res://diana_bolt.tscn" id="3_f3mi3"]
+[ext_resource type="SpriteFrames" uid="uid://cgw4e0vjbblwy" path="res://DianaAnimetion.tres" id="4_o6fna"]
+[ext_resource type="FontFile" uid="uid://b3ivysmhcn84h" path="res://Assets/Fonts/Kodchasan-Bold.ttf" id="9_3mhtm"]
+
+[sub_resource type="Animation" id="Animation_6feey"]
+resource_name = "Attack"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_skbka"]
+_data = {
+&"Attack": SubResource("Animation_6feey")
+}
+
+[node name="Diana" unique_id=600502477 instance=ExtResource("1_1bukj")]
+script = ExtResource("2_70rm4")
+max_hp = 100
+attacks_before_rest = 5
+rest_duration = 4.0
+attack_cooldown = 0.8
+attack_range = 80.0
+detect_range = 300.0
+chase_speed = 60.0
+bolt_scene = ExtResource("3_f3mi3")
+patrol_point_a = NodePath("")
+patrol_point_b = NodePath("")
+patrol_speed = 50.0
+
+[node name="CollisionShape2D" parent="." index="0" unique_id=587424215]
+position = Vector2(0, -82)
+rotation = 1.5851669
+scale = Vector2(4.6552515, 2.1479018)
+
+[node name="CollisionShape2D2" parent="HitArea" parent_id_path=PackedInt32Array(1115411835) index="0" unique_id=2008793250]
+position = Vector2(0.99999976, -83)
+rotation = 1.5940622
+scale = Vector2(4.370099, -2.4703674)
+
+[node name="wallRay" parent="Sprite/Ray" parent_id_path=PackedInt32Array(1415425330) index="1" unique_id=807141594]
+scale = Vector2(2.2691689, 0.74970996)
+
+[node name="pivot" type="Node2D" parent="." index="4" unique_id=825171607]
+position = Vector2(0, -103)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="pivot" index="0" unique_id=1868133518]
+position = Vector2(-6, 24)
+scale = Vector2(0.67125905, 0.67125905)
+sprite_frames = ExtResource("4_o6fna")
+animation = &"Attack"
+offset = Vector2(19.366577, -11.9179)
+
+[node name="UI" type="CanvasLayer" parent="." index="6" unique_id=324438886]
+
+[node name="ProgressBar" type="ProgressBar" parent="UI" index="0" unique_id=1812132164]
+custom_minimum_size = Vector2(200, 0)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -218.0
+offset_top = -135.0
+offset_right = -18.0
+offset_bottom = -108.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(2.4712336, 2.4712336)
+size_flags_vertical = 8
+value = 100.0
+
+[node name="Label" type="Label" parent="UI/ProgressBar" index="0" unique_id=1169137241]
+layout_mode = 0
+offset_left = 6.4744997
+offset_top = -21.851435
+offset_right = 51.4745
+offset_bottom = 1.1485653
+theme_override_fonts/font = ExtResource("9_3mhtm")
+text = "Diana"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="7" unique_id=1450767273]
+libraries/ = SubResource("AnimationLibrary_skbka")

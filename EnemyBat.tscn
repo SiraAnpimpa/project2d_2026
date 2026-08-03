@@ -1,0 +1,135 @@
+[gd_scene format=3 uid="uid://cir5krpggmdoq"]
+
+[ext_resource type="PackedScene" uid="uid://d27bcsmx82vfa" path="res://Scenes/Actors/enemy.tscn" id="1_mq3rf"]
+[ext_resource type="Script" uid="uid://cg5slykn38gfi" path="res://enemy_fly.gd" id="2_cs24m"]
+[ext_resource type="Texture2D" uid="uid://i2fn6twhlmk" path="res://Assets/Spritesheet/Bat1_1.png" id="3_stjrt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfxn6"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ycpb"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkmtk"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(512, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_em78y"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(768, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ha8wq"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(1024, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eigq0"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(1280, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ihb3"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(1536, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7gwm6"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(1792, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_myuv1"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(2048, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3pg7"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7eta"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36cvk"]
+atlas = ExtResource("3_stjrt")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cbe0t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lfxn6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ycpb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hkmtk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_em78y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ha8wq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eigq0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ihb3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7gwm6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_myuv1")
+}],
+"loop": 1,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3pg7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7eta")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36cvk")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Enemy" unique_id=600502477 instance=ExtResource("1_mq3rf")]
+script = ExtResource("2_cs24m")
+hover_amplitude = 20.0
+hover_speed = 2.0
+detect_range = 250.0
+attack_range = 60.0
+chase_speed = 80.0
+
+[node name="CollisionShape2D" parent="." index="0" unique_id=587424215]
+position = Vector2(0, -17)
+scale = Vector2(1.3705903, -0.81348413)
+
+[node name="CollisionShape2D2" parent="HitArea" parent_id_path=PackedInt32Array(1115411835) index="0" unique_id=2008793250]
+position = Vector2(0, -17)
+scale = Vector2(1.2939559, -0.82182443)
+
+[node name="Sprite" parent="." index="3" unique_id=1445111960]
+position = Vector2(0, -1)
+
+[node name="AnimateSprite" type="AnimatedSprite2D" parent="Sprite" index="0" unique_id=87960724]
+position = Vector2(11.000001, 1.9999981)
+scale = Vector2(0.48897386, 0.48897386)
+sprite_frames = SubResource("SpriteFrames_cbe0t")
+animation = &"attack"
+frame_progress = 0.9449872
+offset = Vector2(-4.090195, -32.721603)
+
+[node name="wallRay" parent="Sprite/Ray" parent_id_path=PackedInt32Array(1415425330) index="1" unique_id=807141594]
+scale = Vector2(1.6081964, 1.0336154)
+
+[node name="floorRay" parent="Sprite/Ray" parent_id_path=PackedInt32Array(1415425330) index="2" unique_id=1219665679]
+target_position = Vector2(0, 25.49)

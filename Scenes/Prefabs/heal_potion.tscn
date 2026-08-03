@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dabag2r57aued"]
 
 [ext_resource type="Script" uid="uid://ciumpebi1qstt" path="res://Scenes/Prefabs/heal_potion.gd" id="1_y1g4b"]
-[ext_resource type="Texture2D" uid="uid://cmy5hg7lr4tmg" path="res://Assets/Spritesheet/PotionRed.png" id="2_vwrf6"]
+[ext_resource type="Texture2D" uid="uid://cc2v6dghscjb0" path="res://Assets/Untitled (500 x 500 px).png" id="2_y1g4b"]
 [ext_resource type="Texture2D" uid="uid://621as0fwjhum" path="res://Assets/Textures/star_07.png" id="3_u508d"]
 
 [sub_resource type="Animation" id="Animation_4q5vp"]
@@ -21,14 +21,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionPolygon2D:rotation")
+tracks/1/path = NodePath("CollisionPolygon2D/Heal:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0]
+"values": [Vector2(0.120920405, 0.120920405)]
 }
 
 [sub_resource type="Animation" id="Animation_2ujhx"]
@@ -49,14 +49,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionPolygon2D:rotation")
+tracks/1/path = NodePath("CollisionPolygon2D/Heal:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [0.0, -1.0471976]
+"values": [Vector2(0.120920405, 0.120920405), Vector2(0.14171323, 0.14171323)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mubd7"]
@@ -66,12 +66,12 @@ _data = {
 }
 
 [sub_resource type="Curve" id="Curve_kxvsm"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.494709, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5078125, 0.6741574), 0.0, 0.0, 0, 0, Vector2(0.71875, 0.5393259), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="Gradient" id="Gradient_ra8j0"]
-offsets = PackedFloat32Array(0.625, 1)
-colors = PackedColorArray(0.914063, 0.734375, 0, 1, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0.5, 0.625, 1)
+colors = PackedColorArray(0.4324573, 0.88370794, 0, 1, 0.17166096, 0.40752527, 0.075916685, 1, 1, 1, 1, 0)
 
 [node name="HealPotion" type="Area2D" unique_id=242563240]
 collision_layer = 8
@@ -82,12 +82,16 @@ script = ExtResource("1_y1g4b")
 libraries/ = SubResource("AnimationLibrary_mubd7")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1292925374]
-polygon = PackedVector2Array(8, -23.3, 6, -22.2, 6, -21, -3, -14, -3, -12.5, -10.299999, -10, -13.200001, -10, -19.2, 1, -21.5, 1, -19, 12.400002, -19, 14.900002, -12, 20.900002, -12, 23, 6, 23, 14, 12, 16.2, 12, 15, -0.20000076, 15, -2.2999992, 18, -6, 20, -6, 20, -16.1)
+scale = Vector2(1.4431666, 1.4431666)
+polygon = PackedVector2Array(-6, -15, 7, -15, 8, -3, 19, -3, 19, 10, 8, 11, 8, 22, -6, 22, -6, 11, -18, 10, -18, -2, -6, -4)
 
-[node name="PotionRed" type="Sprite2D" parent="CollisionPolygon2D" unique_id=1778660532]
-texture = ExtResource("2_vwrf6")
+[node name="Heal" type="Sprite2D" parent="CollisionPolygon2D" unique_id=530884526]
+position = Vector2(-1, 5)
+scale = Vector2(0.120920405, 0.120920405)
+texture = ExtResource("2_y1g4b")
 
 [node name="CoinSparkles" type="CPUParticles2D" parent="CollisionPolygon2D" unique_id=1937929060]
+scale = Vector2(1.6613181, 1.6613181)
 amount = 5
 texture = ExtResource("3_u508d")
 direction = Vector2(0, 0)

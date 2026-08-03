@@ -87,4 +87,5 @@ stream = ExtResource("2_5n1qu")
 volume_db = -3.0
 bus = &"sfx"
 
+[connection signal="area_entered" from="HitArea" to="." method="_on_hit_area_area_entered"]
 [connection signal="body_entered" from="HitArea" to="." method="_on_hit_area_body_entered"]

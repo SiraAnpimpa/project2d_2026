@@ -1,4 +1,3 @@
-class_name Player
 extends CharacterBody2D
 
 signal hit_enemy
@@ -7,19 +6,22 @@ signal hit_trap
 
 # --------- VARIABLES ---------- #
 
-@export_category("Player Properties") # You can tweak these changes according to your likings
+@export_category("Player Properties")
+
 @export var move_speed : float = 300
 @export var jump_force : float = 650
 @export var gravity : float = 30
 @export var max_jump_count : int = 2
 @export var bullet_scene : PackedScene
 @export var shoot_cooldown_time : float = 0.2
-@export var bullet_lifetime = 2.0
+@export var bullet_lifetime = 0.178
+@export var bullet_speed : float = 600.0
+@export var climb_speed : float = 200.0
 
 var jump_count : int = 2
 
-@export_category("Toggle Functions") # Double jump feature is disable by default (Can be toggled from inspector)
-@export var double_jump : = false
+@export_category("Toggle Functions")
+@export var double_jump : = true
 
 var is_grounded : bool = false
 var movement_enabled : bool = true
@@ -27,6 +29,11 @@ var spawn_point = Vector2(0,0)
 var is_attacking = false
 var shoot_cooldown_timer = 0.0
 var can_damage = true
+var bullet_cooldown_timer = 0.0
+var squash_tween : Tween
+var base_scale_y : float
+var is_climbing : bool = false
+var current_ladder : Area2D = null
 
 @onready var player_sprite : AnimationPlayer = $student/AnimationPlayer
 @onready var player_node = $student
@@ -35,15 +42,15 @@ var can_damage = true
 @onready var death_particles = $DeathParticles
 
 
-
 # --------- BUILT-IN FUNCTIONS ---------- #
 func _ready() -> void:
+	base_scale_y = player_node.scale.y
 	spawn_point = global_position
 	if GameManager.save_player_position.x != 0:
 		global_position =  GameManager.save_player_position
 		GameManager.save_player_position = Vector2.ZERO
 	player_sprite.animation_finished.connect(_on_animation_finished)
-	
+
 func _physics_process(_delta):
 	is_grounded = is_on_floor()
 	movement()
@@ -54,21 +61,33 @@ func _process(_delta):
 	handle_shooting()
 	if shoot_cooldown_timer > 0:
 		shoot_cooldown_timer -= _delta
-	
-# --------- CUSTOM FUNCTIONS ---------- #
+	if bullet_cooldown_timer > 0:
+		bullet_cooldown_timer -= _delta
 
-# <-- Player Movement Code -->
+
+# --------- CUSTOM FUNCTIONS ---------- #
 func movement():
-	# Gravity
+	if is_climbing:
+		velocity.y = 0
+		if Input.is_action_pressed("Jump") == false: # optional: let normal jump exit the ladder
+			if Input.is_key_pressed(KEY_W):
+				velocity.y = -climb_speed
+			elif Input.is_key_pressed(KEY_S):
+				velocity.y = climb_speed
+		velocity.x = 0
+		if Input.is_action_just_pressed("Jump"):
+			stop_climbing()
+			velocity.y = -jump_force * 0.5
+		move_and_slide()
+		return
 	if !is_on_floor():
 		velocity.y += gravity
 	elif is_on_floor():
 		jump_count = max_jump_count
 		velocity.x = 0
-	
+
 	handle_jumping()
-	
-	# Move Player
+
 	if movement_enabled:
 		if Input.is_action_pressed("Left"):
 			velocity.x = -move_speed
@@ -78,7 +97,6 @@ func movement():
 		hit_trap.emit()
 	move_and_slide()
 
-# Handles jumping functionality (double jump or single jump, can be toggled from inspector)
 func handle_jumping():
 	if Input.is_action_just_pressed("Jump") and movement_enabled:
 		if is_on_floor() and !double_jump:
@@ -87,18 +105,16 @@ func handle_jumping():
 			jump()
 			jump_count -= 1
 
-# Player jump
 func jump():
 	jump_tween()
 	AudioManager.jump_sfx.play()
 	velocity.y = -jump_force
 
-# Handle Player Animations
 func player_animations():
 	particle_trails.emitting = false
 	if is_attacking:
 		return
-	
+
 	if is_on_floor():
 		if abs(velocity.x) > 0:
 			particle_trails.emitting = true
@@ -108,15 +124,20 @@ func player_animations():
 	else:
 		player_sprite.current_animation = "Jump"
 
-
-# Flip player sprite based on X velocity
 func flip_player():
-	if velocity.x < 0: 
-		player_node.scale.x = -1
+	if velocity.x < 0:
+		player_node.scale.x = -abs(player_node.scale.x)
 	elif velocity.x > 0:
-		player_node.scale.x = 1
+		player_node.scale.x = abs(player_node.scale.x)
 
-# Tween Animations
+func jump_tween():
+	if squash_tween and squash_tween.is_running():
+		squash_tween.kill()
+	player_node.scale.y = base_scale_y
+	squash_tween = create_tween()
+	squash_tween.tween_property(player_node, "scale:y", base_scale_y * 1.4, 0.1)
+	squash_tween.tween_property(player_node, "scale:y", base_scale_y, 0.1)
+
 func death_tween():
 	AudioManager.death_sfx.play()
 	death_particles.emitting = true
@@ -134,16 +155,14 @@ func death_tween():
 func respawn_tween():
 	var tween = create_tween()
 	tween.stop(); tween.play()
-	tween.tween_property(self, "scale", Vector2.ONE, 0.15) 
+	tween.tween_property(self, "scale", Vector2.ONE, 0.15)
 	tween.parallel().tween_property(self, "position", spawn_point, 0.15)
 
-func jump_tween():
-	var tween = create_tween()
-	tween.tween_property(self, "scale", Vector2(0.7, 1.4), 0.1)
-	tween.tween_property(self, "scale", Vector2(1.0,1.0), 0.1)
-
 func damage_tween():
-	var tween = create_tween() 
+	if squash_tween and squash_tween.is_running():
+		squash_tween.kill()
+	player_node.scale.y = base_scale_y
+	var tween = create_tween()
 	tween.stop(); tween.play()
 	can_damage = false
 	for i in range(1,10):
@@ -151,42 +170,79 @@ func damage_tween():
 		tween.tween_property(player_node , "modulate", Color.WHITE, 0.1)
 	await tween.finished
 	can_damage = true
-# --------- SIGNALS ---------- #
 
-# Reset the player's position to the current level spawn point if collided with any trap
+
+# --------- SIGNALS ---------- #
 func _on_collision_body_entered(body):
-	if body.is_in_group("Traps"):
-		hit_trap.emit()
-	if !can_damage : return
-	if body.is_in_group("Enemy"):
+	if body.is_in_group("Enemy") or body.is_in_group("Traps"):
 		var dx = body.position.x - position.x
 		velocity.y = -400
 		if dx > 0:
 			velocity.x = -300
 		else:
-			velocity.x = 300					
+			velocity.x = 300
+		damage_tween()
+		if body.is_in_group("Traps"):
+			hit_trap.emit()
+		else:
+			hit_enemy.emit()
+
+func _on_collision_area_entered(area: Area2D) -> void:
+	if !can_damage : return
+	if area.is_in_group("EnemyBullet") or area.is_in_group("BossMelee"):
+		var dx = area.global_position.x - position.x
+		velocity.y = -400
+		if dx > 0:
+			velocity.x = -300
+		else:
+			velocity.x = 300
 		damage_tween()
 		hit_enemy.emit()
+		if area.is_in_group("EnemyBullet"):
+			area.queue_free()
 
 func handle_shooting():
-	if Input.is_action_just_pressed("Shoot") and movement_enabled and shoot_cooldown_timer <= 0:
-		shoot()
+	if Input.is_action_just_pressed("attack") and movement_enabled and shoot_cooldown_timer <= 0:
+		attack()
 
-func shoot():
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_F and movement_enabled and bullet_cooldown_timer <= 0:
+			shoot_bullet()
+		if event.keycode == KEY_E and current_ladder != null and movement_enabled:
+			is_climbing = !is_climbing
+			if is_climbing:
+				velocity = Vector2.ZERO
+
+func shoot_bullet():
 	if bullet_scene == null:
 		return
+	var bullet = bullet_scene.instantiate()
+	get_tree().current_scene.add_child(bullet)
+	var facing = 1 if player_node.scale.x > 0 else -1
+	bullet.global_position = bullet_marker.global_position
+	bullet.scale.x = facing
+	bullet.shoot(Vector2(facing, 0), bullet_speed, bullet_lifetime)
+	bullet_cooldown_timer = shoot_cooldown_time
+
+func attack():
 	is_attacking = true
 	player_sprite.play("Attack")
-	var bullet = bullet_scene.instantiate()
-	bullet.global_position = bullet_marker.global_position
-	var angle = deg_to_rad(randf_range(0, 20))
-	var sign_x = 1.0 if player_node.scale.x > 0 else -1.0
-	var dir = Vector2(cos(angle) * sign_x, -sin(angle))
-	get_parent().add_child(bullet)
-	bullet.shoot(dir, 600, bullet_lifetime)
 	shoot_cooldown_timer = shoot_cooldown_time
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "Attack":
 		is_attacking = false
-	
+
+func _on_ladder_detector_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Ladder"):
+		current_ladder = area
+
+func _on_ladder_detector_area_exited(area: Area2D) -> void:
+	if area == current_ladder:
+		current_ladder = null
+		if is_climbing:
+			stop_climbing()
+
+func stop_climbing() -> void:
+	is_climbing = false

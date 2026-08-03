@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dia1dp34sme5l" path="res://Assets/Spritesheet/light_w.png" id="4_wn7ci"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4sts"]
-radius = 20.985498
+radius = 26.984646
 height = 69.99915
 
 [sub_resource type="Curve" id="Curve_m2jh0"]
@@ -19,7 +19,9 @@ offsets = PackedFloat32Array(0.25, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvbjh"]
-size = Vector2(43.99997, 123.99858)
+size = Vector2(64.99903, 115.00192)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x3d4q"]
 
 [node name="Player" type="CharacterBody2D" unique_id=2106209264 groups=["Player"]]
 rotation = 0.00042652956
@@ -28,7 +30,8 @@ script = ExtResource("1_mqoqv")
 bullet_scene = ExtResource("2_4fuvf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1840880435]
-position = Vector2(2.08165e-12, -33)
+position = Vector2(-0.017061185, -40)
+scale = Vector2(0.83978015, 1.2661678)
 shape = SubResource("CapsuleShape2D_n4sts")
 
 [node name="ParticleTrails" type="CPUParticles2D" parent="." unique_id=1927645372]
@@ -69,13 +72,13 @@ scale_amount_max = 30.0
 scale_amount_curve = SubResource("Curve_m2jh0")
 color_ramp = SubResource("Gradient_3gc37")
 
-[node name="Collision" type="Area2D" parent="." unique_id=1217587651]
+[node name="Collision" type="Area2D" parent="." unique_id=1217587651 groups=["Bullet"]]
 position = Vector2(2.08165e-12, -48)
 collision_mask = 13
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision" unique_id=69876643]
-position = Vector2(-2.0268738, -8.998505)
-scale = Vector2(1.0000011, 1.0000011)
+position = Vector2(0.47655028, -4.5001907)
+scale = Vector2(1.0000023, 1.0000023)
 shape = SubResource("RectangleShape2D_tvbjh")
 
 [node name="LightW" type="Sprite2D" parent="." unique_id=900370792]
@@ -88,6 +91,7 @@ texture = ExtResource("4_wn7ci")
 position = Vector2(-0.9982939, 4.0004263)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1467812523]
+position = Vector2(1.9791001, -49.000854)
 limit_smoothed = true
 position_smoothing_speed = 100.0
 drag_horizontal_enabled = true
@@ -100,4 +104,16 @@ editor_draw_drag_margin = true
 [node name="BulletMarker" type="Marker2D" parent="." unique_id=511055809]
 position = Vector2(28.983788, -38.012367)
 
+[node name="LadderDetector" type="Area2D" parent="." unique_id=518395269]
+collision_layer = 16
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LadderDetector" unique_id=1802548083]
+position = Vector2(-0.017061185, -40)
+scale = Vector2(2.284097, 2.8403695)
+shape = SubResource("CapsuleShape2D_x3d4q")
+
+[connection signal="area_entered" from="Collision" to="." method="_on_collision_area_entered"]
 [connection signal="body_entered" from="Collision" to="." method="_on_collision_body_entered"]
+[connection signal="area_entered" from="LadderDetector" to="." method="_on_ladder_detector_area_entered"]
+[connection signal="area_exited" from="LadderDetector" to="." method="_on_ladder_detector_area_exited"]

@@ -8,6 +8,7 @@ var time_passed = 0
 var initial_position := Vector2.ZERO
 
 func _ready():
+	$AnimatedSprite2D.play()
 	initial_position = position
 
 func _process(delta):
@@ -16,10 +17,6 @@ func _process(delta):
 # Coin Hover Animation
 func coin_hover(delta):
 	time_passed += delta
-	
-	var new_y = initial_position.y + amplitude * sin(frequency * time_passed)
-	position.y = new_y
-	rotate(randf_range(0.5,4)*delta)
 
 # Coin collected
 func _on_body_entered(body):

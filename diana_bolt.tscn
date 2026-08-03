@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://buivpopn6cr4"]
+
+[ext_resource type="Script" uid="uid://cxd4uqikoblvs" path="res://diana_bolt.gd" id="1_mlece"]
+[ext_resource type="Texture2D" uid="uid://o4oa2kctf1t4" path="res://Assets/Spritesheet/1/Classic_02.png" id="2_geepm"]
+[ext_resource type="Texture2D" uid="uid://du7nu4h033wuy" path="res://Assets/Spritesheet/1/Classic_03.png" id="3_ugrq7"]
+[ext_resource type="Texture2D" uid="uid://dl63c5ypdfbfy" path="res://Assets/Spritesheet/1/Classic_04.png" id="4_cvfxn"]
+[ext_resource type="Texture2D" uid="uid://6fkqiidox1ni" path="res://Assets/Spritesheet/1/Classic_05.png" id="5_4aif4"]
+[ext_resource type="Texture2D" uid="uid://byhpw3jiropoq" path="res://Assets/Spritesheet/1/Classic_06.png" id="6_05mkk"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_em7il"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_geepm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ugrq7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_cvfxn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_4aif4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_05mkk")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 16.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nrr5j"]
+
+[node name="DianaBolt" type="Area2D" unique_id=1532023378 groups=["EnemyBullet"]]
+collision_layer = 5
+collision_mask = 13
+script = ExtResource("1_mlece")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=4831116]
+position = Vector2(-0.9999924, 7.6293945e-06)
+rotation = -3.0764196
+scale = Vector2(0.51427037, 0.3981452)
+sprite_frames = SubResource("SpriteFrames_em7il")
+frame_progress = 0.31809548
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=928155348]
+position = Vector2(5.9604645e-08, 7.450581e-09)
+rotation = 3.1415927
+scale = Vector2(1.981797, -1.5911748)
+shape = SubResource("CircleShape2D_nrr5j")

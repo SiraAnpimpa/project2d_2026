@@ -2,7 +2,121 @@
 
 [ext_resource type="Script" uid="uid://cucxl5dsdevya" path="res://Scenes/Prefabs/coin.gd" id="1_mmtjo"]
 [ext_resource type="Texture2D" uid="uid://piisp82qy5kj" path="res://Assets/Spritesheet/GemYellow.png" id="2_f8ghi"]
+[ext_resource type="Texture2D" uid="uid://trkcoig00y0e" path="res://Assets/Spritesheet/Untitled (500 x 500 px) (2).png" id="2_i0ehq"]
 [ext_resource type="Texture2D" uid="uid://621as0fwjhum" path="res://Assets/Textures/star_07.png" id="3_i0ehq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f8ghi"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(0, 124, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i0ehq"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(50, 124, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8tmk"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(100, 124, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvif4"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(250, 124, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_att67"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(300, 124, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1p1tp"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(350, 124, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sohrs"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(400, 124, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udego"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(450, 124, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5g48u"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(300, 186, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tst0w"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(250, 186, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dcaci"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(200, 186, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lu678"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(150, 186, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6rtem"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(100, 186, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p6h2y"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(200, 372, 50, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4lcm"]
+atlas = ExtResource("2_i0ehq")
+region = Rect2(50, 248, 50, 62)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3d4q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8ghi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i0ehq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8tmk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvif4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_att67")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1p1tp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sohrs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udego")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5g48u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tst0w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcaci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lu678")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6rtem")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p6h2y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4lcm")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 15.0
+}]
 
 [sub_resource type="Curve" id="Curve_yh7uo"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.494709, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -16,7 +130,12 @@ colors = PackedColorArray(0.914063, 0.734375, 0, 1, 1, 1, 1, 0)
 collision_mask = 3
 script = ExtResource("1_mmtjo")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=817668340]
+sprite_frames = SubResource("SpriteFrames_x3d4q")
+frame_progress = 0.42473626
+
 [node name="GemYellow" type="Sprite2D" parent="." unique_id=1955605895]
+visible = false
 position = Vector2(-2, -2)
 texture = ExtResource("2_f8ghi")
 
@@ -36,7 +155,7 @@ scale_amount_curve = SubResource("Curve_yh7uo")
 color_ramp = SubResource("Gradient_kkhmu")
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="." unique_id=463047178]
-position = Vector2(-2, -2)
-polygon = PackedVector2Array(0, -17, 0, -15.6, -2.1000004, -15, -4.8999996, -15, -13.9, -5, -15.6, -5, -17.5, 3, -18.3, 3, -19.4, 5.299999, -12, 13.700001, -12, 15.799999, -2.1000004, 17, 10.099998, 17, 12.099998, 14, 13.599998, 14, 17, -2.7999992, 17, -9, 9, -15, 9, -17)
+position = Vector2(-14, -6)
+polygon = PackedVector2Array(4, 10, 0, 3, 16, -15, 32, 2, 26, 11, 25, 28, 15, 23, 5, 29)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

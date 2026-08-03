@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://bajrtxxftc6wt"]
 
+[ext_resource type="Texture2D" uid="uid://hjrau08t4f7c" path="res://Scenes/Levels/map.png" id="1_0lh7m"]
 [ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="1_2g1tp"]
 [ext_resource type="Texture2D" uid="uid://1ay25i0wdihg" path="res://Assets/Icons/cpkku_dark.png" id="2_fnvqj"]
 [ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="3_fnvqj"]
+[ext_resource type="FontFile" uid="uid://b3ivysmhcn84h" path="res://Assets/Fonts/Kodchasan-Bold.ttf" id="4_qu31k"]
 
 [node name="Node2D" type="Node2D" unique_id=264957255]
 
@@ -12,8 +14,13 @@ anchors_preset = 0
 offset_right = 1154.0
 offset_bottom = 650.0
 
+[node name="Map" type="Sprite2D" parent="Control" unique_id=909499684]
+position = Vector2(586, 344)
+texture = ExtResource("1_0lh7m")
+
 [node name="CpkkuDark" type="Sprite2D" parent="Control" unique_id=813724852]
-position = Vector2(584, 71)
+position = Vector2(556.00006, 139)
+scale = Vector2(1.8400166, 1.8400166)
 texture = ExtResource("2_fnvqj")
 
 [node name="Title" type="Label" parent="Control" unique_id=1640205557]
@@ -22,15 +29,16 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -148.0
-offset_top = 295.0
+offset_top = 430.0
 offset_right = 153.0
-offset_bottom = 327.0
+offset_bottom = 468.0
 grow_horizontal = 2
 theme = ExtResource("1_2g1tp")
 theme_override_colors/font_color = Color(0.88235295, 0.18039216, 0.1882353, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = ExtResource("4_qu31k")
+theme_override_font_sizes/font_size = 29
 text = "Development Team"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -40,14 +48,15 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -167.0
-offset_top = 177.0
-offset_right = 207.0
-offset_bottom = 209.0
+offset_left = -324.0
+offset_top = 312.0
+offset_right = 364.0
+offset_bottom = 391.0
 grow_horizontal = 2
 theme = ExtResource("1_2g1tp")
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 16
+theme_override_fonts/font = ExtResource("4_qu31k")
+theme_override_font_sizes/font_size = 29
 text = "At College of Computing, Khon Kaen University
 By  Asst.Dr. Wachirawut Thamviset"
 horizontal_alignment = 1
@@ -56,21 +65,24 @@ vertical_alignment = 1
 [node name="btnExit" parent="Control" unique_id=1633606001 instance=ExtResource("3_fnvqj")]
 layout_mode = 0
 offset_left = 33.0
+offset_top = 0.0
 offset_right = 159.0
+offset_bottom = 54.0
 
 [node name="Title3" type="Label" parent="Control" unique_id=1657901293]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -148.0
-offset_top = 129.0
-offset_right = 153.0
-offset_bottom = 161.0
+offset_left = -331.5
+offset_top = 264.0
+offset_right = 336.5
+offset_bottom = 302.0
 grow_horizontal = 2
 theme = ExtResource("1_2g1tp")
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = ExtResource("4_qu31k")
+theme_override_font_sizes/font_size = 29
 text = "Computer Game Development  Course 2026   "
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -80,16 +92,15 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -187.0
-offset_top = 360.0
-offset_right = 193.0
-offset_bottom = 407.0
+offset_left = -288.0
+offset_top = 495.0
+offset_right = 294.0
+offset_bottom = 574.0
 grow_horizontal = 2
 theme = ExtResource("1_2g1tp")
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 16
-text = "1. 
-2.
-3.
-4."
+theme_override_fonts/font = ExtResource("4_qu31k")
+theme_override_font_sizes/font_size = 29
+text = "1. Saranyapong Kaewruan 683380313-4
+"
 vertical_alignment = 1

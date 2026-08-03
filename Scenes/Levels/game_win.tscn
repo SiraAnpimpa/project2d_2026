@@ -1,35 +1,26 @@
 [gd_scene format=3 uid="uid://b46lxwc5r3dy4"]
 
-[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="1_5l1gm"]
+[ext_resource type="Texture2D" uid="uid://ci13mvihpxxr" path="res://Scenes/win.jpg" id="1_15raq"]
 [ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="2_81byk"]
 
 [node name="GameOver" type="Node2D" unique_id=826370530]
 
-[node name="Title" type="Label" parent="." unique_id=1965507633]
-offset_left = 438.0
-offset_top = 225.0
-offset_right = 742.0
-offset_bottom = 269.0
-theme = ExtResource("1_5l1gm")
-theme_override_colors/font_color = Color(0.36862746, 0.9137255, 0.1882353, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 33
-text = "You Win"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Win" type="Sprite2D" parent="." unique_id=1089613652]
+position = Vector2(572, 324)
+scale = Vector2(1.5208429, 1.5208429)
+texture = ExtResource("1_15raq")
 
 [node name="btnExit" parent="." unique_id=1633606001 instance=ExtResource("2_81byk")]
-offset_left = 438.0
-offset_top = 359.0
-offset_right = 564.0
-offset_bottom = 413.0
+offset_left = 401.0
+offset_top = 518.0
+offset_right = 527.0
+offset_bottom = 572.0
 text = "Exit to Menu"
 
 [node name="btnPlay" parent="." unique_id=1146872882 instance=ExtResource("2_81byk")]
-offset_left = 597.0
-offset_top = 359.0
-offset_right = 723.0
-offset_bottom = 413.0
+offset_left = 592.0
+offset_top = 518.0
+offset_right = 718.0
+offset_bottom = 572.0
 shortcut = null
 text = "Play Again"

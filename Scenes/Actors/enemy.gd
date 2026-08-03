@@ -50,6 +50,9 @@ func _on_hit_area_body_entered(body: Node2D) -> void:
 		death_tween()
 		body.queue_free()
 		
+func _on_hit_area_area_entered(area: Area2D) -> void:
+	pass
+		
 func death_tween():
 	alive = false
 	collision_layer = 0

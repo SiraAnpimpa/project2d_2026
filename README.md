@@ -1,5 +1,6 @@
 # Game Lab 4: 2D Platformer Game
 By 683380429-5 Pongsatorn Prathumsai
+
 **GAME STORY** In the dark, suffocating depth of an ancient subterranean crypt, a lone survivor is trapped in a deadly game of cat and mouse. Outnumbered and outgunned, she must navigate a perilous maze packed with spring-loaded blades, crushing stone walls, and poisoned spikes—all while fleeing a squad of heavily armored, relentless knights sent to execute her. Armed only with her speed and sharp wits, she must decipher the labyrinth's lethal mechanisms, turning the castle's own ancient traps against her pursuers to claw her way back to the light.
 **GAME Style** A game featuring obstacle avoidance, gem collection, and combat
 
@@ -13,7 +14,7 @@ This starter kit provides all the essential mechanics needed to build a complete
 <img src="docs/qrcode.png" alt="QR code with a centered dinosaur icon used for scanning to preview the game" style="width:300px;" />
 <img src="Screenshot 2026-08-01 162625.png" alt="Game preview screenshot showing a 2D platformer scene with character and environment elements" style="width:300px;" />
 
-- [Game Preview](https://twachi.github.io/2D-Platformer-Starter-Kit/)
+- [Game Preview](https://github.com/pongsatornp-creator/GameLab4.git)
 
 
 ## Features

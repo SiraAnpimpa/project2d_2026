@@ -2,6 +2,7 @@
 By 683380429-5 Pongsatorn Prathumsai
 
 **GAME STORY** In the dark, suffocating depth of an ancient subterranean crypt, a lone survivor is trapped in a deadly game of cat and mouse. Outnumbered and outgunned, she must navigate a perilous maze packed with spring-loaded blades, crushing stone walls, and poisoned spikes—all while fleeing a squad of heavily armored, relentless knights sent to execute her. Armed only with her speed and sharp wits, she must decipher the labyrinth's lethal mechanisms, turning the castle's own ancient traps against her pursuers to claw her way back to the light.
+
 **GAME Style** A game featuring obstacle avoidance, gem collection, and combat
 
 https://drive.google.com/file/d/1_hMKHgcEvn_r2b50xEYqolJPhuzmCVat/view?usp=sharing

@@ -1,4 +1,4 @@
-# 2D Platformer Game - Arriette Boss Battle
+# 2D Platformer Game - Gale Adventure
 
 This project is a 2D Platformer game developed in Godot 4 as part of the **Computer Game Development** course at the **College of Computing, Khon Kaen University**.
 

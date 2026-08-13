@@ -17,6 +17,7 @@ signal hit_trap
 @export var bullet_lifetime = 2.0
 
 var jump_count : int = 2
+var flip_x = false
 
 @export_category("Toggle Functions") # Double jump feature is disable by default (Can be toggled from inspector)
 @export var double_jump : = false
@@ -64,7 +65,10 @@ func movement():
 		velocity.y += gravity
 	elif is_on_floor():
 		jump_count = max_jump_count
-		velocity.x = 0
+		if abs(velocity.x)>0.5:
+			velocity.x *= 0.6
+		else:
+			velocity.x =0 
 	
 	handle_jumping()
 	
@@ -72,8 +76,10 @@ func movement():
 	if movement_enabled:
 		if Input.is_action_pressed("Left"):
 			velocity.x = -move_speed
+			flip_x = true
 		if Input.is_action_pressed("Right"):
 			velocity.x = move_speed
+			flip_x = false
 	if velocity.y > 5000:
 		hit_trap.emit()
 	move_and_slide()
@@ -111,9 +117,9 @@ func player_animations():
 
 # Flip player sprite based on X velocity
 func flip_player():
-	if velocity.x < 0: 
+	if flip_x: 
 		player_node.scale.x = -1
-	elif velocity.x > 0:
+	else:
 		player_node.scale.x = 1
 
 # Tween Animations

@@ -59,19 +59,23 @@ position = Vector2(927, 267)
 
 [node name="Enemy" parent="Enemies" parent_id_path=PackedInt32Array(1580630701) index="0" unique_id=600502477 instance=ExtResource("7_mb1if")]
 position = Vector2(807, 374)
+collision_mask = 13
 speed = 30.0
 metadata/_edit_lock_ = true
 
 [node name="Enemy4" parent="Enemies" parent_id_path=PackedInt32Array(1580630701) index="1" unique_id=1374649901 instance=ExtResource("7_mb1if")]
 position = Vector2(927, 374)
+collision_mask = 13
 speed = 30.0
 
 [node name="Enemy3" parent="Enemies" parent_id_path=PackedInt32Array(1580630701) index="2" unique_id=265544775 instance=ExtResource("7_mb1if")]
 position = Vector2(328, 423)
+collision_mask = 13
 speed = 50.0
 
 [node name="Enemy5" parent="Enemies" parent_id_path=PackedInt32Array(1580630701) index="3" unique_id=517355601 instance=ExtResource("5_mb1if")]
 position = Vector2(585, 448)
+collision_mask = 13
 speed = 20.0
 
 [node name="Label" parent="UserInterface" parent_id_path=PackedInt32Array(1799764374) index="1" unique_id=1103718868]

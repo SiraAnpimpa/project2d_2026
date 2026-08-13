@@ -19,16 +19,19 @@ point_count = 3
 offsets = PackedFloat32Array(0.25, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7cwx2"]
+bg_color = Color(0.16862746, 0.54901963, 0.23921569, 0.60784316)
+
 [node name="Enemy" type="CharacterBody2D" unique_id=600502477 groups=["Enemy"]]
 collision_layer = 4
-collision_mask = 13
+collision_mask = 9
 script = ExtResource("1_7cwx2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=587424215]
 position = Vector2(0, -22)
 shape = SubResource("CapsuleShape2D_21vrd")
 
-[node name="HitArea" type="Area2D" parent="." unique_id=1115411835]
+[node name="HitArea" type="Area2D" parent="." unique_id=1115411835 groups=["Enemy"]]
 collision_layer = 4
 collision_mask = 11
 
@@ -65,13 +68,41 @@ scale_amount_curve = SubResource("Curve_yvw6o")
 color = Color(0.671534, 0.004919853, 0, 1)
 color_ramp = SubResource("Gradient_wxnld")
 
+[node name="DamageParticles" type="CPUParticles2D" parent="." unique_id=1561878630]
+z_index = 2
+position = Vector2(2.08165e-12, -33)
+scale = Vector2(1.5, 1.5)
+emitting = false
+amount = 10
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.5
+emission_shape = 2
+emission_sphere_radius = 21.05
+direction = Vector2(0, -1)
+spread = 21.48
+gravity = Vector2(0, 400)
+initial_velocity_min = 100.0
+initial_velocity_max = 300.0
+angular_velocity_min = 100.0
+angular_velocity_max = 100.0
+damping_min = 1.0
+damping_max = 1.0
+angle_min = -90.0
+angle_max = 90.0
+scale_amount_min = 2.0
+scale_amount_max = 15.0
+scale_amount_curve = SubResource("Curve_yvw6o")
+color = Color(0.67058825, 0.42352942, 0, 1)
+color_ramp = SubResource("Gradient_wxnld")
+
 [node name="Sprite" type="Node2D" parent="." unique_id=1445111960]
 
 [node name="Ray" type="Node2D" parent="Sprite" unique_id=1415425330]
 
 [node name="playerRay" type="RayCast2D" parent="Sprite/Ray" unique_id=1255579585]
 position = Vector2(0, -22)
-target_position = Vector2(45, 0)
+target_position = Vector2(139, 0)
 collision_mask = 2
 
 [node name="wallRay" type="RayCast2D" parent="Sprite/Ray" unique_id=807141594]
@@ -86,5 +117,14 @@ target_position = Vector2(0, 23)
 stream = ExtResource("2_5n1qu")
 volume_db = -3.0
 bus = &"sfx"
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1256446627]
+offset_left = -27.0
+offset_top = -97.0
+offset_right = 24.0
+offset_bottom = -79.0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/fill = SubResource("StyleBoxFlat_7cwx2")
+value = 100.0
 
 [connection signal="body_entered" from="HitArea" to="." method="_on_hit_area_body_entered"]

@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://Scenes/Levels/zone_map.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://Scenes/EnvironmentPacks/signal_base_pack.tscn" id="2_pack"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/top_down_player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/game_ui.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/item_pickup.tscn" id="5_pickup"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="6_gate"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/circuit_part.png" id="7_circuit"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/data_log.png" id="8_datalog"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/med_kit.png" id="9_medkit"]
+
+[node name="AbandonedSignalBase" type="Node2D"]
+script = ExtResource("1_script")
+objective_title = "ค้นหา Circuit Part และ Data Log ในฐานร้าง"
+objective_details = "NAVIGATION SYSTEM // SIGNAL SOURCE"
+arrival_message = "UNKNOWN AI // SIGNAL SOURCE LOCATED"
+map_bounds = Rect2(-1881, -627, 3762, 1254)
+
+[node name="EnvironmentPack" parent="." instance=ExtResource("2_pack")]
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Default" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, 430)
+
+[node name="FromCrystal" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, 430)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+unique_name_in_owner = true
+position = Vector2(0, 430)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="CircuitWest" parent="Pickups" instance=ExtResource("5_pickup")]
+position = Vector2(-1480, 360)
+pickup_id = "base_circuit_west"
+item_id = &"circuit_part"
+display_name = "CIRCUIT PART"
+amount = 2
+icon = ExtResource("7_circuit")
+glow_color = Color(0.439, 0.31, 1, 0.38)
+
+[node name="CircuitNorth" parent="Pickups" instance=ExtResource("5_pickup")]
+position = Vector2(-1070, -150)
+pickup_id = "base_circuit_north"
+item_id = &"circuit_part"
+display_name = "CIRCUIT PART"
+amount = 2
+icon = ExtResource("7_circuit")
+glow_color = Color(0.286, 0.843, 1, 0.34)
+
+[node name="DataLog" parent="Pickups" instance=ExtResource("5_pickup")]
+position = Vector2(900, -170)
+pickup_id = "base_data_log"
+item_id = &"data_log"
+display_name = "DATA LOG"
+icon = ExtResource("8_datalog")
+glow_color = Color(0.506, 0.957, 0.635, 0.36)
+
+[node name="MedKit" parent="Pickups" instance=ExtResource("5_pickup")]
+position = Vector2(1490, 250)
+pickup_id = "base_med_kit"
+item_id = &"med_kit"
+display_name = "MED KIT"
+icon = ExtResource("9_medkit")
+glow_color = Color(1, 0.322, 0.267, 0.32)
+
+[node name="ToCrystalField" parent="." instance=ExtResource("6_gate")]
+position = Vector2(0, 570)
+target_scene = "res://Scenes/Levels/crystal_field.tscn"
+target_spawn = &"FromBase"
+gate_label = "CRYSTAL FIELD"
+accent_color = Color(0.439, 0.31, 1, 0.46)
+
+[node name="UserInterface" parent="." instance=ExtResource("4_hud")]

@@ -1,0 +1,13 @@
+[gd_resource type="FontVariation" load_steps=4 format=3]
+
+[ext_resource type="FontFile" path="res://Assets/Fonts/Anuphan-Latin.woff2" id="1_latin"]
+[ext_resource type="FontFile" path="res://Assets/Fonts/Anuphan-Thai.woff2" id="2_thai"]
+
+[sub_resource type="FontVariation" id="FontVariation_thai"]
+base_font = ExtResource("2_thai")
+variation_embolden = 0.45
+
+[resource]
+base_font = ExtResource("1_latin")
+fallbacks = Array[Font]([SubResource("FontVariation_thai")])
+variation_embolden = 0.45

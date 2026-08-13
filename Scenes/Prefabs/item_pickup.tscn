@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scenes/Prefabs/item_pickup.gd" id="1_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 34.0
+
+[node name="ItemPickup" type="Area2D" groups=["WorldPickup"]]
+z_index = 3
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_script")
+
+[node name="Visual" type="Node2D" parent="."]
+position = Vector2(0, -10)
+
+[node name="Glow" type="Polygon2D" parent="Visual"]
+polygon = PackedVector2Array(-36, 0, -25, -13, 0, -19, 25, -13, 36, 0, 25, 13, 0, 19, -25, 13)
+color = Color(0.286, 0.843, 1, 0.32)
+
+[node name="Icon" type="Sprite2D" parent="Visual"]
+texture_filter = 1
+
+[node name="Amount" type="Label" parent="."]
+offset_left = -28.0
+offset_top = 26.0
+offset_right = 28.0
+offset_bottom = 44.0
+theme_override_colors/font_color = Color(0.824, 0.969, 1, 1)
+theme_override_colors/font_outline_color = Color(0.002, 0.012, 0.027, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 12
+text = "x1"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pickup")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

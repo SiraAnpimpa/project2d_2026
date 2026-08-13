@@ -1,24 +1,142 @@
-[gd_scene format=3 uid="uid://cuq7vusmo7y5g"]
+[gd_scene load_steps=7 format=3 uid="uid://cuq7vusmo7y5g"]
 
-[ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="1_6oxap"]
-[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="2_wto1r"]
+[ext_resource type="Script" path="res://Scenes/Levels/options.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://Assets/UI/olethros_signal_base.png" id="2_bg"]
+[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="3_theme"]
+[ext_resource type="FontVariation" path="res://Assets/Fonts/GNU-Unifont-Pixel-Display.tres" id="4_pixel_display"]
+[ext_resource type="FontVariation" path="res://Assets/Fonts/Anuphan-Medium.tres" id="5_readable"]
+[ext_resource type="FontFile" path="res://Assets/Fonts/Kodchasan-Bold.ttf" id="6_heading"]
 
-[node name="Node2D" type="Node2D" unique_id=1481218610]
+[node name="Options" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_script")
 
-[node name="btnExit" parent="." unique_id=1633606001 instance=ExtResource("1_6oxap")]
-offset_left = 48.0
-offset_top = 32.0
-offset_right = 174.0
-offset_bottom = 86.0
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture_filter = 1
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="Title" type="Label" parent="." unique_id=714304452]
-offset_left = 412.0
-offset_top = 45.0
-offset_right = 713.0
-offset_bottom = 77.0
-theme = ExtResource("2_wto1r")
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 24
-text = "Game Options"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Dimmer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.00392157, 0.00784314, 0.0235294, 0.35)
+
+[node name="Header" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 34.0
+offset_top = 26.0
+offset_right = -34.0
+offset_bottom = 58.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.360784, 0.843137, 1, 1)
+theme_override_fonts/font = ExtResource("4_pixel_display")
+theme_override_font_sizes/font_size = 16
+text = "OLETHROS  //  SETTINGS  //  ZONE-67"
+
+[node name="SettingsPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.27
+anchor_top = 0.13
+anchor_right = 0.73
+anchor_bottom = 0.89
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="SettingsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 26
+
+[node name="Content" type="VBoxContainer" parent="SettingsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="SettingsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.827451, 0.968627, 1, 1)
+theme_override_fonts/font = ExtResource("6_heading")
+theme_override_font_sizes/font_size = 29
+text = "SETTINGS // ตั้งค่า"
+
+[node name="Subtitle" type="Label" parent="SettingsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.552941, 0.686275, 0.741176, 1)
+theme_override_fonts/font = ExtResource("5_readable")
+theme_override_font_sizes/font_size = 14
+text = "GAME SETTINGS  //  ค่าจะถูกบันทึกอัตโนมัติ"
+
+[node name="Divider" type="ColorRect" parent="SettingsPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.196078, 0.556863, 0.694118, 0.75)
+
+[node name="MusicToggle" type="CheckButton" parent="SettingsPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+button_pressed = true
+theme_override_fonts/font = ExtResource("5_readable")
+text = "เพลงประกอบ  //  MUSIC CHANNEL"
+
+[node name="SfxToggle" type="CheckButton" parent="SettingsPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+button_pressed = true
+theme_override_fonts/font = ExtResource("5_readable")
+text = "เสียงเอฟเฟกต์  //  SFX CHANNEL"
+
+[node name="FullscreenToggle" type="CheckButton" parent="SettingsPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+button_pressed = true
+theme_override_fonts/font = ExtResource("5_readable")
+text = "เต็มหน้าจอ  //  FULLSCREEN"
+
+[node name="Spacer" type="Control" parent="SettingsPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Status" type="Label" parent="SettingsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.505882, 0.956863, 0.635294, 1)
+theme_override_fonts/font = ExtResource("4_pixel_display")
+theme_override_font_sizes/font_size = 14
+text = "●  CONFIG LINK READY"
+
+[node name="BackButton" type="Button" parent="SettingsPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_readable")
+text = "ย้อนกลับไปยังเมนู"
+
+[connection signal="toggled" from="SettingsPanel/Margin/Content/MusicToggle" to="." method="_on_music_toggled"]
+[connection signal="toggled" from="SettingsPanel/Margin/Content/SfxToggle" to="." method="_on_sfx_toggled"]
+[connection signal="toggled" from="SettingsPanel/Margin/Content/FullscreenToggle" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="SettingsPanel/Margin/Content/BackButton" to="." method="_on_back_pressed"]

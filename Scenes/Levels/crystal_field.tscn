@@ -1,0 +1,87 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://Scenes/Levels/zone_map.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://Scenes/EnvironmentPacks/crystal_field_pack.tscn" id="2_pack"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/top_down_player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/game_ui.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/item_pickup.tscn" id="5_pickup"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="6_gate"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/energy_crystal.png" id="7_energy"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/access_card.png" id="8_access"]
+
+[node name="CrystalField" type="Node2D"]
+script = ExtResource("1_script")
+objective_title = "เก็บ Energy Crystal จากทุ่งคริสตัล"
+objective_details = "POWER SYSTEM // CRYSTAL FIELD"
+arrival_message = "ZONE ENTERED // CRYSTAL FIELD"
+map_bounds = Rect2(-2508, -627, 5016, 1254)
+
+[node name="EnvironmentPack" parent="." instance=ExtResource("2_pack")]
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Default" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-627, 420)
+
+[node name="FromLanding" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-627, 420)
+
+[node name="FromBase" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1881, 420)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+unique_name_in_owner = true
+position = Vector2(-627, 420)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="EnergyNorth" parent="Pickups" instance=ExtResource("5_pickup")]
+position = Vector2(-2020, -380)
+pickup_id = "crystal_energy_north"
+item_id = &"energy_crystal"
+display_name = "ENERGY CRYSTAL"
+amount = 2
+icon = ExtResource("7_energy")
+glow_color = Color(0.282, 0.855, 1, 0.38)
+
+[node name="EnergyCenter" parent="Pickups" instance=ExtResource("5_pickup")]
+position = Vector2(980, -220)
+pickup_id = "crystal_energy_center"
+item_id = &"energy_crystal"
+display_name = "ENERGY CRYSTAL"
+amount = 3
+icon = ExtResource("7_energy")
+glow_color = Color(0.439, 0.31, 1, 0.4)
+
+[node name="EnergyEast" parent="Pickups" instance=ExtResource("5_pickup")]
+position = Vector2(1820, -230)
+pickup_id = "crystal_energy_east"
+item_id = &"energy_crystal"
+display_name = "ENERGY CRYSTAL"
+amount = 2
+icon = ExtResource("7_energy")
+glow_color = Color(0.282, 0.855, 1, 0.38)
+
+[node name="AccessCard" parent="Pickups" instance=ExtResource("5_pickup")]
+position = Vector2(2110, -80)
+pickup_id = "crystal_access_card"
+item_id = &"access_card"
+display_name = "ACCESS CARD"
+icon = ExtResource("8_access")
+glow_color = Color(0.976, 0.808, 0.384, 0.34)
+
+[node name="ToLanding" parent="." instance=ExtResource("6_gate")]
+position = Vector2(-627, 580)
+target_scene = "res://Scenes/Levels/zone_67_prologue.tscn"
+target_spawn = &"FromCrystal"
+gate_label = "<  LANDING ZONE"
+accent_color = Color(0.286, 0.843, 1, 0.46)
+
+[node name="ToSignalBase" parent="." instance=ExtResource("6_gate")]
+position = Vector2(1881, 580)
+target_scene = "res://Scenes/Levels/abandoned_signal_base.tscn"
+target_spawn = &"FromCrystal"
+gate_label = "SIGNAL BASE  >"
+accent_color = Color(0.506, 0.957, 0.635, 0.46)
+
+[node name="UserInterface" parent="." instance=ExtResource("4_hud")]

@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/environment_chunk.tscn" id="1_chunk"]
+[ext_resource type="Texture2D" path="res://Assets/EnvironmentPacks/LandingZone/landing_nw_workshop.png" id="2_nw"]
+[ext_resource type="Texture2D" path="res://Assets/EnvironmentPacks/LandingZone/landing_ne_wreck.png" id="3_ne"]
+[ext_resource type="Texture2D" path="res://Assets/EnvironmentPacks/LandingZone/landing_sw_storage.png" id="4_sw"]
+[ext_resource type="Texture2D" path="res://Assets/EnvironmentPacks/LandingZone/landing_se_diagnostic.png" id="5_se"]
+
+[node name="LandingZonePack" type="Node2D" groups=["EnvironmentPack"]]
+
+[node name="WorkshopNW" parent="." instance=ExtResource("1_chunk")]
+position = Vector2(-627, -627)
+chunk_id = "landing_workshop_nw"
+texture = ExtResource("2_nw")
+open_edges = 6
+obstacle_rects = Array[Rect2]([Rect2(-500, -430, 420, 300)])
+
+[node name="WreckNE" parent="." instance=ExtResource("1_chunk")]
+position = Vector2(627, -627)
+chunk_id = "landing_wreck_ne"
+texture = ExtResource("3_ne")
+open_edges = 14
+obstacle_rects = Array[Rect2]([Rect2(-260, -420, 620, 390)])
+
+[node name="StorageSW" parent="." instance=ExtResource("1_chunk")]
+position = Vector2(-627, 627)
+chunk_id = "landing_storage_sw"
+texture = ExtResource("4_sw")
+open_edges = 3
+obstacle_rects = Array[Rect2]([Rect2(-500, -470, 360, 680)])
+
+[node name="DiagnosticSE" parent="." instance=ExtResource("1_chunk")]
+position = Vector2(627, 627)
+chunk_id = "landing_diagnostic_se"
+texture = ExtResource("5_se")
+open_edges = 9
+obstacle_circles = Array[Vector3]([Vector3(270, 280, 235)])

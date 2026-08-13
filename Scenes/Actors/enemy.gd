@@ -66,7 +66,7 @@ func _on_hit_area_body_entered(body: Node2D) -> void:
 		  
 		damage_tween()
 		if hp <=0 :
-			GameManager.add_score()
+			GameManager.add_salvage()
 			death_tween()
 			body.queue_free()
 

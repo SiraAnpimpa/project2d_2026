@@ -1,95 +1,152 @@
-[gd_scene format=3 uid="uid://bajrtxxftc6wt"]
+[gd_scene load_steps=5 format=3 uid="uid://bajrtxxftc6wt"]
 
-[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="1_2g1tp"]
-[ext_resource type="Texture2D" uid="uid://1ay25i0wdihg" path="res://Assets/Icons/cpkku_dark.png" id="2_fnvqj"]
-[ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="3_fnvqj"]
+[ext_resource type="Texture2D" path="res://Assets/UI/olethros_signal_base.png" id="1_bg"]
+[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" uid="uid://1ay25i0wdihg" path="res://Assets/Icons/cpkku_dark.png" id="3_logo"]
+[ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="4_back"]
 
-[node name="Node2D" type="Node2D" unique_id=264957255]
-
-[node name="Control" type="Control" parent="." unique_id=423201679]
+[node name="Credits" type="Control" unique_id=264957255]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 1154.0
-offset_bottom = 650.0
-
-[node name="CpkkuDark" type="Sprite2D" parent="Control" unique_id=813724852]
-position = Vector2(584, 71)
-texture = ExtResource("2_fnvqj")
-
-[node name="Title" type="Label" parent="Control" unique_id=1640205557]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -148.0
-offset_top = 295.0
-offset_right = 153.0
-offset_bottom = 327.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
-theme = ExtResource("1_2g1tp")
-theme_override_colors/font_color = Color(0.88235295, 0.18039216, 0.1882353, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 24
-text = "Development Team"
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture_filter = 1
+texture = ExtResource("1_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Dimmer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.00392157, 0.00784314, 0.0235294, 0.38)
+
+[node name="CreditsPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.2
+anchor_top = 0.08
+anchor_right = 0.8
+anchor_bottom = 0.92
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="CreditsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 24
+
+[node name="Content" type="VBoxContainer" parent="CreditsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.827451, 0.968627, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "หน่วยปฏิบัติการ"
 horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="Title2" type="Label" parent="Control" unique_id=1645896659]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -167.0
-offset_top = 177.0
-offset_right = 207.0
-offset_bottom = 209.0
-grow_horizontal = 2
-theme = ExtResource("1_2g1tp")
-theme_override_constants/outline_size = 10
+[node name="Subtitle" type="Label" parent="CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.552941, 0.686275, 0.741176, 1)
+theme_override_font_sizes/font_size = 14
+text = "OLETHROS  //  GROUP 12  //  MISSION DEVELOPMENT CREW"
+horizontal_alignment = 1
+
+[node name="Divider" type="ColorRect" parent="CreditsPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.196078, 0.556863, 0.694118, 0.75)
+
+[node name="TeamGrid" type="GridContainer" parent="CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/h_separation = 26
+theme_override_constants/v_separation = 13
+columns = 2
+
+[node name="Id1" type="Label" parent="CreditsPanel/Margin/Content/TeamGrid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.286275, 0.843137, 1, 1)
 theme_override_font_sizes/font_size = 16
-text = "At College of Computing, Khon Kaen University
-By  Asst.Dr. Wachirawut Thamviset"
-horizontal_alignment = 1
-vertical_alignment = 1
+text = "673380533-9"
 
-[node name="btnExit" parent="Control" unique_id=1633606001 instance=ExtResource("3_fnvqj")]
-layout_mode = 0
-offset_left = 33.0
-offset_right = 159.0
+[node name="Name1" type="Label" parent="CreditsPanel/Margin/Content/TeamGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "นายศิระ อันพิมพา"
 
-[node name="Title3" type="Label" parent="Control" unique_id=1657901293]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -148.0
-offset_top = 129.0
-offset_right = 153.0
-offset_bottom = 161.0
-grow_horizontal = 2
-theme = ExtResource("1_2g1tp")
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 24
-text = "Computer Game Development  Course 2026   "
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Title4" type="Label" parent="Control" unique_id=2127691335]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -187.0
-offset_top = 360.0
-offset_right = 193.0
-offset_bottom = 407.0
-grow_horizontal = 2
-theme = ExtResource("1_2g1tp")
-theme_override_constants/outline_size = 10
+[node name="Id2" type="Label" parent="CreditsPanel/Margin/Content/TeamGrid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.286275, 0.843137, 1, 1)
 theme_override_font_sizes/font_size = 16
-text = "1. 
-2.
-3.
-4."
-vertical_alignment = 1
+text = "673380336-1"
+
+[node name="Name2" type="Label" parent="CreditsPanel/Margin/Content/TeamGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "นายภูชิต ตรียะโชติ"
+
+[node name="Id3" type="Label" parent="CreditsPanel/Margin/Content/TeamGrid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.286275, 0.843137, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "673380529-0"
+
+[node name="Name3" type="Label" parent="CreditsPanel/Margin/Content/TeamGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "นายภูวิศ งามเลิศ"
+
+[node name="Spacer" type="Control" parent="CreditsPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Course" type="Label" parent="CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65098, 0.776471, 0.823529, 1)
+theme_override_font_sizes/font_size = 15
+text = "CP410844  Computer Game Development  •  College of Computing, KKU"
+horizontal_alignment = 1
+
+[node name="LogoCenter" type="CenterContainer" parent="CreditsPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="Logo" type="TextureRect" parent="CreditsPanel/Margin/Content/LogoCenter"]
+custom_minimum_size = Vector2(250, 58)
+layout_mode = 2
+texture_filter = 1
+texture = ExtResource("3_logo")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="btnExit" parent="CreditsPanel/Margin/Content" unique_id=1633606001 instance=ExtResource("4_back")]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+text = "ย้อนกลับไปยังเมนู"

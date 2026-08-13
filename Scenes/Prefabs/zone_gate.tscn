@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scenes/Prefabs/zone_gate.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
+size = Vector2(112, 240)
+
+[node name="ZoneGate" type="Area2D" groups=["ZoneGate"]]
+z_index = 2
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_script")
+
+[node name="Field" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-30, -112, 30, -112, 38, -96, 38, 96, 30, 112, -30, 112, -38, 96, -38, -96)
+color = Color(0.286, 0.843, 1, 0.24)
+
+[node name="Core" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-2, -88, 2, -88, 2, 88, -2, 88)
+color = Color(0.71, 0.945, 1, 0.62)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -126.0
+offset_top = -146.0
+offset_right = 126.0
+offset_bottom = -118.0
+theme_override_colors/font_color = Color(0.714, 0.933, 1, 1)
+theme_override_colors/font_outline_color = Color(0.002, 0.012, 0.027, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 13
+text = "ZONE LINK"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gate")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/environment_chunk.tscn" id="1_chunk"]
+[ext_resource type="Texture2D" path="res://Assets/EnvironmentPacks/SignalBase/base_west.png" id="2_west"]
+[ext_resource type="Texture2D" path="res://Assets/EnvironmentPacks/SignalBase/base_core.png" id="3_core"]
+[ext_resource type="Texture2D" path="res://Assets/EnvironmentPacks/SignalBase/base_east.png" id="4_east"]
+
+[node name="SignalBasePack" type="Node2D" groups=["EnvironmentPack"]]
+
+[node name="MaintenanceWest" parent="." instance=ExtResource("1_chunk")]
+position = Vector2(-1254, 0)
+chunk_id = "base_west"
+texture = ExtResource("2_west")
+open_edges = 2
+obstacle_rects = Array[Rect2]([Rect2(-520, -500, 920, 230), Rect2(-520, -180, 230, 840)])
+
+[node name="DishCore" parent="." instance=ExtResource("1_chunk")]
+chunk_id = "base_core"
+texture = ExtResource("3_core")
+open_edges = 14
+obstacle_circles = Array[Vector3]([Vector3(0, -250, 260)])
+
+[node name="NavigationEast" parent="." instance=ExtResource("1_chunk")]
+position = Vector2(1254, 0)
+chunk_id = "base_east"
+texture = ExtResource("4_east")
+open_edges = 8
+obstacle_rects = Array[Rect2]([Rect2(-430, -500, 870, 230), Rect2(270, -120, 250, 350)])

@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Scenes/Actors/top_down_player.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://Assets/Spritesheet/olethros_astronaut_topdown_sheet_v2.png" id="2_astronaut"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_footprint"]
+radius = 18.0
+
+[node name="TopDownPlayer" type="CharacterBody2D" groups=["Player"]]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="Shadow" type="Polygon2D" parent="."]
+z_index = -1
+position = Vector2(0, 1)
+polygon = PackedVector2Array(-31, 0, -23, -9, 0, -13, 23, -9, 31, 0, 23, 9, 0, 13, -23, 9)
+color = Color(0.001, 0.004, 0.012, 0.48)
+
+[node name="Astronaut" type="Sprite2D" parent="."]
+position = Vector2(0, -48)
+scale = Vector2(0.42, 0.42)
+texture_filter = 1
+texture = ExtResource("2_astronaut")
+hframes = 4
+vframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_footprint")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
+limit_left = -1420
+limit_top = -820
+limit_right = 1420
+limit_bottom = 820

@@ -1,267 +1,750 @@
-[gd_scene format=3 uid="uid://cdwabmqtlxr1y"]
+[gd_scene load_steps=19 format=3 uid="uid://cdwabmqtlxr1y"]
 
-[ext_resource type="Script" uid="uid://domyi75bwl5ad" path="res://Scenes/Levels/game_ui.gd" id="1_6pfiu"]
-[ext_resource type="FontFile" uid="uid://qgc4vi5osk7v" path="res://Assets/Fonts/Star Choco.ttf" id="3_4yslr"]
-[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="4_fjdxc"]
-[ext_resource type="Texture2D" uid="uid://2wfiy300hbbt" path="res://Assets/Icons/icons8-save-50.png" id="5_fpocv"]
-[ext_resource type="Texture2D" uid="uid://ddv4aoj15q5pe" path="res://Assets/Icons/icons8-audio-48.png" id="6_da6bi"]
-[ext_resource type="Texture2D" uid="uid://i80o4wno5dnx" path="res://Assets/Icons/icons8-mute-48.png" id="7_qwp1t"]
-[ext_resource type="Texture2D" uid="uid://ctp5xew3mi5hs" path="res://Assets/Icons/icons8-music-48.png" id="7_r4nak"]
-[ext_resource type="Texture2D" uid="uid://c14r70talvlty" path="res://Assets/Icons/icons8-arrow-left-50.png" id="8_fouhp"]
-[ext_resource type="Texture2D" uid="uid://djscvie6h1kd5" path="res://Assets/Icons/icons8-cancel-48.png" id="8_nvrsl"]
-[ext_resource type="Texture2D" uid="uid://cs52s37v04q41" path="res://Assets/Icons/icons8-heart-48.png" id="9_nvrsl"]
-[ext_resource type="Texture2D" uid="uid://dbdk5x30xx2t4" path="res://Assets/Icons/icons8-up-50.png" id="9_qi3vf"]
-[ext_resource type="Texture2D" uid="uid://m44t4aut6o62" path="res://Assets/Icons/icons8-arrow-right-50.png" id="10_ioybj"]
-[ext_resource type="Texture2D" uid="uid://b7f4d7rpedxw3" path="res://Assets/Spritesheet/WandT2.png" id="13_v4do5"]
-[ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="14_b47np"]
+[ext_resource type="Script" path="res://Scenes/Levels/game_ui.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="2_theme"]
+[ext_resource type="FontVariation" path="res://Assets/Fonts/GNU-Unifont-Pixel-Display.tres" id="3_pixel_display"]
+[ext_resource type="FontVariation" path="res://Assets/Fonts/Anuphan-Medium.tres" id="4_readable"]
+[ext_resource type="FontFile" path="res://Assets/Fonts/Kodchasan-Bold.ttf" id="5_mission"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/scrap_metal.png" id="6_scrap"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/energy_crystal.png" id="7_energy"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/circuit_part.png" id="8_circuit"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/med_kit.png" id="9_medkit"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/access_card.png" id="10_access"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/data_log.png" id="11_datalog"]
 
-[sub_resource type="Animation" id="Animation_3cagf"]
-length = 0.001
+[sub_resource type="StyleBoxFlat" id="StyleBoxHudPanel"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.008, 0.02, 0.035, 0.91)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.118, 0.447, 0.592, 0.9)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
-[sub_resource type="Animation" id="Animation_5vjlm"]
-resource_name = "welcome"
-length = 5.0
-loop_mode = 2
+[sub_resource type="StyleBoxFlat" id="StyleBoxHudButtonNormal"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.014, 0.051, 0.078, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.122, 0.38, 0.486, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_6pfiu"]
-_data = {
-&"RESET": SubResource("Animation_3cagf"),
-&"welcome": SubResource("Animation_5vjlm")
-}
+[sub_resource type="StyleBoxFlat" id="StyleBoxHudButtonHover"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.035, 0.157, 0.216, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.329, 0.855, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
-[node name="UserInterface" type="CanvasLayer" unique_id=1799764374]
-script = ExtResource("1_6pfiu")
+[sub_resource type="StyleBoxFlat" id="StyleBoxHudButtonPressed"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.055, 0.314, 0.384, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.596, 0.941, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
-[node name="GameUI" type="Control" parent="." unique_id=1771747675]
+[sub_resource type="StyleBoxFlat" id="StyleBoxHudButtonFocus"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.514, 0.91, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxDpadCenter"]
+bg_color = Color(0.012, 0.031, 0.051, 0.78)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.078, 0.243, 0.318, 0.85)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxSettingsPanel"]
+bg_color = Color(0.006, 0.016, 0.03, 0.985)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.18, 0.663, 0.835, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxMissionPanel"]
+bg_color = Color(0.01, 0.031, 0.055, 0.965)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.243, 0.718, 0.882, 0.96)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="UserInterface" type="CanvasLayer" groups=["GameHUD"]]
+process_mode = 3
+layer = 5
+script = ExtResource("1_script")
+
+[node name="GameUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_edit_lock_ = true
+mouse_filter = 2
+theme = ExtResource("2_theme")
 
-[node name="TopBar" type="Control" parent="GameUI" unique_id=1540824613]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 84.0
-grow_horizontal = 2
-
-[node name="ScoreLabel" type="Label" parent="GameUI/TopBar" unique_id=1067951808]
-unique_name_in_owner = true
+[node name="StatusPanel" type="PanelContainer" parent="GameUI"]
 layout_mode = 0
-offset_left = 16.0
-offset_top = 63.0
-offset_right = 186.0
-offset_bottom = 105.0
-theme_override_colors/font_color = Color(0.910156, 0.730469, 0, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("3_4yslr")
-theme_override_font_sizes/font_size = 32
-text = "Score: 3"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GameUI/TopBar" unique_id=1609764920]
-libraries/ = SubResource("AnimationLibrary_6pfiu")
-autoplay = &"welcome"
-
-[node name="HpRect" type="ColorRect" parent="GameUI/TopBar" unique_id=987609954]
-layout_mode = 0
-offset_left = 279.0
-offset_top = 63.0
-offset_right = 419.0
-offset_bottom = 95.0
-
-[node name="ProgressBar" type="ProgressBar" parent="GameUI/TopBar/HpRect" unique_id=306194423]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 138.0
-offset_bottom = 30.0
-theme = ExtResource("4_fjdxc")
-value = 100.0
-metadata/_edit_lock_ = true
-
-[node name="HPLabel" type="Label" parent="GameUI/TopBar" unique_id=2043418135]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 216.0
-offset_top = 63.0
-offset_right = 261.0
-offset_bottom = 105.0
-theme_override_colors/font_color = Color(0, 0.7294118, 0, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("3_4yslr")
-theme_override_font_sizes/font_size = 32
-text = "HP"
-
-[node name="btnSave" type="Button" parent="GameUI/TopBar" unique_id=196490803]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -195.0
-offset_top = 5.0
-offset_right = -131.0
-offset_bottom = 63.0
-grow_horizontal = 0
-focus_mode = 0
-icon = ExtResource("5_fpocv")
-
-[node name="btnSound" type="Button" parent="GameUI/TopBar" unique_id=167811641]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -255.0
-offset_top = 5.0
-offset_right = -197.0
-offset_bottom = 63.0
-grow_horizontal = 0
-focus_mode = 0
-
-[node name="on" type="Sprite2D" parent="GameUI/TopBar/btnSound" unique_id=532436065]
-position = Vector2(32, 29)
-texture = ExtResource("6_da6bi")
-
-[node name="mute" type="Sprite2D" parent="GameUI/TopBar/btnSound" unique_id=1162638177]
-visible = false
-position = Vector2(32, 29)
-texture = ExtResource("7_qwp1t")
-
-[node name="btnMusic" type="Button" parent="GameUI/TopBar" unique_id=797138490]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -320.0
-offset_top = 5.0
-offset_right = -257.0
-offset_bottom = 63.0
-grow_horizontal = 0
-focus_mode = 0
-
-[node name="on" type="Sprite2D" parent="GameUI/TopBar/btnMusic" unique_id=1371475802]
-position = Vector2(5, 5)
-texture = ExtResource("7_r4nak")
-centered = false
-
-[node name="mute" type="Sprite2D" parent="GameUI/TopBar/btnMusic" unique_id=2050570364]
-position = Vector2(23, 24.999998)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("8_nvrsl")
-centered = false
-
-[node name="LifeLabel" type="Label" parent="GameUI/TopBar" unique_id=1814812566]
-layout_mode = 0
-offset_left = 216.0
-offset_top = 63.0
-offset_right = 261.0
-offset_bottom = 105.0
-theme_override_colors/font_color = Color(0, 0.7294118, 0, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("3_4yslr")
-theme_override_font_sizes/font_size = 32
-text = "HP"
-
-[node name="LifeRect" type="TextureRect" parent="GameUI/TopBar" unique_id=1631342937]
-layout_mode = 0
-offset_left = 16.0
+offset_left = 12.0
 offset_top = 10.0
-offset_right = 256.0
-offset_bottom = 58.0
-texture = ExtResource("9_nvrsl")
-stretch_mode = 1
+offset_right = 342.0
+offset_bottom = 70.0
+theme_override_styles/panel = SubResource("StyleBoxHudPanel")
 
-[node name="BottomBar" type="ColorRect" parent="GameUI" unique_id=1990197770]
+[node name="Margin" type="MarginContainer" parent="GameUI/StatusPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="Content" type="VBoxContainer" parent="GameUI/StatusPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Header" type="HBoxContainer" parent="GameUI/StatusPanel/Margin/Content"]
+layout_mode = 2
+
+[node name="Protocol" type="Label" parent="GameUI/StatusPanel/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.514, 0.843, 1, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 10
+text = "SUIT CORE // SINGLE-LIFE"
+
+[node name="HPValue" type="Label" parent="GameUI/StatusPanel/Margin/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.506, 0.957, 0.635, 1)
+theme_override_font_sizes/font_size = 10
+text = "100%"
+horizontal_alignment = 2
+
+[node name="Vitals" type="HBoxContainer" parent="GameUI/StatusPanel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ProgressBar" type="ProgressBar" parent="GameUI/StatusPanel/Margin/Content/Vitals"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(184, 12)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+show_percentage = false
+
+[node name="SalvageLabel" type="Label" parent="GameUI/StatusPanel/Margin/Content/Vitals"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.976, 0.808, 0.384, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 10
+text = "SALVAGE // 0000"
+
+[node name="ObjectivePanel" type="PanelContainer" parent="GameUI"]
 layout_mode = 1
-anchors_preset = 12
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -226.0
+offset_top = 10.0
+offset_right = 226.0
+offset_bottom = 106.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxMissionPanel")
+
+[node name="Margin" type="MarginContainer" parent="GameUI/ObjectivePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 7
+
+[node name="Content" type="VBoxContainer" parent="GameUI/ObjectivePanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Header" type="HBoxContainer" parent="GameUI/ObjectivePanel/Margin/Content"]
+layout_mode = 2
+
+[node name="Marker" type="Label" parent="GameUI/ObjectivePanel/Margin/Content/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.506, 0.957, 0.635, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 11
+text = "◆"
+
+[node name="Title" type="Label" parent="GameUI/ObjectivePanel/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.631, 0.455, 1, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 10
+text = "MISSION // ภารกิจปัจจุบัน"
+
+[node name="State" type="Label" parent="GameUI/ObjectivePanel/Margin/Content/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.506, 0.957, 0.635, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 10
+text = "ACTIVE"
+horizontal_alignment = 2
+
+[node name="ObjectiveLabel" type="Label" parent="GameUI/ObjectivePanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.91, 0.982, 1, 1)
+theme_override_fonts/font = ExtResource("5_mission")
+theme_override_font_sizes/font_size = 15
+text = "สำรวจจุดลงจอดและตรวจสอบต้นทางสัญญาณ"
+autowrap_mode = 2
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="ObjectiveMetaLabel" type="Label" parent="GameUI/ObjectivePanel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.514, 0.843, 1, 1)
+theme_override_fonts/font = ExtResource("4_readable")
+theme_override_font_sizes/font_size = 10
+text = "PWR 00%  •  NAV 00%  •  ENG 00%"
+text_overrun_behavior = 3
+
+[node name="SettingsButton" type="Button" parent="GameUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -98.0
+offset_top = 10.0
+offset_right = -12.0
+offset_bottom = 54.0
+grow_horizontal = 0
+focus_mode = 1
+tooltip_text = "ตั้งค่าระหว่างเกม"
+theme_override_colors/font_color = Color(0.514, 0.91, 1, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 9
+theme_override_styles/normal = SubResource("StyleBoxHudButtonNormal")
+theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
+theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
+theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
+text = "SETTINGS"
+
+[node name="DPad" type="Control" parent="GameUI"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -172.0
+offset_right = 168.0
+offset_bottom = -16.0
+grow_vertical = 0
+
+[node name="Up" type="Button" parent="GameUI/DPad"]
+layout_mode = 0
+offset_left = 54.0
+offset_right = 102.0
+offset_bottom = 48.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxHudButtonNormal")
+theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
+theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
+theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
+text = "▲"
+
+[node name="Left" type="Button" parent="GameUI/DPad"]
+layout_mode = 0
+offset_top = 54.0
+offset_right = 48.0
+offset_bottom = 102.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxHudButtonNormal")
+theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
+theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
+theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
+text = "◀"
+
+[node name="Center" type="PanelContainer" parent="GameUI/DPad"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 54.0
+offset_right = 102.0
+offset_bottom = 102.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxDpadCenter")
+
+[node name="Label" type="Label" parent="GameUI/DPad/Center"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.267, 0.525, 0.635, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 8
+text = "MOVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Right" type="Button" parent="GameUI/DPad"]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 54.0
+offset_right = 156.0
+offset_bottom = 102.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxHudButtonNormal")
+theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
+theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
+theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
+text = "▶"
+
+[node name="Down" type="Button" parent="GameUI/DPad"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 108.0
+offset_right = 102.0
+offset_bottom = 156.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxHudButtonNormal")
+theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
+theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
+theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
+text = "▼"
+
+[node name="InteractButton" type="Button" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -103.0
+offset_left = -84.0
+offset_top = -82.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+tooltip_text = "สำรวจ / โต้ตอบ"
+theme_override_colors/font_color = Color(0.506, 0.957, 0.635, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxHudButtonNormal")
+theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
+theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
+theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
+text = "E\nSCAN"
+
+[node name="ItemBelt" type="PanelContainer" parent="GameUI"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -242.0
+offset_top = -66.0
+offset_right = 242.0
+offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 0
-color = Color(0, 0.011764706, 0, 0.28235295)
+theme_override_styles/panel = SubResource("StyleBoxHudPanel")
 
-[node name="btnLeft" type="Button" parent="GameUI/BottomBar" unique_id=755149458]
-layout_mode = 0
-offset_left = 32.0
-offset_top = 10.0
-offset_right = 134.0
-offset_bottom = 99.0
-focus_mode = 0
-icon = ExtResource("8_fouhp")
-flat = true
+[node name="Margin" type="MarginContainer" parent="GameUI/ItemBelt"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
 
-[node name="btnUp" type="Button" parent="GameUI/BottomBar" unique_id=1894149077]
-layout_mode = 0
-offset_left = 134.0
-offset_right = 237.0
-offset_bottom = 89.0
-focus_mode = 0
-icon = ExtResource("9_qi3vf")
-flat = true
+[node name="Items" type="HBoxContainer" parent="GameUI/ItemBelt/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
 
-[node name="btnRight" type="Button" parent="GameUI/BottomBar" unique_id=605126403]
-layout_mode = 0
-offset_left = 237.0
-offset_top = 10.0
-offset_right = 340.0
-offset_bottom = 99.0
-focus_mode = 0
-icon = ExtResource("10_ioybj")
-flat = true
+[node name="Scrap" type="HBoxContainer" parent="GameUI/ItemBelt/Margin/Items"]
+custom_minimum_size = Vector2(72, 38)
+layout_mode = 2
+tooltip_text = "Scrap Metal // ซ่อมเครื่องยนต์"
 
-[node name="btnShoot" type="Button" parent="GameUI/BottomBar" unique_id=235653240]
-layout_mode = 0
-offset_left = 997.0
-offset_top = 10.0
-offset_right = 1100.0
-offset_bottom = 99.0
-focus_mode = 0
-icon = ExtResource("13_v4do5")
-flat = true
-expand_icon = true
+[node name="Icon" type="TextureRect" parent="GameUI/ItemBelt/Margin/Items/Scrap"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture_filter = 1
+texture = ExtResource("6_scrap")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="btnExit" parent="GameUI/BottomBar" unique_id=1633606001 instance=ExtResource("14_b47np")]
-layout_mode = 0
-offset_left = 1074.0
-offset_top = -535.0
-offset_right = 1147.0
-offset_bottom = -481.0
-text = "Exit"
+[node name="ScrapCount" type="Label" parent="GameUI/ItemBelt/Margin/Items/Scrap"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.824, 0.875, 0.902, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 12
+text = "00"
+vertical_alignment = 1
 
-[node name="AlertLabel" type="Label" parent="GameUI/BottomBar" unique_id=1518313051]
+[node name="Energy" type="HBoxContainer" parent="GameUI/ItemBelt/Margin/Items"]
+custom_minimum_size = Vector2(72, 38)
+layout_mode = 2
+tooltip_text = "Energy Crystal // ซ่อมระบบพลังงาน"
+
+[node name="Icon" type="TextureRect" parent="GameUI/ItemBelt/Margin/Items/Energy"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture_filter = 1
+texture = ExtResource("7_energy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EnergyCount" type="Label" parent="GameUI/ItemBelt/Margin/Items/Energy"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.376, 0.91, 1, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 12
+text = "00"
+vertical_alignment = 1
+
+[node name="Circuit" type="HBoxContainer" parent="GameUI/ItemBelt/Margin/Items"]
+custom_minimum_size = Vector2(72, 38)
+layout_mode = 2
+tooltip_text = "Circuit Part // ซ่อมระบบนำทาง"
+
+[node name="Icon" type="TextureRect" parent="GameUI/ItemBelt/Margin/Items/Circuit"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture_filter = 1
+texture = ExtResource("8_circuit")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CircuitCount" type="Label" parent="GameUI/ItemBelt/Margin/Items/Circuit"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.714, 0.565, 1, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 12
+text = "00"
+vertical_alignment = 1
+
+[node name="MedKit" type="HBoxContainer" parent="GameUI/ItemBelt/Margin/Items"]
+custom_minimum_size = Vector2(72, 38)
+layout_mode = 2
+tooltip_text = "Med Kit // ฟื้นฟูพลังชีวิต"
+
+[node name="Icon" type="TextureRect" parent="GameUI/ItemBelt/Margin/Items/MedKit"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture_filter = 1
+texture = ExtResource("9_medkit")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MedKitCount" type="Label" parent="GameUI/ItemBelt/Margin/Items/MedKit"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.541, 0.459, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 12
+text = "00"
+vertical_alignment = 1
+
+[node name="Access" type="HBoxContainer" parent="GameUI/ItemBelt/Margin/Items"]
+custom_minimum_size = Vector2(72, 38)
+layout_mode = 2
+tooltip_text = "Access Card // เปิดประตูฐานร้าง"
+
+[node name="Icon" type="TextureRect" parent="GameUI/ItemBelt/Margin/Items/Access"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture_filter = 1
+texture = ExtResource("10_access")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AccessCount" type="Label" parent="GameUI/ItemBelt/Margin/Items/Access"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.976, 0.808, 0.384, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 12
+text = "00"
+vertical_alignment = 1
+
+[node name="DataLog" type="HBoxContainer" parent="GameUI/ItemBelt/Margin/Items"]
+custom_minimum_size = Vector2(72, 38)
+layout_mode = 2
+tooltip_text = "Data Log // ข้อมูลเนื้อเรื่อง"
+
+[node name="Icon" type="TextureRect" parent="GameUI/ItemBelt/Margin/Items/DataLog"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture_filter = 1
+texture = ExtResource("11_datalog")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DataLogCount" type="Label" parent="GameUI/ItemBelt/Margin/Items/DataLog"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.643, 0.925, 1, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 12
+text = "00"
+vertical_alignment = 1
+
+[node name="AlertPanel" type="PanelContainer" parent="GameUI"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 10
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -19.0
-offset_top = -11.5
-offset_right = 19.0
-offset_bottom = 11.5
+offset_left = -260.0
+offset_top = 118.0
+offset_right = 260.0
+offset_bottom = 166.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxHudPanel")
+
+[node name="Margin" type="MarginContainer" parent="GameUI/AlertPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 9
+
+[node name="AlertLabel" type="Label" parent="GameUI/AlertPanel/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.714, 0.933, 1, 1)
+theme_override_fonts/font = ExtResource("5_mission")
+theme_override_font_sizes/font_size = 13
+text = "MISSION UPDATE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("4_fjdxc")
-text = "Alert"
+mouse_filter = 0
+theme = ExtResource("2_theme")
 
-[connection signal="pressed" from="GameUI/TopBar/btnSave" to="." method="_on_btn_save_pressed"]
-[connection signal="pressed" from="GameUI/TopBar/btnSound" to="." method="_on_btn_sound_pressed"]
-[connection signal="pressed" from="GameUI/TopBar/btnMusic" to="." method="_on_btn_music_pressed"]
-[connection signal="button_down" from="GameUI/BottomBar/btnLeft" to="." method="_on_btn_left_pressed"]
-[connection signal="button_up" from="GameUI/BottomBar/btnLeft" to="." method="_on_btn_left_released"]
-[connection signal="button_down" from="GameUI/BottomBar/btnUp" to="." method="_on_btn_up_pressed"]
-[connection signal="button_up" from="GameUI/BottomBar/btnUp" to="." method="_on_btn_up_released"]
-[connection signal="button_down" from="GameUI/BottomBar/btnRight" to="." method="_on_btn_right_pressed"]
-[connection signal="button_up" from="GameUI/BottomBar/btnRight" to="." method="_on_btn_right_released"]
-[connection signal="button_down" from="GameUI/BottomBar/btnShoot" to="." method="_on_btn_shoot_button_down"]
-[connection signal="button_up" from="GameUI/BottomBar/btnShoot" to="." method="_on_btn_shoot_button_up"]
+[node name="Dimmer" type="ColorRect" parent="SettingsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.002, 0.008, 0.018, 0.78)
+
+[node name="SettingsPanel" type="PanelContainer" parent="SettingsOverlay"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -382.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = 520.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxSettingsPanel")
+
+[node name="Margin" type="MarginContainer" parent="SettingsOverlay/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 20
+
+[node name="Content" type="VBoxContainer" parent="SettingsOverlay/SettingsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="SettingsOverlay/SettingsPanel/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.827, 0.969, 1, 1)
+theme_override_fonts/font = ExtResource("3_pixel_display")
+theme_override_font_sizes/font_size = 22
+text = "SETTINGS"
+vertical_alignment = 1
+
+[node name="CloseSettingsButton" type="Button" parent="SettingsOverlay/SettingsPanel/Margin/Content/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(42, 38)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "X"
+
+[node name="Subtitle" type="Label" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.506, 0.722, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_readable")
+theme_override_font_sizes/font_size = 11
+text = "GAME SETTINGS // ปรับค่าได้ระหว่างเล่น"
+
+[node name="Divider" type="ColorRect" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.176, 0.667, 0.86, 0.72)
+
+[node name="MusicToggle" type="CheckButton" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_readable")
+text = "เพลงประกอบ  //  MUSIC"
+
+[node name="SfxToggle" type="CheckButton" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_readable")
+text = "เสียงเอฟเฟกต์  //  SFX"
+
+[node name="FullscreenToggle" type="CheckButton" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_readable")
+text = "เต็มหน้าจอ  //  FULLSCREEN"
+
+[node name="ProtocolInfo" type="Label" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.722, 0.776, 1)
+theme_override_fonts/font = ExtResource("4_readable")
+theme_override_font_sizes/font_size = 11
+text = "ONE-LIFE PROTOCOL\nเมื่อตาย Salvage จะตก ณ จุดเสียชีวิต\nและระบบจะพากลับไปยังจุดเริ่มต้น"
+autowrap_mode = 2
+
+[node name="SaveButton" type="Button" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_readable")
+text = "บันทึกภารกิจ  //  SAVE PROGRESS"
+
+[node name="SaveStatus" type="Label" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.506, 0.957, 0.635, 1)
+theme_override_fonts/font = ExtResource("4_readable")
+theme_override_font_sizes/font_size = 10
+text = "การตั้งค่าจะบันทึกอัตโนมัติ"
+horizontal_alignment = 1
+
+[node name="ReturnDivider" type="ColorRect" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.176, 0.667, 0.86, 0.42)
+
+[node name="MainMenuButton" type="Button" parent="SettingsOverlay/SettingsPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+tooltip_text = "บันทึกความคืบหน้าและกลับสู่เมนูหลัก"
+theme_override_colors/font_color = Color(0.976, 0.808, 0.384, 1)
+theme_override_colors/font_hover_color = Color(1, 0.925, 0.682, 1)
+theme_override_fonts/font = ExtResource("4_readable")
+text = "กลับสู่เมนูหลัก  //  MAIN MENU"
+
+[connection signal="pressed" from="GameUI/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="button_down" from="GameUI/DPad/Up" to="." method="_on_btn_up_pressed"]
+[connection signal="button_up" from="GameUI/DPad/Up" to="." method="_on_btn_up_released"]
+[connection signal="button_down" from="GameUI/DPad/Left" to="." method="_on_btn_left_pressed"]
+[connection signal="button_up" from="GameUI/DPad/Left" to="." method="_on_btn_left_released"]
+[connection signal="button_down" from="GameUI/DPad/Right" to="." method="_on_btn_right_pressed"]
+[connection signal="button_up" from="GameUI/DPad/Right" to="." method="_on_btn_right_released"]
+[connection signal="button_down" from="GameUI/DPad/Down" to="." method="_on_btn_down_pressed"]
+[connection signal="button_up" from="GameUI/DPad/Down" to="." method="_on_btn_down_released"]
+[connection signal="button_down" from="GameUI/InteractButton" to="." method="_on_btn_interact_button_down"]
+[connection signal="button_up" from="GameUI/InteractButton" to="." method="_on_btn_interact_button_up"]
+[connection signal="pressed" from="SettingsOverlay/SettingsPanel/Margin/Content/Header/CloseSettingsButton" to="." method="_on_close_settings_pressed"]
+[connection signal="toggled" from="SettingsOverlay/SettingsPanel/Margin/Content/MusicToggle" to="." method="_on_music_toggled"]
+[connection signal="toggled" from="SettingsOverlay/SettingsPanel/Margin/Content/SfxToggle" to="." method="_on_sfx_toggled"]
+[connection signal="toggled" from="SettingsOverlay/SettingsPanel/Margin/Content/FullscreenToggle" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="SettingsOverlay/SettingsPanel/Margin/Content/SaveButton" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="SettingsOverlay/SettingsPanel/Margin/Content/MainMenuButton" to="." method="_on_main_menu_pressed"]

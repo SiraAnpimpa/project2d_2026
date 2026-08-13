@@ -1,35 +1,117 @@
-[gd_scene format=3 uid="uid://b46lxwc5r3dy4"]
+[gd_scene load_steps=4 format=3 uid="uid://b46lxwc5r3dy4"]
 
-[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="1_5l1gm"]
-[ext_resource type="PackedScene" uid="uid://puc4l62gx6et" path="res://Scenes/Prefabs/button_exit.tscn" id="2_81byk"]
+[ext_resource type="Script" path="res://Scenes/Levels/result_screen.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://Assets/UI/olethros_signal_base.png" id="2_bg"]
+[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="3_theme"]
 
-[node name="GameOver" type="Node2D" unique_id=826370530]
+[node name="MissionComplete" type="Control" unique_id=826370530]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_script")
 
-[node name="Title" type="Label" parent="." unique_id=1965507633]
-offset_left = 438.0
-offset_top = 225.0
-offset_right = 742.0
-offset_bottom = 269.0
-theme = ExtResource("1_5l1gm")
-theme_override_colors/font_color = Color(0.36862746, 0.9137255, 0.1882353, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 33
-text = "You Win"
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture_filter = 1
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SuccessTint" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.00784314, 0.0980392, 0.101961, 0.3)
+
+[node name="ResultPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.26
+anchor_top = 0.18
+anchor_right = 0.74
+anchor_bottom = 0.82
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="ResultPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 34
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 34
+theme_override_constants/margin_bottom = 28
+
+[node name="Content" type="VBoxContainer" parent="ResultPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Status" type="Label" parent="ResultPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.505882, 0.956863, 0.635294, 1)
+theme_override_font_sizes/font_size = 15
+text = "MISSION STATUS  //  COMPLETE"
 horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="btnExit" parent="." unique_id=1633606001 instance=ExtResource("2_81byk")]
-offset_left = 438.0
-offset_top = 359.0
-offset_right = 564.0
-offset_bottom = 413.0
-text = "Exit to Menu"
+[node name="Title" type="Label" parent="ResultPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.505882, 0.956863, 0.635294, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 36
+text = "ESCAPE VECTOR LOCKED"
+horizontal_alignment = 1
 
-[node name="btnPlay" parent="." unique_id=1146872882 instance=ExtResource("2_81byk")]
-offset_left = 597.0
-offset_top = 359.0
-offset_right = 723.0
-offset_bottom = 413.0
-shortcut = null
-text = "Play Again"
+[node name="Message" type="Label" parent="ResultPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.701961, 0.807843, 0.85098, 1)
+theme_override_font_sizes/font_size = 17
+text = "ซ่อมระบบยานครบและหลุดพ้นจาก Zone-67 สำเร็จ\nแต่ต้นทางของสัญญาณยังไม่ถูกเปิดเผย"
+horizontal_alignment = 1
+
+[node name="Divider" type="ColorRect" parent="ResultPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.262745, 0.737255, 0.509804, 0.8)
+
+[node name="ScoreSummary" type="Label" parent="ResultPanel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.568627, 0.827451, 0.913725, 1)
+theme_override_font_sizes/font_size = 16
+text = "SALVAGE RECOVERED  //  0000"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="ResultPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Actions" type="HBoxContainer" parent="ResultPanel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="MenuButton" type="Button" parent="ResultPanel/Margin/Content/Actions"]
+custom_minimum_size = Vector2(190, 52)
+layout_mode = 2
+text = "กลับเมนู"
+
+[node name="PlayButton" type="Button" parent="ResultPanel/Margin/Content/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 52)
+layout_mode = 2
+text = "เริ่มภารกิจใหม่"
+
+[connection signal="pressed" from="ResultPanel/Margin/Content/Actions/MenuButton" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="ResultPanel/Margin/Content/Actions/PlayButton" to="." method="_on_play_pressed"]

@@ -1,0 +1,173 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://Scenes/Levels/zone_67_prologue.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/top_down_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/game_ui.tscn" id="3_hud"]
+[ext_resource type="Theme" path="res://Scenes/Prefabs/theme.tres" id="4_theme"]
+[ext_resource type="PackedScene" path="res://Scenes/EnvironmentPacks/landing_zone_pack.tscn" id="5_pack"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/item_pickup.tscn" id="6_pickup"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="7_gate"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/scrap_metal.png" id="8_scrap"]
+[ext_resource type="Texture2D" path="res://Assets/UI/Items/med_kit.png" id="9_medkit"]
+
+[node name="Zone67Prologue" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="EnvironmentPack" parent="." instance=ExtResource("5_pack")]
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+unique_name_in_owner = true
+position = Vector2(-700, 690)
+
+[node name="LandingPickups" type="Node2D" parent="."]
+
+[node name="ScrapNorth" parent="LandingPickups" instance=ExtResource("6_pickup")]
+position = Vector2(-720, -650)
+pickup_id = "landing_scrap_north"
+item_id = &"scrap_metal"
+display_name = "SCRAP METAL"
+amount = 2
+icon = ExtResource("8_scrap")
+glow_color = Color(0.976, 0.808, 0.384, 0.34)
+
+[node name="ScrapStorage" parent="LandingPickups" instance=ExtResource("6_pickup")]
+position = Vector2(-500, 760)
+pickup_id = "landing_scrap_storage"
+item_id = &"scrap_metal"
+display_name = "SCRAP METAL"
+amount = 3
+icon = ExtResource("8_scrap")
+glow_color = Color(0.976, 0.808, 0.384, 0.34)
+
+[node name="MedKit" parent="LandingPickups" instance=ExtResource("6_pickup")]
+position = Vector2(700, 570)
+pickup_id = "landing_med_kit"
+item_id = &"med_kit"
+display_name = "MED KIT"
+icon = ExtResource("9_medkit")
+glow_color = Color(1, 0.322, 0.267, 0.32)
+
+[node name="ToCrystalField" parent="." instance=ExtResource("7_gate")]
+position = Vector2(1210, -627)
+target_scene = "res://Scenes/Levels/crystal_field.tscn"
+target_spawn = &"FromLanding"
+gate_label = "CRYSTAL FIELD  >"
+accent_color = Color(0.439, 0.31, 1, 0.48)
+
+[node name="UserInterface" parent="." instance=ExtResource("3_hud")]
+
+[node name="IntroSequence" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Screen" type="Control" parent="IntroSequence"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_theme")
+
+[node name="Dimmer" type="ColorRect" parent="IntroSequence/Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.002, 0.006, 0.018, 0.92)
+
+[node name="Center" type="CenterContainer" parent="IntroSequence/Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StoryPanel" type="PanelContainer" parent="IntroSequence/Screen/Center"]
+custom_minimum_size = Vector2(820, 476)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="IntroSequence/Screen/Center/StoryPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 30
+
+[node name="Content" type="VBoxContainer" parent="IntroSequence/Screen/Center/StoryPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="HBoxContainer" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+layout_mode = 2
+
+[node name="Protocol" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.376, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "EMERGENCY LANDING PROTOCOL"
+
+[node name="TransmissionLabel" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.505, 0.957, 0.635, 1)
+theme_override_font_sizes/font_size = 14
+text = "TRANSMISSION 01 / 04"
+
+[node name="Divider" type="ColorRect" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.176, 0.667, 0.86, 0.78)
+
+[node name="StoryTag" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.631, 0.455, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "SHIP LOG // SYSTEM FAILURE"
+
+[node name="StoryTitle" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.974, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "ความขัดข้องกลางอวกาศ"
+
+[node name="StoryBody" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 176)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.694, 0.8, 0.847, 1)
+theme_override_font_sizes/font_size = 18
+text = "ระหว่างเดินทาง ยานของนักบินอวกาศเกิดความขัดข้องอย่างไร้สาเหตุ"
+autowrap_mode = 2
+vertical_alignment = 1
+
+[node name="Footer" type="HBoxContainer" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Hint" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.42, 0.54, 0.6, 1)
+theme_override_font_sizes/font_size = 13
+text = "SHIP AI ARCHIVE  •  ENTER TO CONTINUE"
+vertical_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(184, 52)
+layout_mode = 2
+text = "ถัดไป"
+
+[connection signal="pressed" from="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Footer/ContinueButton" to="." method="_on_continue_button_pressed"]

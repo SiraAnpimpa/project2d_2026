@@ -1,40 +1,55 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene format=3 uid="uid://bylyrfb7vhed2"]
 
-[ext_resource type="Script" path="res://Scenes/Levels/zone_map.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://y1bm12t0q007" path="res://Scenes/Levels/zone_map.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://Scenes/EnvironmentPacks/signal_base_pack.tscn" id="2_pack"]
 [ext_resource type="PackedScene" path="res://Scenes/Actors/top_down_player.tscn" id="3_player"]
-[ext_resource type="PackedScene" path="res://Scenes/Levels/game_ui.tscn" id="4_hud"]
+[ext_resource type="PackedScene" uid="uid://cdwabmqtlxr1y" path="res://Scenes/Levels/game_ui.tscn" id="4_hud"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/item_pickup.tscn" id="5_pickup"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="6_gate"]
-[ext_resource type="Texture2D" path="res://Assets/UI/Items/circuit_part.png" id="7_circuit"]
-[ext_resource type="Texture2D" path="res://Assets/UI/Items/data_log.png" id="8_datalog"]
-[ext_resource type="Texture2D" path="res://Assets/UI/Items/med_kit.png" id="9_medkit"]
+[ext_resource type="Texture2D" uid="uid://cvxpp4ntnam1" path="res://Assets/UI/Items/circuit_part.png" id="7_circuit"]
+[ext_resource type="Texture2D" uid="uid://dx744hq5vcxff" path="res://Assets/UI/Items/data_log.png" id="8_datalog"]
+[ext_resource type="Texture2D" uid="uid://cdw5raswmk1km" path="res://Assets/UI/Items/med_kit.png" id="9_medkit"]
 
-[node name="AbandonedSignalBase" type="Node2D"]
+[node name="AbandonedSignalBase" type="Node2D" unique_id=811933570]
 script = ExtResource("1_script")
 objective_title = "ค้นหา Circuit Part และ Data Log ในฐานร้าง"
 objective_details = "NAVIGATION SYSTEM // SIGNAL SOURCE"
 arrival_message = "UNKNOWN AI // SIGNAL SOURCE LOCATED"
-map_bounds = Rect2(-1881, -627, 3762, 1254)
+map_bounds = Rect2(-836, -470.5, 1672, 941)
 
-[node name="EnvironmentPack" parent="." instance=ExtResource("2_pack")]
+[node name="EnvironmentPack" parent="." unique_id=782261071 instance=ExtResource("2_pack")]
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="ManualCollision" type="StaticBody2D" parent="."]
+editor_description = "เพิ่ม CollisionPolygon2D เป็นโหนดลูก แล้วคลิกจุดรอบพื้นที่ที่ต้องการปิดกั้น จากนั้นคลิกจุดแรกเพื่อปิดรูป"
+collision_layer = 1
+collision_mask = 0
 
-[node name="Default" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(0, 430)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ManualCollision" index="0" unique_id=1149615908]
+build_mode = 1
+polygon = PackedVector2Array(-75, -397, 65, -397, 65, -284, 93, -280, 122, -327, 159, -335, 184, -321, 182, -277, 200, -263, 205, -187, 221, -183, 221, -256, 248, -275, 336, -268, 442, -270, 506, -277, 520, -268, 552, -256, 520, -236, 503, -236, 499, -149, 503, -123, 379, -107, 308, -107, 294, -84, 258, -86, 251, 1, 329, 10, 329, 193, 365, 193, 366, 109, 531, 118, 526, 72, 607, 79, 605, 175, 526, 177, 528, 240, 526, 306, 255, 308, 226, 281, 202, 283, 164, 318, 95, 315, 97, 286, 62, 286, 65, 308, -66, 304, -75, 286, -110, 288, -108, 317, -236, 320, -275, 278, -300, 281, -323, 297, -477, 302, -505, 258, -541, 256, -566, 308, -619, 309, -597, 255, -596, 184, -629, 161, -633, 93, -622, 49, -516, 56, -479, 53, -440, 76, -429, 120, -417, 143, -411, 193, -387, 191, -383, 24, -383, 7, -339, 10, -323, 12, -314, -40, -321, -79, -351, -80, -369, -100, -587, -107, -635, -151, -635, -194, -596, -197, -590, -249, -617, -270, -567, -319, -401, -319, -392, -302, -305, -296, -284, -293, -279, -179, -252, -183, -268, -241, -245, -252, -241, -323, -178, -321, -163, -291, -119, -277, -78, -279)
 
-[node name="FromCrystal" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(0, 430)
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="ManualCollision" index="1" unique_id=1146873677]
+polygon = PackedVector2Array(-532, -305, -528, -270, -553, -243, -558, -203, -507, -194, -489, -206, -449, -208, -424, -211, -427, -250, -452, -247, -461, -268, -463, -305)
 
-[node name="Player" parent="." instance=ExtResource("3_player")]
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="ManualCollision" index="2" unique_id=1605190388]
+polygon = PackedVector2Array(-62, 97, -70, 205, -121, 173, -137, 180, -167, 164, -155, 131, -172, 120, -188, 100, -211, 93, -217, 14, -155, -6, -103, -52, -77, -66, 28, -66, 81, -11, 108, -8, 148, 10, 145, 99, 120, 100, 115, 127, 93, 122, 106, 143, 79, 180, 58, 171, 39, 191, 21, 205, 21, 129, 17, 83)
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=10652116]
+
+[node name="Default" type="Marker2D" parent="SpawnPoints" unique_id=1200686260]
+position = Vector2(-6, 229.5)
+
+[node name="FromCrystal" type="Marker2D" parent="SpawnPoints" unique_id=1544387914]
+position = Vector2(-6, 229.5)
+
+[node name="Player" parent="." unique_id=1774404856 instance=ExtResource("3_player")]
 unique_name_in_owner = true
-position = Vector2(0, 430)
+position = Vector2(-6, 229.5)
 
-[node name="Pickups" type="Node2D" parent="."]
+[node name="Pickups" type="Node2D" parent="." unique_id=320267674]
 
-[node name="CircuitWest" parent="Pickups" instance=ExtResource("5_pickup")]
-position = Vector2(-1480, 360)
+[node name="CircuitWest" parent="Pickups" unique_id=1049502721 instance=ExtResource("5_pickup")]
+position = Vector2(-336, 149.5)
 pickup_id = "base_circuit_west"
 item_id = &"circuit_part"
 display_name = "CIRCUIT PART"
@@ -42,8 +57,8 @@ amount = 2
 icon = ExtResource("7_circuit")
 glow_color = Color(0.439, 0.31, 1, 0.38)
 
-[node name="CircuitNorth" parent="Pickups" instance=ExtResource("5_pickup")]
-position = Vector2(-1070, -150)
+[node name="CircuitNorth" parent="Pickups" unique_id=588363235 instance=ExtResource("5_pickup")]
+position = Vector2(-136, -220.5)
 pickup_id = "base_circuit_north"
 item_id = &"circuit_part"
 display_name = "CIRCUIT PART"
@@ -51,27 +66,27 @@ amount = 2
 icon = ExtResource("7_circuit")
 glow_color = Color(0.286, 0.843, 1, 0.34)
 
-[node name="DataLog" parent="Pickups" instance=ExtResource("5_pickup")]
-position = Vector2(900, -170)
+[node name="DataLog" parent="Pickups" unique_id=288805773 instance=ExtResource("5_pickup")]
+position = Vector2(284, -170.5)
 pickup_id = "base_data_log"
 item_id = &"data_log"
 display_name = "DATA LOG"
 icon = ExtResource("8_datalog")
 glow_color = Color(0.506, 0.957, 0.635, 0.36)
 
-[node name="MedKit" parent="Pickups" instance=ExtResource("5_pickup")]
-position = Vector2(1490, 250)
+[node name="MedKit" parent="Pickups" unique_id=747441309 instance=ExtResource("5_pickup")]
+position = Vector2(290, 180)
 pickup_id = "base_med_kit"
 item_id = &"med_kit"
 display_name = "MED KIT"
 icon = ExtResource("9_medkit")
 glow_color = Color(1, 0.322, 0.267, 0.32)
 
-[node name="ToCrystalField" parent="." instance=ExtResource("6_gate")]
-position = Vector2(0, 570)
+[node name="ToCrystalField" parent="." unique_id=1463616939 instance=ExtResource("6_gate")]
+position = Vector2(-6, 398.5)
 target_scene = "res://Scenes/Levels/crystal_field.tscn"
 target_spawn = &"FromBase"
 gate_label = "CRYSTAL FIELD"
 accent_color = Color(0.439, 0.31, 1, 0.46)
 
-[node name="UserInterface" parent="." instance=ExtResource("4_hud")]
+[node name="UserInterface" parent="." unique_id=1052975663 instance=ExtResource("4_hud")]

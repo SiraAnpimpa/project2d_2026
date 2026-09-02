@@ -1,13 +1,13 @@
-[gd_resource type="FontVariation" load_steps=4 format=3]
+[gd_resource type="FontVariation" format=3 uid="uid://crqfs740xjofb"]
 
-[ext_resource type="FontFile" path="res://Assets/Fonts/Anuphan-Latin.woff2" id="1_latin"]
-[ext_resource type="FontFile" path="res://Assets/Fonts/Anuphan-Thai.woff2" id="2_thai"]
+[ext_resource type="FontFile" uid="uid://300kmidjorxd" path="res://Assets/Fonts/Anuphan-Latin.woff2" id="1_latin"]
+[ext_resource type="FontFile" uid="uid://c7dg1n0708c8e" path="res://Assets/Fonts/Anuphan-Thai.woff2" id="2_thai"]
 
 [sub_resource type="FontVariation" id="FontVariation_thai"]
 base_font = ExtResource("2_thai")
 variation_embolden = 0.45
 
 [resource]
-base_font = ExtResource("1_latin")
 fallbacks = Array[Font]([SubResource("FontVariation_thai")])
+base_font = ExtResource("1_latin")
 variation_embolden = 0.45

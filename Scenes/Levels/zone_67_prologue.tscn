@@ -1,65 +1,120 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene format=3 uid="uid://xccy54hlsf1o"]
 
-[ext_resource type="Script" path="res://Scenes/Levels/zone_67_prologue.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dah02y5jpwjh2" path="res://Scenes/Levels/zone_67_prologue.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://Scenes/Actors/top_down_player.tscn" id="2_player"]
-[ext_resource type="PackedScene" path="res://Scenes/Levels/game_ui.tscn" id="3_hud"]
-[ext_resource type="Theme" path="res://Scenes/Prefabs/theme.tres" id="4_theme"]
+[ext_resource type="PackedScene" uid="uid://cdwabmqtlxr1y" path="res://Scenes/Levels/game_ui.tscn" id="3_hud"]
+[ext_resource type="Theme" uid="uid://d3eng5cvycmjf" path="res://Scenes/Prefabs/theme.tres" id="4_theme"]
 [ext_resource type="PackedScene" path="res://Scenes/EnvironmentPacks/landing_zone_pack.tscn" id="5_pack"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/item_pickup.tscn" id="6_pickup"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="7_gate"]
-[ext_resource type="Texture2D" path="res://Assets/UI/Items/scrap_metal.png" id="8_scrap"]
-[ext_resource type="Texture2D" path="res://Assets/UI/Items/med_kit.png" id="9_medkit"]
+[ext_resource type="Texture2D" uid="uid://cwk8pkjbmuts6" path="res://Assets/UI/Items/scrap_metal.png" id="8_scrap"]
+[ext_resource type="Texture2D" uid="uid://cdw5raswmk1km" path="res://Assets/UI/Items/med_kit.png" id="9_medkit"]
 
-[node name="Zone67Prologue" type="Node2D"]
+[node name="Zone67Prologue" type="Node2D" unique_id=892980323]
 script = ExtResource("1_script")
 
-[node name="EnvironmentPack" parent="." instance=ExtResource("5_pack")]
+[node name="EnvironmentPack" parent="." unique_id=1553110701 instance=ExtResource("5_pack")]
 
-[node name="Player" parent="." instance=ExtResource("2_player")]
+[node name="ManualCollision" type="StaticBody2D" parent="."]
+editor_description = "เพิ่ม CollisionPolygon2D เป็นโหนดลูก แล้วคลิกจุดรอบพื้นที่ที่ต้องการปิดกั้น จากนั้นคลิกจุดแรกเพื่อปิดรูป"
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ManualCollision" index="0" unique_id=997227026]
+polygon = PackedVector2Array(-221, 29, -191, 56, -65, 17, -40, -1, 11, -21, 59, 11, 142, -22, 209, -86, 204, -130, 236, -175, 216, -226, 161, -256, 121, -253, 71, -249, 46, -239, 13, -251, -67, -215, -78, -189, -110, -148, -152, -107, -212, -26)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="ManualCollision" index="1" unique_id=645047273]
+polygon = PackedVector2Array(-834, 87, -776, 89, -762, 119, -735, 105, -714, 151, -664, 158, -513, 64, -317, 167, -312, 206, -499, 353, -535, 424, -604, 456, -680, 467, -834, 463)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="ManualCollision" index="2" unique_id=85904287]
+polygon = PackedVector2Array(-428, 456, -451, 438, -409, 367, -365, 334, -289, 330, -250, 312, -221, 346, -175, 394, -141, 412, -117, 367, -46, 325, 41, 327, 133, 378, 206, 415, 220, 436, 215, 461, -51, 465)
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="ManualCollision" index="3" unique_id=321838651]
+polygon = PackedVector2Array(429, 452, 447, 422, 594, 373, 659, 311, 698, 300, 822, 312, 835, 458)
+
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="ManualCollision" index="4" unique_id=1024893193]
+polygon = PackedVector2Array(813, 160, 684, 110, 677, 68, 760, -15, 810, -37, 831, -5)
+
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="ManualCollision" index="5" unique_id=353096567]
+polygon = PackedVector2Array(218, 259, 218, 296, 252, 314, 273, 304, 271, 266, 252, 249)
+
+[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="ManualCollision" index="6" unique_id=908925493]
+polygon = PackedVector2Array(500, 288, 500, 309, 525, 320, 564, 302, 558, 281, 539, 265)
+
+[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="ManualCollision" index="7" unique_id=1462122516]
+polygon = PackedVector2Array(493, 66, 493, 121, 549, 148, 571, 132, 560, 107, 544, 102, 541, 75, 516, 57)
+
+[node name="CollisionPolygon2D9" type="CollisionPolygon2D" parent="ManualCollision" index="8" unique_id=163619387]
+polygon = PackedVector2Array(186, -402, 183, -366, 239, -325, 271, -301, 340, -318, 411, -299, 376, -265, 425, -246, 427, -152, 441, -113, 537, -90, 642, -104, 712, -177, 817, -175, 833, -449, -831, -456, -836, 22, -760, 57, -664, 4, -602, -3, -538, -72, -645, -136, -662, -162, -591, -162, -526, -208, -471, -180, -351, -246, -301, -221, -274, -244, -304, -277, -273, -281, -219, -265, -164, -309, -211, -352, -242, -363, -198, -400, -129, -386, -46, -396, 4, -371, 101, -380, 153, -409)
+
+[node name="CollisionPolygon2D10" type="CollisionPolygon2D" parent="ManualCollision" index="9" unique_id=719585915]
+polygon = PackedVector2Array(-503, -42, -519, 4, -499, 24, -443, -6)
+
+[node name="CollisionPolygon2D11" type="CollisionPolygon2D" parent="ManualCollision" index="10" unique_id=1553217156]
+polygon = PackedVector2Array(-152, 250, -195, 261, -209, 300, -147, 323, -99, 286, -90, 265)
+
+[node name="CollisionPolygon2D12" type="CollisionPolygon2D" parent="ManualCollision" index="11" unique_id=1970271730]
+polygon = PackedVector2Array(-829, 29, -827, 82, -811, 79)
+
+[node name="CollisionPolygon2D13" type="CollisionPolygon2D" parent="ManualCollision" index="12" unique_id=13175112]
+polygon = PackedVector2Array(-573, 419, -437, 429, -441, 448, -597, 444)
+
+[node name="CollisionPolygon2D14" type="CollisionPolygon2D" parent="ManualCollision" index="13" unique_id=683456155]
+polygon = PackedVector2Array(219, 438, 217, 460, 443, 452)
+
+[node name="CollisionPolygon2D15" type="CollisionPolygon2D" parent="ManualCollision" index="14" unique_id=1284840459]
+polygon = PackedVector2Array(813, 156, 821, 312, 793, 150)
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=795806398]
+
+[node name="Default" type="Marker2D" parent="SpawnPoints" unique_id=2094056284]
+position = Vector2(-16, 289.5)
+
+[node name="FromCrystal" type="Marker2D" parent="SpawnPoints" unique_id=90435678]
+position = Vector2(444, -80.5)
+
+[node name="Player" parent="." unique_id=582560180 instance=ExtResource("2_player")]
 unique_name_in_owner = true
-position = Vector2(-700, 690)
+position = Vector2(-16, 289.5)
 
-[node name="LandingPickups" type="Node2D" parent="."]
+[node name="LandingPickups" type="Node2D" parent="." unique_id=222126420]
 
-[node name="ScrapNorth" parent="LandingPickups" instance=ExtResource("6_pickup")]
-position = Vector2(-720, -650)
+[node name="ScrapNorth" parent="LandingPickups" unique_id=986002694 instance=ExtResource("6_pickup")]
+position = Vector2(-246, -150.5)
 pickup_id = "landing_scrap_north"
-item_id = &"scrap_metal"
-display_name = "SCRAP METAL"
 amount = 2
 icon = ExtResource("8_scrap")
 glow_color = Color(0.976, 0.808, 0.384, 0.34)
 
-[node name="ScrapStorage" parent="LandingPickups" instance=ExtResource("6_pickup")]
-position = Vector2(-500, 760)
+[node name="ScrapStorage" parent="LandingPickups" unique_id=1651039729 instance=ExtResource("6_pickup")]
+position = Vector2(-266, 179.5)
 pickup_id = "landing_scrap_storage"
-item_id = &"scrap_metal"
-display_name = "SCRAP METAL"
 amount = 3
 icon = ExtResource("8_scrap")
 glow_color = Color(0.976, 0.808, 0.384, 0.34)
 
-[node name="MedKit" parent="LandingPickups" instance=ExtResource("6_pickup")]
-position = Vector2(700, 570)
+[node name="MedKit" parent="LandingPickups" unique_id=842309969 instance=ExtResource("6_pickup")]
+position = Vector2(164, 229.5)
 pickup_id = "landing_med_kit"
 item_id = &"med_kit"
 display_name = "MED KIT"
 icon = ExtResource("9_medkit")
 glow_color = Color(1, 0.322, 0.267, 0.32)
 
-[node name="ToCrystalField" parent="." instance=ExtResource("7_gate")]
-position = Vector2(1210, -627)
+[node name="ToCrystalField" parent="." unique_id=1750031961 instance=ExtResource("7_gate")]
+position = Vector2(614, -50)
+scale = Vector2(0.7, 0.7)
 target_scene = "res://Scenes/Levels/crystal_field.tscn"
 target_spawn = &"FromLanding"
 gate_label = "CRYSTAL FIELD  >"
 accent_color = Color(0.439, 0.31, 1, 0.48)
 
-[node name="UserInterface" parent="." instance=ExtResource("3_hud")]
+[node name="UserInterface" parent="." unique_id=34779631 instance=ExtResource("3_hud")]
 
-[node name="IntroSequence" type="CanvasLayer" parent="."]
+[node name="IntroSequence" type="CanvasLayer" parent="." unique_id=326607729]
 layer = 10
 
-[node name="Screen" type="Control" parent="IntroSequence"]
+[node name="Screen" type="Control" parent="IntroSequence" unique_id=1483741224]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,7 +123,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_theme")
 
-[node name="Dimmer" type="ColorRect" parent="IntroSequence/Screen"]
+[node name="Dimmer" type="ColorRect" parent="IntroSequence/Screen" unique_id=1227978392]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,7 +133,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.002, 0.006, 0.018, 0.92)
 
-[node name="Center" type="CenterContainer" parent="IntroSequence/Screen"]
+[node name="Center" type="CenterContainer" parent="IntroSequence/Screen" unique_id=321550134]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -90,58 +145,58 @@ offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StoryPanel" type="PanelContainer" parent="IntroSequence/Screen/Center"]
+[node name="StoryPanel" type="PanelContainer" parent="IntroSequence/Screen/Center" unique_id=1464629993]
 custom_minimum_size = Vector2(820, 476)
 layout_mode = 2
 
-[node name="Margin" type="MarginContainer" parent="IntroSequence/Screen/Center/StoryPanel"]
+[node name="Margin" type="MarginContainer" parent="IntroSequence/Screen/Center/StoryPanel" unique_id=1539841836]
 layout_mode = 2
 theme_override_constants/margin_left = 42
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 42
 theme_override_constants/margin_bottom = 30
 
-[node name="Content" type="VBoxContainer" parent="IntroSequence/Screen/Center/StoryPanel/Margin"]
+[node name="Content" type="VBoxContainer" parent="IntroSequence/Screen/Center/StoryPanel/Margin" unique_id=2144540074]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Header" type="HBoxContainer" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+[node name="Header" type="HBoxContainer" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content" unique_id=1135726403]
 layout_mode = 2
 
-[node name="Protocol" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Header"]
+[node name="Protocol" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Header" unique_id=1847542898]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.376, 0.85, 1, 1)
 theme_override_font_sizes/font_size = 14
 text = "EMERGENCY LANDING PROTOCOL"
 
-[node name="TransmissionLabel" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Header"]
+[node name="TransmissionLabel" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Header" unique_id=936642815]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.505, 0.957, 0.635, 1)
 theme_override_font_sizes/font_size = 14
 text = "TRANSMISSION 01 / 04"
 
-[node name="Divider" type="ColorRect" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+[node name="Divider" type="ColorRect" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content" unique_id=858094814]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 color = Color(0.176, 0.667, 0.86, 0.78)
 
-[node name="StoryTag" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+[node name="StoryTag" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content" unique_id=2118760970]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.631, 0.455, 1, 1)
 theme_override_font_sizes/font_size = 14
 text = "SHIP LOG // SYSTEM FAILURE"
 
-[node name="StoryTitle" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+[node name="StoryTitle" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content" unique_id=601877479]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.86, 0.974, 1, 1)
 theme_override_font_sizes/font_size = 30
 text = "ความขัดข้องกลางอวกาศ"
 
-[node name="StoryBody" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+[node name="StoryBody" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content" unique_id=1856420233]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 176)
 layout_mode = 2
@@ -149,14 +204,14 @@ size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.694, 0.8, 0.847, 1)
 theme_override_font_sizes/font_size = 18
 text = "ระหว่างเดินทาง ยานของนักบินอวกาศเกิดความขัดข้องอย่างไร้สาเหตุ"
-autowrap_mode = 2
 vertical_alignment = 1
+autowrap_mode = 2
 
-[node name="Footer" type="HBoxContainer" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content"]
+[node name="Footer" type="HBoxContainer" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content" unique_id=274163693]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Hint" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Footer"]
+[node name="Hint" type="Label" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Footer" unique_id=1194492026]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.42, 0.54, 0.6, 1)
@@ -164,7 +219,7 @@ theme_override_font_sizes/font_size = 13
 text = "SHIP AI ARCHIVE  •  ENTER TO CONTINUE"
 vertical_alignment = 1
 
-[node name="ContinueButton" type="Button" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Footer"]
+[node name="ContinueButton" type="Button" parent="IntroSequence/Screen/Center/StoryPanel/Margin/Content/Footer" unique_id=933533029]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(184, 52)
 layout_mode = 2

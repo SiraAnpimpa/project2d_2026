@@ -1,28 +1,17 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/environment_chunk.tscn" id="1_chunk"]
-[ext_resource type="Texture2D" path="res://Assets/EnvironmentPacks/SignalBase/base_west.png" id="2_west"]
-[ext_resource type="Texture2D" path="res://Assets/EnvironmentPacks/SignalBase/base_core.png" id="3_core"]
-[ext_resource type="Texture2D" path="res://Assets/EnvironmentPacks/SignalBase/base_east.png" id="4_east"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/full_map_environment.tscn" id="1_environment"]
+[ext_resource type="Texture2D" path="res://Assets/Maps/abandoned_signal_base_hd.png" id="2_map"]
 
-[node name="SignalBasePack" type="Node2D" groups=["EnvironmentPack"]]
+[node name="SignalBasePack" groups=["EnvironmentPack", "FullMapEnvironment"] instance=ExtResource("1_environment")]
+map_id = "signal_base"
+texture = ExtResource("2_map")
+map_size = Vector2(1672, 941)
+collision_rects = Array[Rect2]([Rect2(205, 190, 55, 92), Rect2(410, 112, 95, 52), Rect2(1090, 110, 275, 88), Rect2(1350, 205, 78, 120), Rect2(625, 455, 72, 120), Rect2(925, 455, 72, 120), Rect2(670, 590, 70, 62), Rect2(900, 590, 70, 62), Rect2(150, 490, 78, 225), Rect2(230, 455, 170, 78), Rect2(190, 680, 150, 72), Rect2(1210, 455, 220, 88), Rect2(1370, 540, 72, 205)])
+collision_circles = Array[Vector3]([Vector3(820, 505, 88)])
+walkable_anchors = Array[Vector2]([Vector2(830, 850), Vector2(830, 710), Vector2(600, 700), Vector2(1050, 700), Vector2(500, 620), Vector2(1160, 620), Vector2(500, 300), Vector2(1170, 300), Vector2(830, 250), Vector2(830, 170), Vector2(830, 650), Vector2(830, 330)])
 
-[node name="MaintenanceWest" parent="." instance=ExtResource("1_chunk")]
-position = Vector2(-1254, 0)
-chunk_id = "base_west"
-texture = ExtResource("2_west")
-open_edges = 2
-obstacle_rects = Array[Rect2]([Rect2(-520, -500, 920, 230), Rect2(-520, -180, 230, 840)])
-
-[node name="DishCore" parent="." instance=ExtResource("1_chunk")]
-chunk_id = "base_core"
-texture = ExtResource("3_core")
-open_edges = 14
-obstacle_circles = Array[Vector3]([Vector3(0, -250, 260)])
-
-[node name="NavigationEast" parent="." instance=ExtResource("1_chunk")]
-position = Vector2(1254, 0)
-chunk_id = "base_east"
-texture = ExtResource("4_east")
-open_edges = 8
-obstacle_rects = Array[Rect2]([Rect2(-430, -500, 870, 230), Rect2(270, -120, 250, 350)])
+[node name="ManualCollision" type="StaticBody2D" parent="."]
+editor_description = "เพิ่ม CollisionPolygon2D เป็นโหนดลูก แล้วคลิกจุดรอบพื้นที่ที่ต้องการปิดกั้น จากนั้นคลิกจุดแรกเพื่อปิดรูป"
+collision_layer = 1
+collision_mask = 0

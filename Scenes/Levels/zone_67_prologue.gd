@@ -1,5 +1,7 @@
 extends Node2D
 
+const MAP_BOUNDS := Rect2(-836.0, -470.5, 1672.0, 941.0)
+
 const STORY_BEATS: Array[Dictionary] = [
 	{
 		'tag': 'SHIP LOG // SYSTEM FAILURE',
@@ -38,16 +40,19 @@ var story_index := 0
 func _ready() -> void:
 	GameManager.current_level = scene_file_path
 	GameManager.player = player
-	player.set_camera_limits(Rect2(-1254, -1254, 2508, 2508))
+	player.set_camera_limits(MAP_BOUNDS)
+	var default_spawn: Vector2 = $SpawnPoints/Default.global_position
 	var loaded_from_save: bool = GameManager.loading_save
 	if loaded_from_save:
 		player.global_position = GameManager.save_player_position
 		GameManager.save_player_position = Vector2.ZERO
 	if !GameManager.pending_spawn.is_empty():
-		if GameManager.pending_spawn == &"FromCrystal":
-			player.global_position = Vector2(1050, -627)
+		var marker := get_node_or_null("SpawnPoints/" + String(GameManager.pending_spawn)) as Marker2D
+		if marker != null:
+			player.global_position = marker.global_position
+			default_spawn = marker.global_position
 		GameManager.pending_spawn = &""
-	player.set_respawn_position(Vector2(-700, 690))
+	player.set_respawn_position(default_spawn)
 	GameManager.loading_save = false
 	GameManager.spawn_saved_drops_for_current_level()
 

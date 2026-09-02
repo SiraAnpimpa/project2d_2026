@@ -1,42 +1,111 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene format=3 uid="uid://bhl8gccjok3xm"]
 
-[ext_resource type="Script" path="res://Scenes/Levels/zone_map.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://y1bm12t0q007" path="res://Scenes/Levels/zone_map.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://Scenes/EnvironmentPacks/crystal_field_pack.tscn" id="2_pack"]
 [ext_resource type="PackedScene" path="res://Scenes/Actors/top_down_player.tscn" id="3_player"]
-[ext_resource type="PackedScene" path="res://Scenes/Levels/game_ui.tscn" id="4_hud"]
+[ext_resource type="PackedScene" uid="uid://cdwabmqtlxr1y" path="res://Scenes/Levels/game_ui.tscn" id="4_hud"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/item_pickup.tscn" id="5_pickup"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="6_gate"]
-[ext_resource type="Texture2D" path="res://Assets/UI/Items/energy_crystal.png" id="7_energy"]
-[ext_resource type="Texture2D" path="res://Assets/UI/Items/access_card.png" id="8_access"]
+[ext_resource type="Texture2D" uid="uid://c22i7l2bpiytn" path="res://Assets/UI/Items/energy_crystal.png" id="7_energy"]
+[ext_resource type="Texture2D" uid="uid://d0llxhv7lubmq" path="res://Assets/UI/Items/access_card.png" id="8_access"]
 
-[node name="CrystalField" type="Node2D"]
+[node name="CrystalField" type="Node2D" unique_id=134886438]
 script = ExtResource("1_script")
 objective_title = "เก็บ Energy Crystal จากทุ่งคริสตัล"
 objective_details = "POWER SYSTEM // CRYSTAL FIELD"
 arrival_message = "ZONE ENTERED // CRYSTAL FIELD"
-map_bounds = Rect2(-2508, -627, 5016, 1254)
+map_bounds = Rect2(-836, -470.5, 1672, 941)
 
-[node name="EnvironmentPack" parent="." instance=ExtResource("2_pack")]
+[node name="EnvironmentPack" parent="." unique_id=118656823 instance=ExtResource("2_pack")]
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="ManualCollision" type="StaticBody2D" parent="."]
+editor_description = "เพิ่ม CollisionPolygon2D เป็นโหนดลูก แล้วคลิกจุดรอบพื้นที่ที่ต้องการปิดกั้น จากนั้นคลิกจุดแรกเพื่อปิดรูป"
+collision_layer = 1
+collision_mask = 0
 
-[node name="Default" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-627, 420)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ManualCollision" index="0" unique_id=332847673]
+polygon = PackedVector2Array(-827, -454, -821, 452, -800, 454)
 
-[node name="FromLanding" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-627, 420)
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="ManualCollision" index="1" unique_id=2113203570]
+polygon = PackedVector2Array(-815, 449, 816, 463, -815, 433)
 
-[node name="FromBase" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1881, 420)
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="ManualCollision" index="2" unique_id=1376574775]
+polygon = PackedVector2Array(813, 461, 816, -455, 797, -458)
 
-[node name="Player" parent="." instance=ExtResource("3_player")]
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="ManualCollision" index="3" unique_id=545232137]
+polygon = PackedVector2Array(-828, -453, 813, -455, 811, -439)
+
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="ManualCollision" index="4" unique_id=1108698874]
+build_mode = 1
+polygon = PackedVector2Array(-695, -428, -709, -387, -689, -350, -640, -331, -580, -262, -585, -228, -638, -226, -695, -269, -723, -302, -727, -244, -686, -223, -638, -200, -634, -173, -698, -155, -739, -116, -714, -97, -730, -95, -673, -79, -668, -61, -695, -58, -739, -47, -805, -97, -810, 64, -769, 64, -732, 22, -688, 52, -679, 78, -596, 55, -557, 77, -551, 102, -574, 128, -631, 126, -704, 121, -698, 187, -643, 229, -594, 277, -541, 247, -507, 279, -509, 300, -454, 272, -399, 284, -356, 302, -355, 330, -402, 369, -441, 426, -358, 431, -330, 392, -264, 341, -200, 309, -174, 342, -131, 330, -64, 341, -48, 383, -112, 419, -114, 442, -11, 435, 48, 438, 87, 412, 145, 438, 225, 445, 150, 408, 108, 376, 152, 323, 230, 289, 285, 277, 336, 330, 326, 376, 347, 413, 398, 438, 478, 436, 544, 406, 595, 394, 699, 424, 737, 443, 756, 406, 671, 392, 597, 381, 558, 350, 600, 288, 648, 272, 552, 227, 561, 162, 645, 91, 696, 103, 735, 142, 772, 160, 802, 162, 802, 82, 779, 66, 761, 22, 715, 6, 715, -26, 721, -69, 728, -131, 770, -164, 754, -185, 689, -196, 657, -256, 645, -258, 563, -285, 492, -352, 515, -377, 604, -384, 581, -419, 513, -439, 347, -444, 285, -421, 260, -391, 265, -370, 200, -373, 136, -373, 102, -398, 37, -384, -13, -371, -55, -387, -105, -395, -135, -368, -131, -299, -154, -214, -243, -177, -316, -216, -381, -249, -285, -315, -216, -327, -227, -361, -252, -386, -257, -423, -367, -426, -303, -352, -411, -324, -448, -348, -473, -308, -549, -315, -551, -371, -631, -425, -624, -421, -622, -421)
+
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="ManualCollision" index="5" unique_id=1777637609]
+polygon = PackedVector2Array(-584, -142, -529, -184, -513, -213, -484, -200, -431, -172, -467, -113, -488, -90, -518, -94, -562, -95, -586, -113)
+
+[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="ManualCollision" index="6" unique_id=424118215]
+polygon = PackedVector2Array(-98, -40, -122, 8, -122, 43, -91, 66, -37, 76, 23, 47, 36, 8, 5, -37, -33, -53, -45, -73, -58, -84)
+
+[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="ManualCollision" index="7" unique_id=145594774]
+polygon = PackedVector2Array(-262, 143, -285, 184, -294, 217, -281, 246, -211, 267, -153, 261, -104, 209, -127, 174, -149, 153, -183, 132, -214, 113, -220, 108)
+
+[node name="CollisionPolygon2D9" type="CollisionPolygon2D" parent="ManualCollision" index="8" unique_id=1146449384]
+polygon = PackedVector2Array(-348, 161, -396, 209, -463, 184, -483, 167, -439, 129, -439, 100, -425, 74, -364, 42, -314, 48, -317, 101)
+
+[node name="CollisionPolygon2D10" type="CollisionPolygon2D" parent="ManualCollision" index="9" unique_id=14382451]
+polygon = PackedVector2Array(13, 241, -25, 287, 15, 325, 91, 303, 147, 282, 157, 243, 131, 219, 113, 184, 89, 214, 65, 229, 41, 240)
+
+[node name="CollisionPolygon2D11" type="CollisionPolygon2D" parent="ManualCollision" index="10" unique_id=1162689669]
+polygon = PackedVector2Array(-335, -140, -365, -118, -412, -87, -436, -60, -430, -26, -380, -8, -356, -27, -330, -66, -343, -106, -323, -121)
+
+[node name="CollisionPolygon2D12" type="CollisionPolygon2D" parent="ManualCollision" index="11" unique_id=110915243]
+polygon = PackedVector2Array(-222, -142, -243, -111, -273, -76, -256, -40, -225, -27, -178, -56, -128, -77, -154, -121, -186, -147, -198, -129)
+
+[node name="CollisionPolygon2D13" type="CollisionPolygon2D" parent="ManualCollision" index="12" unique_id=931010766]
+polygon = PackedVector2Array(-33, -300, -66, -263, -54, -198, -14, -155, 70, -126, 121, -185, 66, -256, 21, -295)
+
+[node name="CollisionPolygon2D14" type="CollisionPolygon2D" parent="ManualCollision" index="13" unique_id=2093074879]
+polygon = PackedVector2Array(128, 13, 102, 90, 113, 127, 194, 117, 210, 79)
+
+[node name="CollisionPolygon2D15" type="CollisionPolygon2D" parent="ManualCollision" index="14" unique_id=925515794]
+polygon = PackedVector2Array(256, -156, 202, -122, 218, -56, 264, 2, 337, 5, 356, -37, 319, -106)
+
+[node name="CollisionPolygon2D16" type="CollisionPolygon2D" parent="ManualCollision" index="15" unique_id=1011324901]
+polygon = PackedVector2Array(450, -284, 395, -237, 403, -189, 414, -158, 461, -119, 501, -98, 569, -110, 583, -68, 638, -92, 654, -140, 625, -184, 554, -235)
+
+[node name="CollisionPolygon2D17" type="CollisionPolygon2D" parent="ManualCollision" index="16" unique_id=872161420]
+polygon = PackedVector2Array(227, -311, 165, -256, 176, -232, 213, -208, 281, -240, 297, -264, 268, -301)
+
+[node name="CollisionPolygon2D18" type="CollisionPolygon2D" parent="ManualCollision" index="17" unique_id=1463801529]
+polygon = PackedVector2Array(361, -375, 358, -329, 398, -300, 429, -338, 401, -366, 379, -356)
+
+[node name="CollisionPolygon2D19" type="CollisionPolygon2D" parent="ManualCollision" index="18" unique_id=1817989724]
+polygon = PackedVector2Array(293, 103, 261, 148, 250, 188, 256, 217, 308, 233, 371, 200, 372, 163, 356, 130, 331, 135)
+
+[node name="CollisionPolygon2D20" type="CollisionPolygon2D" parent="ManualCollision" index="19" unique_id=1265158467]
+polygon = PackedVector2Array(446, 185, 413, 243, 385, 279, 397, 328, 437, 337, 424, 374, 442, 401, 484, 391, 508, 369, 504, 330, 533, 320, 533, 269, 506, 233)
+
+[node name="CollisionPolygon2D21" type="CollisionPolygon2D" parent="ManualCollision" index="20" unique_id=784089087]
+polygon = PackedVector2Array(469, 5, 440, 29, 429, 79, 461, 92, 519, 92, 579, 61, 561, 34, 521, 14)
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=1509662914]
+
+[node name="Default" type="Marker2D" parent="SpawnPoints" unique_id=569699752]
+position = Vector2(-586, -20.5)
+
+[node name="FromLanding" type="Marker2D" parent="SpawnPoints" unique_id=636043830]
+position = Vector2(-586, -20.5)
+
+[node name="FromBase" type="Marker2D" parent="SpawnPoints" unique_id=1451305257]
+position = Vector2(614, -40.5)
+
+[node name="Player" parent="." unique_id=1565267708 instance=ExtResource("3_player")]
 unique_name_in_owner = true
-position = Vector2(-627, 420)
+position = Vector2(-586, -20.5)
 
-[node name="Pickups" type="Node2D" parent="."]
+[node name="Pickups" type="Node2D" parent="." unique_id=26285527]
 
-[node name="EnergyNorth" parent="Pickups" instance=ExtResource("5_pickup")]
-position = Vector2(-2020, -380)
+[node name="EnergyNorth" parent="Pickups" unique_id=2109212791 instance=ExtResource("5_pickup")]
+position = Vector2(224, -335.5)
 pickup_id = "crystal_energy_north"
 item_id = &"energy_crystal"
 display_name = "ENERGY CRYSTAL"
@@ -44,8 +113,8 @@ amount = 2
 icon = ExtResource("7_energy")
 glow_color = Color(0.282, 0.855, 1, 0.38)
 
-[node name="EnergyCenter" parent="Pickups" instance=ExtResource("5_pickup")]
-position = Vector2(980, -220)
+[node name="EnergyCenter" parent="Pickups" unique_id=1512485944 instance=ExtResource("5_pickup")]
+position = Vector2(-76, 139.5)
 pickup_id = "crystal_energy_center"
 item_id = &"energy_crystal"
 display_name = "ENERGY CRYSTAL"
@@ -53,8 +122,8 @@ amount = 3
 icon = ExtResource("7_energy")
 glow_color = Color(0.439, 0.31, 1, 0.4)
 
-[node name="EnergyEast" parent="Pickups" instance=ExtResource("5_pickup")]
-position = Vector2(1820, -230)
+[node name="EnergyEast" parent="Pickups" unique_id=1544598591 instance=ExtResource("5_pickup")]
+position = Vector2(394, 39.5)
 pickup_id = "crystal_energy_east"
 item_id = &"energy_crystal"
 display_name = "ENERGY CRYSTAL"
@@ -62,26 +131,28 @@ amount = 2
 icon = ExtResource("7_energy")
 glow_color = Color(0.282, 0.855, 1, 0.38)
 
-[node name="AccessCard" parent="Pickups" instance=ExtResource("5_pickup")]
-position = Vector2(2110, -80)
+[node name="AccessCard" parent="Pickups" unique_id=1537547699 instance=ExtResource("5_pickup")]
+position = Vector2(349, -200.5)
 pickup_id = "crystal_access_card"
 item_id = &"access_card"
 display_name = "ACCESS CARD"
 icon = ExtResource("8_access")
 glow_color = Color(0.976, 0.808, 0.384, 0.34)
 
-[node name="ToLanding" parent="." instance=ExtResource("6_gate")]
-position = Vector2(-627, 580)
+[node name="ToLanding" parent="." unique_id=1800153272 instance=ExtResource("6_gate")]
+position = Vector2(-749, -8)
+scale = Vector2(0.7, 0.7)
 target_scene = "res://Scenes/Levels/zone_67_prologue.tscn"
 target_spawn = &"FromCrystal"
 gate_label = "<  LANDING ZONE"
 accent_color = Color(0.286, 0.843, 1, 0.46)
 
-[node name="ToSignalBase" parent="." instance=ExtResource("6_gate")]
-position = Vector2(1881, 580)
+[node name="ToSignalBase" parent="." unique_id=824860336 instance=ExtResource("6_gate")]
+position = Vector2(734, 66)
+scale = Vector2(0.5, 0.5)
 target_scene = "res://Scenes/Levels/abandoned_signal_base.tscn"
 target_spawn = &"FromCrystal"
 gate_label = "SIGNAL BASE  >"
 accent_color = Color(0.506, 0.957, 0.635, 0.46)
 
-[node name="UserInterface" parent="." instance=ExtResource("4_hud")]
+[node name="UserInterface" parent="." unique_id=1614284612 instance=ExtResource("4_hud")]

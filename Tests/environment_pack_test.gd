@@ -3,25 +3,33 @@ extends Node
 const PACKS: Array[Dictionary] = [
 	{
 		"path": "res://Scenes/EnvironmentPacks/landing_zone_pack.tscn",
-		"count": 4,
-		"external": {"WreckNE": 1},
+		"map_id": "landing_zone",
+		"minimum_shapes": 2,
 	},
 	{
 		"path": "res://Scenes/EnvironmentPacks/crystal_field_pack.tscn",
-		"count": 4,
-		"external": {"Gateway": 2, "SignalApproach": 2},
+		"map_id": "crystal_field",
+		"minimum_shapes": 4,
 	},
 	{
 		"path": "res://Scenes/EnvironmentPacks/signal_base_pack.tscn",
-		"count": 3,
-		"external": {"DishCore": 2},
+		"map_id": "signal_base",
+		"minimum_shapes": 14,
 	},
 ]
 
-const EDGE_NORTH := 0
-const EDGE_EAST := 1
-const EDGE_SOUTH := 2
-const EDGE_WEST := 3
+const PLAYER_CLEARANCE := 18.0
+const GRID_STEP := 16.0
+const DIRECTIONS: Array[Vector2i] = [
+	Vector2i(-1, 0),
+	Vector2i(1, 0),
+	Vector2i(0, -1),
+	Vector2i(0, 1),
+	Vector2i(-1, -1),
+	Vector2i(1, -1),
+	Vector2i(-1, 1),
+	Vector2i(1, 1),
+]
 
 
 func _ready() -> void:
@@ -37,29 +45,41 @@ func _run_test() -> void:
 		var pack := packed.instantiate()
 		add_child(pack)
 		await get_tree().process_frame
-		var chunks := pack.find_children("*", "EnvironmentChunk", true, false)
-		if chunks.size() != int(spec.count):
-			_fail("Wrong chunk count in: " + spec.path)
+		await get_tree().process_frame
+
+		if !(pack is FullMapEnvironment):
+			_fail("Pack root must expose FullMapEnvironment collision controls: " + spec.path)
 			return
-		var ids: Dictionary = {}
-		for chunk in chunks:
-			if chunk.chunk_id.is_empty() or ids.has(chunk.chunk_id):
-				_fail("Chunk ID is empty or duplicated in: " + spec.path)
-				return
-			ids[chunk.chunk_id] = true
-			if chunk.open_edges == 0:
-				_fail("Chunk has no configured walkable connector: " + chunk.chunk_id)
-				return
-			if chunk.get_node("Collision").get_child_count() < 4:
-				_fail("Chunk has no generated wall collision: " + chunk.chunk_id)
-				return
-		if not _validate_neighbor_connections(chunks, spec.path):
+		var environment := pack as FullMapEnvironment
+		if !(environment.get_node_or_null("ManualCollision") is StaticBody2D):
+			_fail("Pack is missing the editor-drawn ManualCollision layer: " + spec.path)
 			return
-		for node_name in spec.external:
-			var chunk := pack.get_node_or_null(NodePath(node_name))
-			if chunk == null or not _has_edge(chunk, int(spec.external[node_name])):
-				_fail("Missing external connector on %s/%s" % [spec.path, node_name])
-				return
+		if environment.map_id != spec.map_id:
+			_fail("Map ID mismatch in: " + spec.path)
+			return
+		if environment.texture == null:
+			_fail("Map texture is missing in: " + spec.path)
+			return
+		if environment.texture.get_size() != environment.map_size:
+			_fail("Map texture and collision coordinates use different sizes in: " + spec.path)
+			return
+		if environment.map_size != Vector2(1672.0, 941.0):
+			_fail("Unexpected map dimensions in: " + spec.path)
+			return
+		var sprite := environment.get_node("Visual") as Sprite2D
+		if sprite.texture_filter != CanvasItem.TEXTURE_FILTER_NEAREST:
+			_fail("Map texture is not using nearest filtering in: " + spec.path)
+			return
+		if environment.get_collision_shape_count() < int(spec.minimum_shapes):
+			_fail("Collision detail is too low in: " + spec.path)
+			return
+		if !_validate_manual_polygon(environment, spec.path):
+			return
+		if !_validate_walkable_anchors(environment, spec.path):
+			return
+		if !_validate_anchor_connectivity(environment, spec.path):
+			return
+
 		pack.queue_free()
 		await get_tree().process_frame
 
@@ -67,30 +87,84 @@ func _run_test() -> void:
 	get_tree().quit()
 
 
-func _validate_neighbor_connections(chunks: Array[Node], pack_path: String) -> bool:
-	for index in range(chunks.size()):
-		for other_index in range(index + 1, chunks.size()):
-			var first = chunks[index]
-			var second = chunks[other_index]
-			var delta: Vector2 = second.position - first.position
-			var step: Vector2 = first.chunk_size
-			if is_equal_approx(absf(delta.x), step.x) and is_zero_approx(delta.y):
-				var left = first if delta.x > 0.0 else second
-				var right = second if delta.x > 0.0 else first
-				if not _has_edge(left, EDGE_EAST) or not _has_edge(right, EDGE_WEST):
-					_fail("Blocked horizontal seam between %s and %s in %s" % [left.chunk_id, right.chunk_id, pack_path])
-					return false
-			elif is_equal_approx(absf(delta.y), step.y) and is_zero_approx(delta.x):
-				var top = first if delta.y > 0.0 else second
-				var bottom = second if delta.y > 0.0 else first
-				if not _has_edge(top, EDGE_SOUTH) or not _has_edge(bottom, EDGE_NORTH):
-					_fail("Blocked vertical seam between %s and %s in %s" % [top.chunk_id, bottom.chunk_id, pack_path])
-					return false
+func _validate_manual_polygon(environment: FullMapEnvironment, pack_path: String) -> bool:
+	var manual_body := environment.get_node("ManualCollision") as StaticBody2D
+	var anchor := environment.walkable_anchors[0]
+	var centre := environment.pixel_to_local(anchor)
+	var polygon := CollisionPolygon2D.new()
+	polygon.polygon = PackedVector2Array([
+		centre + Vector2(-8.0, -8.0),
+		centre + Vector2(8.0, -8.0),
+		centre + Vector2(8.0, 8.0),
+		centre + Vector2(-8.0, 8.0),
+	])
+	manual_body.add_child(polygon)
+	var detected := environment.is_pixel_point_blocked(anchor)
+	manual_body.remove_child(polygon)
+	polygon.queue_free()
+	if !detected:
+		_fail("Editor-drawn collision polygons are not detected in: " + pack_path)
+		return false
 	return true
 
 
-func _has_edge(chunk: Node, edge: int) -> bool:
-	return (int(chunk.open_edges) & (1 << edge)) != 0
+func _validate_walkable_anchors(environment: FullMapEnvironment, pack_path: String) -> bool:
+	if environment.walkable_anchors.size() < 6:
+		_fail("Not enough navigation anchors in: " + pack_path)
+		return false
+	for anchor in environment.walkable_anchors:
+		if environment.is_pixel_point_blocked(anchor, PLAYER_CLEARANCE):
+			_fail("Walkable anchor is blocked at %s in %s" % [anchor, pack_path])
+			return false
+	return true
+
+
+func _validate_anchor_connectivity(environment: FullMapEnvironment, pack_path: String) -> bool:
+	var start := _nearest_free_cell(environment, environment.walkable_anchors[0])
+	if start == Vector2i(-1, -1):
+		_fail("Could not place navigation flood-fill start in: " + pack_path)
+		return false
+
+	var frontier: Array[Vector2i] = [start]
+	var visited: Dictionary = {start: true}
+	var cursor := 0
+	while cursor < frontier.size():
+		var cell := frontier[cursor]
+		cursor += 1
+		for direction in DIRECTIONS:
+			var next := cell + direction
+			if visited.has(next) or !_cell_is_walkable(environment, next):
+				continue
+			if direction.x != 0 and direction.y != 0:
+				if !_cell_is_walkable(environment, cell + Vector2i(direction.x, 0)):
+					continue
+				if !_cell_is_walkable(environment, cell + Vector2i(0, direction.y)):
+					continue
+			visited[next] = true
+			frontier.append(next)
+
+	for anchor in environment.walkable_anchors:
+		var anchor_cell := _nearest_free_cell(environment, anchor)
+		if anchor_cell == Vector2i(-1, -1) or !visited.has(anchor_cell):
+			_fail("Walkable regions are disconnected near %s in %s" % [anchor, pack_path])
+			return false
+	return true
+
+
+func _nearest_free_cell(environment: FullMapEnvironment, point: Vector2) -> Vector2i:
+	var origin := Vector2i(roundi(point.x / GRID_STEP), roundi(point.y / GRID_STEP))
+	for radius in range(4):
+		for offset_y in range(-radius, radius + 1):
+			for offset_x in range(-radius, radius + 1):
+				var candidate := origin + Vector2i(offset_x, offset_y)
+				if _cell_is_walkable(environment, candidate):
+					return candidate
+	return Vector2i(-1, -1)
+
+
+func _cell_is_walkable(environment: FullMapEnvironment, cell: Vector2i) -> bool:
+	var point := Vector2(cell) * GRID_STEP
+	return !environment.is_pixel_point_blocked(point, PLAYER_CLEARANCE)
 
 
 func _fail(message: String) -> void:

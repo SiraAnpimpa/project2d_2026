@@ -43,23 +43,31 @@ func _run_test() -> void:
 		var level := packed.instantiate()
 		add_child(level)
 		await get_tree().process_frame
-		var chunks := level.find_children("*", "EnvironmentChunk", true, false)
-		var expected_chunks := 4 if level_path != LEVELS[2] else 3
-		if chunks.size() != expected_chunks:
-			_fail("Environment pack has the wrong number of chunks: " + level_path)
+		var manual_collision := level.get_node_or_null("ManualCollision") as StaticBody2D
+		if manual_collision == null:
+			_fail("Level is missing its editor-visible ManualCollision layer: " + level_path)
 			return
-		for chunk in chunks:
-			if chunk.texture == null or chunk.texture.get_width() < 1200 or chunk.texture.get_height() < 1200:
-				_fail("Environment chunk art is missing or low resolution: " + chunk.name)
+		if manual_collision.find_children("*", "CollisionPolygon2D", true, false).is_empty():
+			_fail("Level has no editor-drawn collision polygons: " + level_path)
+			return
+		var environments := level.find_children("*", "FullMapEnvironment", true, false)
+		if environments.size() != 1:
+			_fail("Level does not contain one full map environment: " + level_path)
+			return
+		for environment in environments:
+			if environment.texture == null or environment.texture.get_size() != Vector2(1672, 941):
+				_fail("Full map art is missing or has the wrong resolution: " + environment.name)
 				return
-			var sprite := chunk.get_node("Visual") as Sprite2D
+			var sprite := environment.get_node("Visual") as Sprite2D
 			if sprite.texture_filter != CanvasItem.TEXTURE_FILTER_NEAREST:
-				_fail("Environment chunk is not using nearest filtering: " + chunk.name)
+				_fail("Full map is not using nearest filtering: " + environment.name)
 				return
-			if chunk.get_node("Collision").get_child_count() < 4:
-				_fail("Environment chunk collision was not generated: " + chunk.name)
+			if environment.get_collision_shape_count() < 1:
+				_fail("Full map collision was not generated: " + environment.name)
 				return
 		if !_validate_gameplay_points(level):
+			return
+		if !_validate_spawn_clearance(level):
 			return
 		if !level.has_node("UserInterface/GameUI/ItemBelt"):
 			_fail("Item HUD is missing from: " + level_path)
@@ -116,30 +124,40 @@ func _validate_gameplay_points(level: Node) -> bool:
 	var player := level.get_node_or_null("Player") as Node2D
 	if player != null:
 		points.append(player)
-	var chunks := level.find_children("*", "EnvironmentChunk", true, false)
+	var environments := level.find_children("*", "FullMapEnvironment", true, false)
 	for point in points:
 		if !level.is_ancestor_of(point):
 			continue
-		for chunk in chunks:
-			var body := chunk.get_node("Collision") as StaticBody2D
-			for collision in body.get_children():
-				var shape_node := collision as CollisionShape2D
-				if shape_node == null or shape_node.shape == null:
-					continue
-				var local_point := shape_node.to_local(point.global_position)
-				if _shape_contains_point(shape_node.shape, local_point):
-					_fail("Gameplay point is inside a wall: %s/%s" % [level.name, point.name])
-					return false
+		for environment in environments:
+			var full_map := environment as FullMapEnvironment
+			var local_point: Vector2 = full_map.to_local(point.global_position)
+			if full_map.is_local_point_blocked(local_point, 20.0):
+				_fail("Gameplay point is inside or too close to collision: %s/%s" % [level.name, point.name])
+				return false
 	return true
 
 
-func _shape_contains_point(shape: Shape2D, point: Vector2) -> bool:
-	if shape is RectangleShape2D:
-		var half_size := (shape as RectangleShape2D).size * 0.5
-		return absf(point.x) <= half_size.x and absf(point.y) <= half_size.y
-	if shape is CircleShape2D:
-		return point.length_squared() <= pow((shape as CircleShape2D).radius, 2.0)
-	return false
+func _validate_spawn_clearance(level: Node) -> bool:
+	var spawn_points := level.get_node_or_null("SpawnPoints")
+	if spawn_points == null:
+		return true
+	var gates := get_tree().get_nodes_in_group("ZoneGate")
+	for marker_node in spawn_points.get_children():
+		var marker := marker_node as Marker2D
+		if marker == null:
+			continue
+		for gate_node in gates:
+			if !level.is_ancestor_of(gate_node):
+				continue
+			var shape_node := gate_node.get_node_or_null("CollisionShape2D") as CollisionShape2D
+			if shape_node == null or !(shape_node.shape is RectangleShape2D):
+				continue
+			var local_point: Vector2 = shape_node.to_local(marker.global_position)
+			var half_size := (shape_node.shape as RectangleShape2D).size * 0.5 + Vector2.ONE * 18.0
+			if absf(local_point.x) <= half_size.x and absf(local_point.y) <= half_size.y:
+				_fail("Spawn point overlaps a zone gate: %s/%s" % [level.name, marker.name])
+				return false
+	return true
 
 
 func _fail(message: String) -> void:

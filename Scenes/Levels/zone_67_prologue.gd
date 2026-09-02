@@ -97,9 +97,6 @@ func _finish_intro(show_alert: bool = true) -> void:
 	GameManager.landing_intro_seen = true
 	intro_sequence.visible = false
 	player.set_movement_enabled(true)
-	hud.set_objective(
-		'สำรวจจุดลงจอดและตรวจสอบต้นทางสัญญาณ',
-		'PWR 00%  •  NAV 00%  •  ENG 00%'
-	)
+	hud.set_objective(GameManager.current_objective, GameManager.current_objective_details)
 	if show_alert:
-		hud.alert('SHIP AI // เริ่มสำรวจ Zone-67')
+		hud.alert('ECHO // Inspect the damaged ship')

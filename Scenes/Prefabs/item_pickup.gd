@@ -45,7 +45,7 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	collecting = true
 	collision_shape.set_deferred("disabled", true)
-	if AudioManager.coin_pickup_sfx:
+	if GameManager.sfx_on and AudioManager.coin_pickup_sfx:
 		AudioManager.coin_pickup_sfx.play()
 	var hud := get_tree().get_first_node_in_group("GameHUD")
 	if hud != null and hud.has_method("alert"):

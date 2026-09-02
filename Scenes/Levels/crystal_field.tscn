@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="6_gate"]
 [ext_resource type="Texture2D" uid="uid://c22i7l2bpiytn" path="res://Assets/UI/Items/energy_crystal.png" id="7_energy"]
 [ext_resource type="Texture2D" uid="uid://d0llxhv7lubmq" path="res://Assets/UI/Items/access_card.png" id="8_access"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/alien_crawler.tscn" id="9_crawler"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/alien_spitter.tscn" id="10_spitter"]
+[ext_resource type="Script" path="res://Scenes/Gameplay/enemy_respawn_manager.gd" id="11_respawn"]
+[ext_resource type="Script" path="res://Scenes/Gameplay/enemy_spawn_slot.gd" id="12_slot"]
 
 [node name="CrystalField" type="Node2D" unique_id=134886438]
 script = ExtResource("1_script")
@@ -101,6 +105,38 @@ position = Vector2(614, -40.5)
 [node name="Player" parent="." unique_id=1565267708 instance=ExtResource("3_player")]
 unique_name_in_owner = true
 position = Vector2(-586, -20.5)
+
+[node name="EnemyRespawnManager" type="Node2D" parent="."]
+script = ExtResource("11_respawn")
+respawn_interval = 60.0
+maximum_alive = 6
+safe_spawn_distance = 300.0
+
+[node name="ActiveEnemies" type="Node2D" parent="EnemyRespawnManager"]
+
+[node name="CrawlerNorth" type="Marker2D" parent="EnemyRespawnManager"]
+position = Vector2(72, -276)
+script = ExtResource("12_slot")
+enemy_scene = ExtResource("9_crawler")
+slot_id = &"crawler_north"
+
+[node name="CrawlerCenter" type="Marker2D" parent="EnemyRespawnManager"]
+position = Vector2(112, 193)
+script = ExtResource("12_slot")
+enemy_scene = ExtResource("9_crawler")
+slot_id = &"crawler_center"
+
+[node name="CrawlerEast" type="Marker2D" parent="EnemyRespawnManager"]
+position = Vector2(386, 74)
+script = ExtResource("12_slot")
+enemy_scene = ExtResource("9_crawler")
+slot_id = &"crawler_east"
+
+[node name="SpitterEast" type="Marker2D" parent="EnemyRespawnManager"]
+position = Vector2(585, 30)
+script = ExtResource("12_slot")
+enemy_scene = ExtResource("10_spitter")
+slot_id = &"spitter_east"
 
 [node name="Pickups" type="Node2D" parent="." unique_id=26285527]
 

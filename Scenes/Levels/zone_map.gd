@@ -30,6 +30,6 @@ func _ready() -> void:
 	GameManager.pending_spawn = &""
 	GameManager.loading_save = false
 	GameManager.spawn_saved_drops_for_current_level()
-	hud.set_objective(objective_title, objective_details)
+	hud.set_objective(GameManager.current_objective, GameManager.current_objective_details)
 	if !arrival_message.is_empty():
 		hud.call_deferred("alert", arrival_message)

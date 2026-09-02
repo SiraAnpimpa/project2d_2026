@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="7_gate"]
 [ext_resource type="Texture2D" uid="uid://cwk8pkjbmuts6" path="res://Assets/UI/Items/scrap_metal.png" id="8_scrap"]
 [ext_resource type="Texture2D" uid="uid://cdw5raswmk1km" path="res://Assets/UI/Items/med_kit.png" id="9_medkit"]
+[ext_resource type="Script" path="res://Scenes/Gameplay/ship_console_interactable.gd" id="10_ship_console"]
+[ext_resource type="Script" path="res://Scenes/Gameplay/final_defense_manager.gd" id="11_defense"]
+[ext_resource type="Texture2D" path="res://Assets/Gameplay/UI/aim_joystick.png" id="12_beacon"]
 
 [node name="Zone67Prologue" type="Node2D" unique_id=892980323]
 script = ExtResource("1_script")
@@ -76,6 +79,20 @@ position = Vector2(444, -80.5)
 [node name="Player" parent="." unique_id=582560180 instance=ExtResource("2_player")]
 unique_name_in_owner = true
 position = Vector2(-16, 289.5)
+
+[node name="ShipConsole" type="Node2D" parent="."]
+position = Vector2(-62, -54)
+script = ExtResource("10_ship_console")
+
+[node name="HolographicBeacon" type="Sprite2D" parent="ShipConsole"]
+position = Vector2(86, 76)
+texture_filter = 1
+texture = ExtResource("12_beacon")
+scale = Vector2(0.055, 0.055)
+modulate = Color(0.45, 0.95, 1, 0.75)
+
+[node name="FinalDefense" type="Node2D" parent="."]
+script = ExtResource("11_defense")
 
 [node name="LandingPickups" type="Node2D" parent="." unique_id=222126420]
 

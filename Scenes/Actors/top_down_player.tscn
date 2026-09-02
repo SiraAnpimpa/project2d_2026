@@ -36,3 +36,12 @@ limit_left = -1420
 limit_top = -820
 limit_right = 1420
 limit_bottom = 820
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(32, -24)
+
+[node name="FireSfx" type="AudioStreamPlayer2D" parent="."]
+bus = &"sfx"
+
+[node name="ImpactSfx" type="AudioStreamPlayer2D" parent="."]
+bus = &"sfx"

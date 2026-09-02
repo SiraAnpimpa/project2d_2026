@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/Gameplay/enemy_respawn_manager.gd" id="1_manager"]
+
+[node name="HiveEnemyRespawnManager" type="Node2D"]
+editor_description = "Hive / pre-boss profile: add EnemySpawnSlot children and AlienEgg instances. Keep the boss outside this manager."
+script = ExtResource("1_manager")
+respawn_interval = 30.0
+maximum_alive = 10
+safe_spawn_distance = 340.0
+blocked_retry_interval = 3.0
+
+[node name="ActiveEnemies" type="Node2D" parent="."]

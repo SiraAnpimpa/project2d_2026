@@ -7,15 +7,28 @@ signal interaction_requested
 @export var acceleration: float = 1500.0
 @export var deceleration: float = 1900.0
 @export var walk_frames_per_second: float = 8.0
+@export_category("Pulse Rifle")
+@export var projectile_scene: PackedScene = preload("res://Scenes/Prefabs/combat_projectile.tscn")
+@export var weapon_damage := 18
+@export var fire_rate := 5.0
+@export var projectile_speed := 760.0
+@export var projectile_lifetime := 1.4
 
 @onready var astronaut: Sprite2D = $Astronaut
 @onready var camera: Camera2D = $Camera2D
+@onready var muzzle: Marker2D = $Muzzle
 
 var movement_enabled := true
 var spawn_point := Vector2.ZERO
 var facing_row := 0
 var animation_clock := 0.0
 var is_dying := false
+var fire_cooldown := 0.0
+var aim_direction := Vector2.RIGHT
+var mobile_aim_direction := Vector2.ZERO
+var mobile_firing := false
+var current_interactable: Node2D = null
+var interaction_scan_clock := 0.0
 
 
 func _ready() -> void:
@@ -30,6 +43,8 @@ func _exit_tree() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if fire_cooldown > 0.0:
+		fire_cooldown -= delta
 	var input_direction := Vector2.ZERO
 	if movement_enabled and !is_dying:
 		input_direction = Input.get_vector("Left", "Right", "Up", "Down")
@@ -48,7 +63,18 @@ func _physics_process(delta: float) -> void:
 		_update_sprite(0)
 
 	if movement_enabled and Input.is_action_just_pressed("Interact"):
-		interaction_requested.emit()
+		perform_interaction()
+	if movement_enabled and Input.is_action_just_pressed("UseMedKit"):
+		use_med_kit()
+
+	_update_aim()
+	if movement_enabled and !is_dying and (Input.is_action_pressed("Shoot") or mobile_firing):
+		fire_weapon()
+
+	interaction_scan_clock -= delta
+	if interaction_scan_clock <= 0.0:
+		interaction_scan_clock = 0.1
+		_scan_interactables()
 
 
 func _update_facing(direction: Vector2) -> void:
@@ -68,6 +94,84 @@ func set_movement_enabled(enabled: bool) -> void:
 		velocity = Vector2.ZERO
 		animation_clock = 0.0
 		_update_sprite(0)
+
+
+func _update_aim() -> void:
+	if mobile_aim_direction.length_squared() > 0.04:
+		aim_direction = mobile_aim_direction.normalized()
+	else:
+		var mouse_vector := get_global_mouse_position() - global_position
+		if mouse_vector.length_squared() > 1.0:
+			aim_direction = mouse_vector.normalized()
+	muzzle.position = aim_direction * 32.0 + Vector2(0, -24)
+
+
+func set_mobile_aim(direction: Vector2, firing: bool) -> void:
+	mobile_aim_direction = direction.limit_length(1.0)
+	mobile_firing = firing and mobile_aim_direction.length() >= 0.24
+
+
+func fire_weapon() -> void:
+	if fire_cooldown > 0.0 or projectile_scene == null or !movement_enabled:
+		return
+	var projectile := projectile_scene.instantiate() as CombatProjectile
+	get_tree().current_scene.add_child(projectile)
+	projectile.global_position = muzzle.global_position
+	projectile.configure(aim_direction, weapon_damage, projectile_speed, projectile_lifetime)
+	fire_cooldown = 1.0 / maxf(fire_rate, 0.1)
+	var flash := Polygon2D.new()
+	flash.polygon = PackedVector2Array([
+		Vector2(0, -4), Vector2(22, -6), Vector2(38, 0),
+		Vector2(22, 6), Vector2(0, 4), Vector2(9, 0),
+	])
+	flash.color = Color(0.5, 0.94, 1.0, 0.92)
+	add_child(flash)
+	flash.position = muzzle.position
+	flash.rotation = aim_direction.angle()
+	var tween := create_tween()
+	tween.tween_property(flash, "scale", Vector2(0.2, 0.2), 0.08)
+	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.08)
+	tween.tween_callback(flash.queue_free)
+
+
+func _scan_interactables() -> void:
+	var best: Node2D = null
+	var best_distance := INF
+	for candidate in get_tree().get_nodes_in_group("Interactable"):
+		if !(candidate is Node2D) or !candidate.has_method("can_interact") or !candidate.can_interact(self):
+			continue
+		var target_position: Vector2 = candidate.get_interaction_position() if candidate.has_method("get_interaction_position") else candidate.global_position
+		var distance := global_position.distance_to(target_position)
+		var radius := float(candidate.get("interaction_radius")) if candidate.get("interaction_radius") != null else 115.0
+		if distance <= radius and distance < best_distance:
+			best = candidate
+			best_distance = distance
+	current_interactable = best
+	var hud := get_tree().get_first_node_in_group("GameHUD")
+	if hud != null and hud.has_method("set_interaction_prompt"):
+		hud.set_interaction_prompt(best.get_prompt() if best != null else "")
+
+
+func perform_interaction() -> void:
+	if current_interactable != null and is_instance_valid(current_interactable) and current_interactable.can_interact(self):
+		current_interactable.interact(self)
+		interaction_requested.emit()
+
+
+func use_med_kit() -> void:
+	var hud := get_tree().get_first_node_in_group("GameHUD")
+	if GameManager.use_med_kit():
+		if hud != null and hud.has_method("alert"):
+			hud.alert("MED KIT USED // HP +25%")
+		hit_feedback(Color(0.45, 1.0, 0.62))
+	elif hud != null and hud.has_method("alert"):
+		hud.alert("HP ALREADY FULL" if GameManager.hp >= GameManager.max_hp else "NO MED KIT")
+
+
+func hit_feedback(color: Color = Color(1.0, 0.25, 0.32)) -> void:
+	var tween := create_tween()
+	tween.tween_property(astronaut, "modulate", color, 0.07)
+	tween.tween_property(astronaut, "modulate", Color.WHITE, 0.14)
 
 
 func set_respawn_point(world_position: Vector2) -> void:
@@ -91,12 +195,16 @@ func death_tween() -> void:
 		return
 	is_dying = true
 	set_movement_enabled(false)
+	mobile_firing = false
 	if AudioManager.death_sfx:
 		AudioManager.death_sfx.play()
 	var fade_out := create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	fade_out.tween_property(self, "modulate", Color(1.0, 0.22, 0.3, 0.0), 0.3)
 	fade_out.parallel().tween_property(self, "scale", Vector2(0.72, 0.72), 0.3)
 	await fade_out.finished
+	var test_scene := get_tree().current_scene != null and get_tree().current_scene.scene_file_path.begins_with("res://Tests/")
+	if !test_scene:
+		return
 	global_position = spawn_point
 	velocity = Vector2.ZERO
 	modulate = Color.WHITE

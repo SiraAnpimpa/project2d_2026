@@ -74,11 +74,17 @@ func _run_test() -> void:
 	if int(drop.amount) != 7 or drop.global_position.distance_to(death_position) > 0.01:
 		_fail("Salvage drop amount or position is incorrect")
 		return
+	GameManager.sfx_on = false
 	await drop._on_body_entered(player)
+	GameManager.sfx_on = true
 	if GameManager.salvage != 7 or !GameManager.dropped_salvage.is_empty():
 		_fail("Dropped salvage could not be recovered")
 		return
 
+	level.queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
 	print("TOP_DOWN_SMOKE_TEST: PASS")
 	get_tree().quit()
 

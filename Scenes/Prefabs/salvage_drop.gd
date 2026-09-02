@@ -32,7 +32,7 @@ func _on_body_entered(body: Node2D) -> void:
 	collecting = true
 	collision_shape.set_deferred("disabled", true)
 	GameManager.collect_dropped_salvage(drop_id, amount)
-	if AudioManager.coin_pickup_sfx:
+	if GameManager.sfx_on and AudioManager.coin_pickup_sfx:
 		AudioManager.coin_pickup_sfx.play()
 	var pickup := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	pickup.tween_property(self, "scale", Vector2(1.45, 1.45), 0.12)

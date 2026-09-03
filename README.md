@@ -4,7 +4,7 @@
 
 ## เล่นบนเว็บ
 
-[เปิดเกม OLETHROS // ZONE-67](https://siraanpimpa.github.io/project2d_2026/)
+[เปิดเกม OLETHROS](https://siraanpimpa.github.io/project2d_2026/)
 
 <img src="docs/index.png" alt="OLETHROS // ZONE-67" width="720" />
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://Scenes/Actors/alien_enemy.gd" id="1"]
 [ext_resource type="Texture2D" path="res://Assets/Gameplay/Enemies/alien_spitter_sheet.png" id="2"]
+[ext_resource type="Resource" path="res://Scenes/Gameplay/DropTables/spitter_drops.tres" id="3_drops"]
 
 [sub_resource type="CircleShape2D" id="1"]
 radius = 25.0
@@ -15,7 +16,7 @@ max_hp = 70
 move_speed = 105.0
 attack_damage = 14
 attack_cooldown = 1.65
-drop_profile = "spitter"
+drop_table = ExtResource("3_drops")
 
 [node name="Shadow" type="Polygon2D" parent="."]
 z_index = -1

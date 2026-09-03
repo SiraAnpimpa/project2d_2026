@@ -16,8 +16,8 @@ enum State { IDLE, CHASE, TELEGRAPH, ATTACK, RECOVER, HURT, DEAD }
 @export var attack_cooldown := 1.25
 @export var projectile_scene: PackedScene = preload("res://Scenes/Prefabs/combat_projectile.tscn")
 @export_category("Repeatable Material Drops")
-@export_enum("crawler", "spitter", "elite", "none") var drop_profile := "crawler"
-@export_range(0.0, 1.0, 0.01) var material_drop_chance := 0.72
+@export var drop_table: EnemyDropTable
+@export_range(0.0, 2.0, 0.01) var material_drop_chance := 1.0
 
 const MATERIAL_DROP_SCENE: PackedScene = preload("res://Scenes/Prefabs/enemy_material_drop.tscn")
 
@@ -182,25 +182,18 @@ func _die() -> void:
 
 
 func _roll_material_drop() -> void:
-	if drop_profile == "none" or randf() > material_drop_chance:
+	if drop_table == null or get_tree().current_scene == null:
 		return
-	var roll := randf()
-	var item_id: StringName = &"scrap_metal"
-	var amount := 1
-	match drop_profile:
-		"spitter":
-			item_id = &"circuit_part" if roll < 0.18 else (&"energy_crystal" if roll < 0.52 else &"scrap_metal")
-		"elite":
-			item_id = &"circuit_part" if roll < 0.42 else (&"energy_crystal" if roll < 0.70 else &"scrap_metal")
-			amount = 2 if roll < 0.16 else 1
-		_:
-			item_id = &"circuit_part" if roll < 0.06 else (&"energy_crystal" if roll < 0.28 else &"scrap_metal")
-	var drop := MATERIAL_DROP_SCENE.instantiate() as EnemyMaterialDrop
-	if drop == null or get_tree().current_scene == null:
-		return
-	drop.configure(item_id, amount)
-	get_tree().current_scene.add_child(drop)
-	drop.global_position = global_position
+	var drops := drop_table.roll_drops(null, material_drop_chance)
+	for index in range(drops.size()):
+		var result: Dictionary = drops[index]
+		var drop := MATERIAL_DROP_SCENE.instantiate() as EnemyMaterialDrop
+		if drop == null:
+			continue
+		drop.configure(result.get("item_id", &"alien_biomass"), int(result.get("amount", 1)))
+		get_tree().current_scene.add_child(drop)
+		var angle := TAU * float(index) / maxf(float(drops.size()), 1.0)
+		drop.global_position = global_position + Vector2.RIGHT.rotated(angle) * float(index * 14)
 
 
 func _update_animation() -> void:

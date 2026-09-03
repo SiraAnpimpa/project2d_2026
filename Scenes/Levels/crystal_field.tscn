@@ -190,5 +190,6 @@ target_scene = "res://Scenes/Levels/abandoned_signal_base.tscn"
 target_spawn = &"FromCrystal"
 gate_label = "SIGNAL BASE  >"
 accent_color = Color(0.506, 0.957, 0.635, 0.46)
+progression_requirement = "base"
 
 [node name="UserInterface" parent="." unique_id=1614284612 instance=ExtResource("4_hud")]

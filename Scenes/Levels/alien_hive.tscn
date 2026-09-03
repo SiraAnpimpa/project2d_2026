@@ -1,0 +1,724 @@
+[gd_scene format=3 uid="uid://dgblp5xgqs27v"]
+
+[ext_resource type="Script" uid="uid://c1ycitw16u5k3" path="res://Scenes/Levels/alien_hive.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b3tsiq2p71tpn" path="res://Assets/Gameplay/Hive/hive_props_atlas.png" id="2_hive"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/top_down_player.tscn" id="3_player"]
+[ext_resource type="PackedScene" uid="uid://cdwabmqtlxr1y" path="res://Scenes/Levels/game_ui.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="5_gate"]
+[ext_resource type="Script" uid="uid://72yhjpac426m" path="res://Scenes/Gameplay/enemy_respawn_manager.gd" id="6_respawn"]
+[ext_resource type="Script" uid="uid://ugewnkebadej" path="res://Scenes/Gameplay/enemy_spawn_slot.gd" id="7_slot"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/alien_crawler.tscn" id="8_crawler"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/alien_spitter.tscn" id="9_spitter"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/stalker.tscn" id="10_stalker"]
+[ext_resource type="PackedScene" path="res://Scenes/Gameplay/alien_egg.tscn" id="11_egg"]
+[ext_resource type="Script" uid="uid://cwb20r1d2sb4e" path="res://Scenes/Gameplay/acid_pool.gd" id="12_acid"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jpyye"]
+radius = 109.61017
+
+[sub_resource type="CircleShape2D" id="AcidShape"]
+radius = 82.0
+
+[sub_resource type="RectangleShape2D" id="BoundaryHorizontal"]
+size = Vector2(1672, 24)
+
+[sub_resource type="RectangleShape2D" id="BoundaryVertical"]
+size = Vector2(24, 941)
+
+[node name="AlienHive" type="Node2D" unique_id=1629238725]
+script = ExtResource("1_script")
+objective_title = "Reach the anomalous energy source"
+objective_details = "ALIEN HIVE // THREAT LEVEL HIGH"
+arrival_message = "ALIEN HIVE // HIGH RISK • HIGH REWARD"
+map_bounds = Rect2(-836, -470.5, 1672, 941)
+
+[node name="Ground" type="Polygon2D" parent="." unique_id=486216568]
+z_index = -20
+color = Color(0.018, 0.012, 0.055, 1)
+polygon = PackedVector2Array(-836, -470, 836, -470, 836, 470, -836, 470)
+
+[node name="AcidGlow" type="Polygon2D" parent="." unique_id=1291298136]
+z_index = -18
+color = Color(0.09, 0.16, 0.08, 0.34)
+polygon = PackedVector2Array(-640, -390, 660, -390, 760, -160, 700, 330, 180, 410, -520, 360, -740, 90)
+
+[node name="FinishedFloorInset" type="Polygon2D" parent="." unique_id=346810086]
+z_index = -17
+color = Color(0.055, 0.034, 0.092, 0.92)
+polygon = PackedVector2Array(-770, -398, -190, -420, 0, -390, 210, -422, 770, -390, 782, 118, 690, 396, 160, 424, -180, 408, -700, 390, -782, 92)
+
+[node name="NorthWall" type="Polygon2D" parent="." unique_id=1735839224]
+z_index = -5
+color = Color(0.12, 0.04, 0.16, 0.96)
+polygon = PackedVector2Array(-836, -470, -118, -470, -118, -430, -836, -400)
+
+[node name="NorthWallRight" type="Polygon2D" parent="." unique_id=1993401983]
+z_index = -5
+color = Color(0.12, 0.04, 0.16, 0.96)
+polygon = PackedVector2Array(118, -470, 836, -470, 836, -400, 118, -430)
+
+[node name="SouthWall" type="Polygon2D" parent="." unique_id=193876039]
+z_index = -5
+color = Color(0.09, 0.025, 0.13, 0.98)
+polygon = PackedVector2Array(-836, 400, 836, 400, 836, 470, -836, 470)
+
+[node name="WestWall" type="Polygon2D" parent="." unique_id=2004451272]
+z_index = -5
+color = Color(0.105, 0.03, 0.145, 0.98)
+polygon = PackedVector2Array(-836, -470, -772, -402, -772, 394, -836, 470)
+
+[node name="EastWall" type="Polygon2D" parent="." unique_id=652630725]
+z_index = -5
+color = Color(0.105, 0.03, 0.145, 0.98)
+polygon = PackedVector2Array(836, -470, 772, -402, 772, 394, 836, 470)
+
+[node name="EnvironmentProps" type="Node2D" parent="." unique_id=1704581137]
+
+[node name="ReturnCorridor" type="Sprite2D" parent="EnvironmentProps" unique_id=250634248]
+z_index = -3
+texture_filter = 1
+position = Vector2(703, -386)
+scale = Vector2(0.68, 0.62)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(590, 540, 380, 260)
+
+[node name="ReturnCorridor2" type="Sprite2D" parent="EnvironmentProps" unique_id=1378937265]
+z_index = -3
+texture_filter = 1
+position = Vector2(-760, -407)
+scale = Vector2(0.46240002, 0.3844)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(22, 544, 260, 260)
+
+[node name="ReturnGlow" type="Polygon2D" parent="EnvironmentProps" unique_id=312331124]
+z_index = -2
+position = Vector2(0, -392)
+color = Color(0.25, 0.72, 1, 0.16)
+polygon = PackedVector2Array(-82, 28, -62, -38, 0, -66, 62, -38, 82, 28)
+
+[node name="FloorGrowthWest" type="Sprite2D" parent="EnvironmentProps" unique_id=850792259]
+z_index = -12
+texture_filter = 1
+position = Vector2(-570, -270)
+scale = Vector2(0.82, 0.82)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 270, 455, 290)
+
+[node name="FloorGrowthWest2" type="Sprite2D" parent="EnvironmentProps" unique_id=173405728]
+z_index = -12
+texture_filter = 1
+position = Vector2(-676, -144)
+scale = Vector2(0.6724, 0.6724)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 270, 455, 290)
+
+[node name="FloorGrowthCenter" type="Sprite2D" parent="EnvironmentProps" unique_id=85869577]
+z_index = -12
+texture_filter = 1
+position = Vector2(9.374992, 170)
+scale = Vector2(1.0944444, 0.9)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthWest3" type="Sprite2D" parent="EnvironmentProps" unique_id=1298244210]
+z_index = -12
+texture_filter = 1
+position = Vector2(-475.00003, -362)
+scale = Vector2(0.6119478, 0.53775287)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 270, 455, 290)
+
+[node name="FloorGrowthCenter16" type="Sprite2D" parent="EnvironmentProps" unique_id=67905600]
+z_index = -12
+texture_filter = 1
+position = Vector2(336.33392, -252.21637)
+scale = Vector2(0.9164059, 0.66747326)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter18" type="Sprite2D" parent="EnvironmentProps" unique_id=744965742]
+z_index = -12
+texture_filter = 1
+position = Vector2(330.5, -370)
+scale = Vector2(1.0380952, 0.47214413)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter9" type="Sprite2D" parent="EnvironmentProps" unique_id=1125512855]
+z_index = -12
+texture_filter = 1
+position = Vector2(12.332127, -173.43275)
+scale = Vector2(0.7153515, 0.74873966)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter10" type="Sprite2D" parent="EnvironmentProps" unique_id=1393948477]
+z_index = -12
+texture_filter = 1
+position = Vector2(115, -134)
+scale = Vector2(0.7714286, 0.8482759)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter11" type="Sprite2D" parent="EnvironmentProps" unique_id=323912196]
+z_index = -12
+texture_filter = 1
+position = Vector2(168.99185, -309.08728)
+scale = Vector2(0.85084546, 0.8683636)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter21" type="Sprite2D" parent="EnvironmentProps" unique_id=2008499146]
+z_index = -12
+texture_filter = 1
+position = Vector2(541.48987, -7.866954)
+scale = Vector2(0.84768325, 0.7319521)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter20" type="Sprite2D" parent="EnvironmentProps" unique_id=1069687347]
+z_index = -12
+texture_filter = 1
+position = Vector2(701.5068, -16.996883)
+scale = Vector2(0.7079798, 0.55864215)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter12" type="Sprite2D" parent="EnvironmentProps" unique_id=471107986]
+z_index = -12
+texture_filter = 1
+position = Vector2(239.53429, 48.924828)
+scale = Vector2(1.164862, 1.0270679)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter17" type="Sprite2D" parent="EnvironmentProps" unique_id=477341799]
+z_index = -12
+texture_filter = 1
+position = Vector2(253.8995, -123.04)
+scale = Vector2(0.8332858, 0.7265071)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter13" type="Sprite2D" parent="EnvironmentProps" unique_id=1556123611]
+z_index = -12
+texture_filter = 1
+position = Vector2(274.44617, -146.13664)
+scale = Vector2(0.89875436, 0.8059542)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter14" type="Sprite2D" parent="EnvironmentProps" unique_id=1628361149]
+z_index = -12
+texture_filter = 1
+position = Vector2(489.86963, -291)
+scale = Vector2(0.8325738, 0.97931033)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter15" type="Sprite2D" parent="EnvironmentProps" unique_id=411196111]
+z_index = -12
+texture_filter = 1
+position = Vector2(649.99994, -276.64825)
+scale = Vector2(0.8761901, 1.0162188)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter8" type="Sprite2D" parent="EnvironmentProps" unique_id=153218301]
+z_index = -12
+texture_filter = 1
+position = Vector2(383, -135)
+scale = Vector2(0.80999994, 0.80999994)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(747, 277, 229, 257)
+
+[node name="FloorGrowthCenter4" type="Sprite2D" parent="EnvironmentProps" unique_id=2093279694]
+z_index = -12
+texture_filter = 1
+position = Vector2(112.00001, 3)
+scale = Vector2(0.80999994, 0.80999994)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter5" type="Sprite2D" parent="EnvironmentProps" unique_id=36483047]
+z_index = -12
+texture_filter = 1
+position = Vector2(-169.00003, 190.99998)
+scale = Vector2(0.7289999, 0.7289999)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter6" type="Sprite2D" parent="EnvironmentProps" unique_id=1516086166]
+z_index = -12
+texture_filter = 1
+position = Vector2(392, -6)
+scale = Vector2(0.6560999, 0.6560999)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter7" type="Sprite2D" parent="EnvironmentProps" unique_id=1098698932]
+z_index = -12
+texture_filter = 1
+position = Vector2(-122.49999, -218)
+scale = Vector2(0.8984127, 0.5904899)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter27" type="Sprite2D" parent="EnvironmentProps" unique_id=1473077946]
+z_index = -12
+texture_filter = 1
+position = Vector2(6.999996, -310)
+scale = Vector2(1.1746032, 0.724138)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter3" type="Sprite2D" parent="EnvironmentProps" unique_id=582429712]
+z_index = -12
+texture_filter = 1
+position = Vector2(-122, -7.999998)
+scale = Vector2(1.1605555, 1.2084483)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter34" type="Sprite2D" parent="EnvironmentProps" unique_id=1702898019]
+z_index = -12
+texture_filter = 1
+position = Vector2(-569.5, 214)
+scale = Vector2(2.1619046, 1.262069)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter28" type="Sprite2D" parent="EnvironmentProps" unique_id=1008412229]
+z_index = -12
+texture_filter = 1
+position = Vector2(-1.5, -393.98276)
+scale = Vector2(0.74603176, 0.5311535)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter22" type="Sprite2D" parent="EnvironmentProps" unique_id=897365682]
+z_index = -12
+texture_filter = 1
+position = Vector2(-348, -9.999994)
+scale = Vector2(0.9782064, 1.1232772)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter29" type="Sprite2D" parent="EnvironmentProps" unique_id=2043744986]
+z_index = -12
+texture_filter = 1
+position = Vector2(-221.00002, -346.977)
+scale = Vector2(1.079365, 0.7929448)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter30" type="Sprite2D" parent="EnvironmentProps" unique_id=1453217075]
+z_index = -12
+texture_filter = 1
+position = Vector2(-680, 353.00006)
+scale = Vector2(1.1650288, 0.6287614)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter31" type="Sprite2D" parent="EnvironmentProps" unique_id=414598490]
+z_index = -12
+texture_filter = 1
+position = Vector2(-486.00003, 376.00003)
+scale = Vector2(0.8754714, 0.39534092)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter32" type="Sprite2D" parent="EnvironmentProps" unique_id=635924688]
+z_index = -12
+texture_filter = 1
+position = Vector2(-335, 350.5)
+scale = Vector2(0.81269836, 0.47241387)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter23" type="Sprite2D" parent="EnvironmentProps" unique_id=1680020488]
+z_index = -12
+texture_filter = 1
+position = Vector2(385.99976, 117.99999)
+scale = Vector2(0.9568878, 1.2617517)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter24" type="Sprite2D" parent="EnvironmentProps" unique_id=2064300908]
+z_index = -12
+texture_filter = 1
+position = Vector2(565.00006, 228.00002)
+scale = Vector2(0.9360337, 1.4172969)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter25" type="Sprite2D" parent="EnvironmentProps" unique_id=251514738]
+z_index = -12
+texture_filter = 1
+position = Vector2(358.00003, 327)
+scale = Vector2(1.3839749, 0.7712744)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter2" type="Sprite2D" parent="EnvironmentProps" unique_id=536461925]
+z_index = -12
+texture_filter = 1
+position = Vector2(219, 239)
+scale = Vector2(0.80999994, 0.80999994)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter26" type="Sprite2D" parent="EnvironmentProps" unique_id=204299389]
+z_index = -12
+texture_filter = 1
+position = Vector2(666.9999, 314.4376)
+scale = Vector2(0.9782064, 1.0168108)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthNorthEast" type="Sprite2D" parent="EnvironmentProps" unique_id=1669841802]
+z_index = -12
+texture_filter = 1
+position = Vector2(510, -115)
+scale = Vector2(0.66, 0.66)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(430, 270, 315, 290)
+
+[node name="FloorGrowthNorthEast2" type="Sprite2D" parent="EnvironmentProps" unique_id=449731524]
+z_index = -12
+texture_filter = 1
+position = Vector2(-397, 182)
+scale = Vector2(0.43560004, 0.43560004)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(430, 270, 315, 290)
+
+[node name="FloorGrowthSouthWest" type="Sprite2D" parent="EnvironmentProps" unique_id=83651782]
+z_index = -12
+texture_filter = 1
+position = Vector2(-315, 260)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter19" type="Sprite2D" parent="EnvironmentProps" unique_id=1402024718]
+z_index = -12
+texture_filter = 1
+position = Vector2(-245, -179)
+scale = Vector2(0.7153515, 0.7073604)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="FloorGrowthCenter33" type="Sprite2D" parent="EnvironmentProps" unique_id=74844903]
+z_index = -12
+texture_filter = 1
+position = Vector2(-354.60074, -220.612)
+scale = Vector2(0.70094776, 0.8095725)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="AcidPoolEast" type="Sprite2D" parent="EnvironmentProps" unique_id=1767616118]
+z_index = -9
+texture_filter = 1
+position = Vector2(540, 270)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(735, 1015, 545, 265)
+
+[node name="AcidPoolEast2" type="Sprite2D" parent="EnvironmentProps" unique_id=1793536432]
+z_index = -12
+texture_filter = 1
+position = Vector2(343, 244)
+scale = Vector2(0.53297675, 0.55876184)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(329, 1016, 248, 209)
+
+[node name="EggCluster" type="Sprite2D" parent="EnvironmentProps" unique_id=773107652]
+z_index = -7
+texture_filter = 1
+position = Vector2(-688, -330)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(-4, 966, 325, 280)
+
+[node name="EggCluster3" type="Sprite2D" parent="EnvironmentProps" unique_id=1467096029]
+z_index = -7
+texture_filter = 1
+position = Vector2(-635, -280)
+scale = Vector2(0.50884616, 0.50357145)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(-4, 966, 325, 280)
+
+[node name="EggCluster2" type="Sprite2D" parent="EnvironmentProps" unique_id=1553526552]
+z_index = -7
+texture_filter = 1
+position = Vector2(-738, -257)
+scale = Vector2(0.42817315, 0.46196437)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(-4, 966, 325, 280)
+
+[node name="HiveNode" type="Sprite2D" parent="EnvironmentProps" unique_id=84270098]
+z_index = -7
+texture_filter = 1
+position = Vector2(698, -331)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(970, 770, 310, 285)
+
+[node name="Egg" type="Sprite2D" parent="EnvironmentProps" unique_id=1615158736]
+z_index = -12
+texture_filter = 1
+position = Vector2(-119, -88)
+scale = Vector2(0.585621, 0.5395054)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(744, 0, 227, 258)
+
+[node name="Egg2" type="Sprite2D" parent="EnvironmentProps" unique_id=500724915]
+z_index = -12
+texture_filter = 1
+position = Vector2(225.00002, 70.000015)
+scale = Vector2(0.34295195, 0.2910661)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(744, 0, 227, 258)
+
+[node name="Egg3" type="Sprite2D" parent="EnvironmentProps" unique_id=1410251289]
+z_index = -12
+texture_filter = 1
+position = Vector2(500, -140.00002)
+scale = Vector2(0.47984612, 0.45948648)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(744, 0, 227, 258)
+
+[node name="Egg4" type="Sprite2D" parent="EnvironmentProps" unique_id=256751274]
+z_index = -12
+texture_filter = 1
+position = Vector2(-575.00006, 188)
+scale = Vector2(0.9923236, 1.0667217)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(975, 4, 277, 291)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnvironmentProps/Egg4" unique_id=2083618749]
+position = Vector2(-12.092768, -10.311968)
+shape = SubResource("CircleShape2D_jpyye")
+
+[node name="Egg5" type="Sprite2D" parent="." unique_id=1244629490]
+z_index = -12
+texture_filter = 1
+position = Vector2(-447, -169)
+scale = Vector2(0.41468555, 0.39238554)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(239, 0, 227, 258)
+
+[node name="Egg6" type="Sprite2D" parent="." unique_id=2136208497]
+z_index = -12
+texture_filter = 1
+position = Vector2(-467, -14.999999)
+scale = Vector2(0.50448424, 0.4219447)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(493, -9, 227, 258)
+
+[node name="Egg7" type="Sprite2D" parent="." unique_id=1830440122]
+z_index = -12
+texture_filter = 1
+position = Vector2(-451.99997, -94)
+scale = Vector2(0.4224064, 0.3448326)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(-1, 8, 227, 258)
+
+[node name="Egg8" type="Sprite2D" parent="." unique_id=367972588]
+z_index = -12
+texture_filter = 1
+position = Vector2(-502, -77)
+scale = Vector2(0.28304613, 0.25712922)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(-1, 8, 227, 258)
+
+[node name="FloorGrowthCenter9" type="Sprite2D" parent="." unique_id=1407285289]
+z_index = -12
+texture_filter = 1
+position = Vector2(-304, 114.99999)
+scale = Vector2(0.71618134, 0.6984554)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="AcidHazardEast" type="Area2D" parent="." unique_id=170432031]
+position = Vector2(540, 270)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("12_acid")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AcidHazardEast" unique_id=1895439421]
+scale = Vector2(1.55, 0.72)
+shape = SubResource("AcidShape")
+
+[node name="Boundaries" type="StaticBody2D" parent="." unique_id=1691764382]
+collision_mask = 0
+
+[node name="North" type="CollisionShape2D" parent="Boundaries" unique_id=203887364]
+position = Vector2(0, -458)
+shape = SubResource("BoundaryHorizontal")
+
+[node name="South" type="CollisionShape2D" parent="Boundaries" unique_id=908965610]
+position = Vector2(0, 458)
+shape = SubResource("BoundaryHorizontal")
+
+[node name="West" type="CollisionShape2D" parent="Boundaries" unique_id=1868611398]
+position = Vector2(-824, 0)
+shape = SubResource("BoundaryVertical")
+
+[node name="East" type="CollisionShape2D" parent="Boundaries" unique_id=341444509]
+position = Vector2(824, 0)
+shape = SubResource("BoundaryVertical")
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=39948215]
+
+[node name="Default" type="Marker2D" parent="SpawnPoints" unique_id=1336998924]
+position = Vector2(0, -330)
+
+[node name="FromBase" type="Marker2D" parent="SpawnPoints" unique_id=719377463]
+position = Vector2(0, -330)
+
+[node name="FromBoss" type="Marker2D" parent="SpawnPoints" unique_id=404304013]
+position = Vector2(675, 0)
+
+[node name="Player" parent="." unique_id=1401821393 instance=ExtResource("3_player")]
+unique_name_in_owner = true
+position = Vector2(0, -330)
+
+[node name="EnemyRespawnManager" type="Node2D" parent="." unique_id=1899490990]
+script = ExtResource("6_respawn")
+respawn_interval = 30.0
+maximum_alive = 10
+safe_spawn_distance = 330.0
+blocked_retry_interval = 3.0
+
+[node name="ActiveEnemies" type="Node2D" parent="EnemyRespawnManager" unique_id=791529480]
+
+[node name="CrawlerWest" type="Marker2D" parent="EnemyRespawnManager" unique_id=870731297]
+position = Vector2(-330, -245)
+script = ExtResource("7_slot")
+enemy_scene = ExtResource("8_crawler")
+slot_id = &"hive_crawler_west"
+
+[node name="CrawlerSouth" type="Marker2D" parent="EnemyRespawnManager" unique_id=120073799]
+position = Vector2(-210, 260)
+script = ExtResource("7_slot")
+enemy_scene = ExtResource("8_crawler")
+slot_id = &"hive_crawler_south"
+
+[node name="SpitterNorth" type="Marker2D" parent="EnemyRespawnManager" unique_id=1705119490]
+position = Vector2(-10, -300)
+script = ExtResource("7_slot")
+enemy_scene = ExtResource("9_spitter")
+slot_id = &"hive_spitter_north"
+
+[node name="SpitterEast" type="Marker2D" parent="EnemyRespawnManager" unique_id=431212646]
+position = Vector2(310, 260)
+script = ExtResource("7_slot")
+enemy_scene = ExtResource("9_spitter")
+slot_id = &"hive_spitter_east"
+
+[node name="CrawlerCore" type="Marker2D" parent="EnemyRespawnManager" unique_id=1443104078]
+position = Vector2(120, 20)
+script = ExtResource("7_slot")
+enemy_scene = ExtResource("8_crawler")
+slot_id = &"hive_crawler_core"
+
+[node name="StalkerNorth" type="Marker2D" parent="EnemyRespawnManager" unique_id=1718635853]
+position = Vector2(350, -245)
+script = ExtResource("7_slot")
+enemy_scene = ExtResource("10_stalker")
+slot_id = &"hive_stalker_north"
+
+[node name="StalkerDeep" type="Marker2D" parent="EnemyRespawnManager" unique_id=1312749487]
+position = Vector2(580, 80)
+script = ExtResource("7_slot")
+enemy_scene = ExtResource("10_stalker")
+slot_id = &"hive_stalker_deep"
+
+[node name="EggWest" parent="EnemyRespawnManager" unique_id=1476420554 instance=ExtResource("11_egg")]
+position = Vector2(-120, -60)
+enemy_scenes = Array[PackedScene]([ExtResource("8_crawler"), ExtResource("9_spitter")])
+
+[node name="EggCenter" parent="EnemyRespawnManager" unique_id=795223116 instance=ExtResource("11_egg")]
+position = Vector2(225, 85)
+enemy_scenes = Array[PackedScene]([ExtResource("8_crawler"), ExtResource("10_stalker")])
+
+[node name="EggEast" parent="EnemyRespawnManager" unique_id=858512752 instance=ExtResource("11_egg")]
+position = Vector2(500, -115)
+enemy_scenes = Array[PackedScene]([ExtResource("9_spitter"), ExtResource("10_stalker")])
+
+[node name="ToSignalBase" parent="." unique_id=1945003625 instance=ExtResource("5_gate")]
+position = Vector2(0, -404)
+scale = Vector2(0.62, 0.48)
+target_scene = "res://Scenes/Levels/abandoned_signal_base.tscn"
+target_spawn = &"FromHive"
+gate_label = "RETURN // SIGNAL BASE"
+accent_color = Color(0.35, 0.75, 1, 0.5)
+
+[node name="ToBossArena" parent="." unique_id=1083499332 instance=ExtResource("5_gate")]
+position = Vector2(760, 0)
+scale = Vector2(0.55, 0.55)
+target_scene = "res://Scenes/Levels/boss_arena.tscn"
+target_spawn = &"FromHive"
+gate_label = "BOSS ARENA  >"
+accent_color = Color(0.65, 1, 0.18, 0.58)
+progression_requirement = "boss"
+
+[node name="UserInterface" parent="." unique_id=290708299 instance=ExtResource("4_hud")]

@@ -11,9 +11,7 @@ func _ready() -> void:
 func interact(player: Node2D) -> void:
 	if get_tree().get_first_node_in_group("DialogueUI") != null:
 		return
-	GameManager.unknown_ai_contacted = true
-	if !GameManager.are_all_systems_repaired():
-		GameManager.set_objective("Repair all three ship systems", GameManager.get_ship_status_text())
+	GameManager.contact_unknown_ai()
 	var dialogue := UnknownAIDialogue.new()
 	dialogue.add_to_group("DialogueUI")
 	get_tree().current_scene.add_child(dialogue)
@@ -24,6 +22,8 @@ func interact(player: Node2D) -> void:
 class UnknownAIDialogue:
 	extends CanvasLayer
 	var answer: Label
+	var panel: PanelContainer
+	var portrait: TextureRect
 
 	func _ready() -> void:
 		layer = 30
@@ -31,21 +31,29 @@ class UnknownAIDialogue:
 		get_tree().paused = true
 		var screen := Control.new()
 		screen.set_anchors_preset(Control.PRESET_FULL_RECT)
+		screen.mouse_filter = Control.MOUSE_FILTER_STOP
 		add_child(screen)
 		var dim := ColorRect.new()
 		dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 		dim.color = Color(0.005, 0.008, 0.03, 0.9)
 		screen.add_child(dim)
-		var panel := PanelContainer.new()
-		panel.set_anchors_preset(Control.PRESET_CENTER)
-		panel.position = Vector2(-470, -300)
-		panel.size = Vector2(940, 600)
+		panel = PanelContainer.new()
+		panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+		panel.offset_left = 20
+		panel.offset_top = 18
+		panel.offset_right = -20
+		panel.offset_bottom = -18
 		screen.add_child(panel)
+		var scroll := ScrollContainer.new()
+		scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		panel.add_child(scroll)
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 20)
-		panel.add_child(row)
-		var portrait := TextureRect.new()
-		portrait.custom_minimum_size = Vector2(300, 500)
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		scroll.add_child(row)
+		portrait = TextureRect.new()
+		portrait.custom_minimum_size = Vector2(260, 420)
 		portrait.texture = load("res://Assets/Gameplay/UI/unknown_ai_portrait.png")
 		portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -73,6 +81,13 @@ class UnknownAIDialogue:
 		close.custom_minimum_size.y = 48
 		close.pressed.connect(_close)
 		copy.add_child(close)
+		get_viewport().size_changed.connect(_apply_responsive_layout)
+		_apply_responsive_layout()
+
+	func _apply_responsive_layout() -> void:
+		var viewport_size := get_viewport().get_visible_rect().size
+		portrait.visible = viewport_size.x >= 820.0 and viewport_size.y >= 500.0
+		answer.custom_minimum_size.y = 110 if viewport_size.y < 500.0 else 150
 
 	func _add_choice(parent: Control, label_text: String, response: String) -> void:
 		var button := Button.new()

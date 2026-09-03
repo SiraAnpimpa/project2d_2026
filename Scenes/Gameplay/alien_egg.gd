@@ -8,21 +8,27 @@ extends Node2D
 
 @onready var visual: Node2D = $Visual
 @onready var shell: Polygon2D = $Visual/Shell
+@onready var egg_sprite: Sprite2D = $Visual/EggSprite
 
 var cooldown_remaining := 0.0
 var hatching := false
+var egg_open := false
 var _manager: EnemyRespawnManager = null
 
 
 func _ready() -> void:
 	add_to_group("AlienEgg")
 	_manager = _find_respawn_manager()
+	_set_frame(0)
 
 
 func _process(delta: float) -> void:
 	if !active or get_tree().paused:
 		return
 	cooldown_remaining = maxf(cooldown_remaining - delta, 0.0)
+	if egg_open and cooldown_remaining <= 0.0:
+		egg_open = false
+		_set_frame(0)
 	if hatching or cooldown_remaining > 0.0 or _manager == null:
 		return
 	var active_player := GameManager.player as Node2D
@@ -40,11 +46,15 @@ func _start_hatch() -> void:
 		if other_egg != null and other_egg != self and other_egg.hatching:
 			return
 	hatching = true
+	_set_frame(1)
 	var warning := create_tween().set_loops(3)
 	warning.tween_property(visual, "position:x", -6.0, 0.07)
 	warning.tween_property(visual, "position:x", 6.0, 0.07)
+	await get_tree().create_timer(0.12).timeout
+	_set_frame(2)
 	await warning.finished
 	visual.position = Vector2.ZERO
+	_set_frame(3)
 	if !_manager.can_spawn_external():
 		hatching = false
 		cooldown_remaining = 2.0
@@ -56,11 +66,24 @@ func _start_hatch() -> void:
 		cooldown_remaining = 2.0
 		return
 	cooldown_remaining = reactivation_time
+	egg_open = true
+	_set_frame(4)
 	var hatch_flash := create_tween()
-	hatch_flash.tween_property(shell, "modulate", Color(0.55, 1.0, 0.32, 0.28), 0.12)
-	hatch_flash.tween_property(shell, "modulate", Color.WHITE, 0.32)
+	hatch_flash.tween_property(egg_sprite, "modulate", Color(0.55, 1.0, 0.32, 0.5), 0.12)
+	hatch_flash.tween_property(egg_sprite, "modulate", Color.WHITE, 0.32)
 	await hatch_flash.finished
 	hatching = false
+
+
+func trigger_hatch() -> void:
+	if active and !hatching and cooldown_remaining <= 0.0:
+		_start_hatch()
+
+
+func _set_frame(frame_index: int) -> void:
+	if egg_sprite != null:
+		const EGG_CELL_WIDTH := 250.8
+		egg_sprite.region_rect = Rect2(frame_index * EGG_CELL_WIDTH, 0, EGG_CELL_WIDTH, 280)
 
 
 func _find_respawn_manager() -> EnemyRespawnManager:

@@ -49,7 +49,7 @@ func _on_body_entered(body: Node2D) -> void:
 		AudioManager.coin_pickup_sfx.play()
 	var hud := get_tree().get_first_node_in_group("GameHUD")
 	if hud != null and hud.has_method("alert"):
-		hud.alert("ITEM ACQUIRED // %s  x%d" % [display_name, amount])
+		hud.alert("+%d %s" % [amount, display_name], "PICKUP")
 	var pickup := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	pickup.tween_property(self, "scale", Vector2(1.35, 1.35), 0.16)
 	pickup.parallel().tween_property(self, "modulate:a", 0.0, 0.16)

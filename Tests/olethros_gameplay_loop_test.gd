@@ -4,7 +4,6 @@ const PLAYER := preload("res://Scenes/Actors/top_down_player.tscn")
 const CRAWLER := preload("res://Scenes/Actors/alien_crawler.tscn")
 const SPITTER := preload("res://Scenes/Actors/alien_spitter.tscn")
 const CONSOLE := preload("res://Scenes/Gameplay/ship_repair_console.tscn")
-const DEFENSE_SCRIPT := preload("res://Scenes/Gameplay/final_defense_manager.gd")
 
 
 func _ready() -> void:
@@ -21,8 +20,8 @@ func _run_test() -> void:
 		_fail("Med Kit was consumed at full HP")
 		return
 	GameManager.hp = 40
-	if !GameManager.use_med_kit() or GameManager.hp != 65 or GameManager.get_item_count(&"med_kit") != 1:
-		_fail("Med Kit did not heal exactly 25% MaxHP and consume one item")
+	if !GameManager.use_med_kit() or GameManager.hp != GameManager.max_hp or GameManager.get_item_count(&"med_kit") != 1:
+		_fail("Med Kit did not fully restore HP and consume one item")
 		return
 	GameManager.hp = 90
 	if !GameManager.use_med_kit() or GameManager.hp != 100 or GameManager.get_item_count(&"med_kit") != 0:
@@ -113,6 +112,7 @@ func _run_test() -> void:
 		return
 	dialogue._close()
 	await get_tree().process_frame
+	GameManager.add_item(&"access_card", 1)
 
 	GameManager.add_item(&"circuit_part", 2)
 	GameManager.add_item(&"scrap_metal", 5)
@@ -139,19 +139,11 @@ func _run_test() -> void:
 		return
 	console._close()
 	await get_tree().process_frame
-	if !GameManager.are_all_systems_repaired() or !GameManager.final_defense_active:
-		_fail("Repairing all systems did not arm final defense")
+	if !GameManager.are_all_systems_repaired() or !GameManager.can_enter_hive():
+		_fail("Repairing all systems after UNKNOWN AI contact did not unlock the Hive route")
 		return
-
-	var defense := Node2D.new()
-	defense.set_script(DEFENSE_SCRIPT)
-	add_child(defense)
-	await get_tree().process_frame
-	defense.elapsed = 49.99
-	defense.running = true
-	defense._process(0.02)
-	if !GameManager.final_defense_done or GameManager.final_defense_active:
-		_fail("Final defense completion state is incorrect")
+	if GameManager.can_launch():
+		_fail("Primary repairs incorrectly bypassed the Hive, boss, and final-core progression")
 		return
 
 	print("OLETHROS_GAMEPLAY_LOOP_TEST: PASS")

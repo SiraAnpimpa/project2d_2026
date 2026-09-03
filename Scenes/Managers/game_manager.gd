@@ -6,9 +6,13 @@ signal salvage_dropped(amount: int, world_position: Vector2)
 signal player_respawned
 signal inventory_changed(item_id: StringName, amount: int)
 signal ship_system_changed(system_id: StringName, repaired: bool)
+signal weapon_upgrade_changed(category: StringName, level: int)
 signal objective_changed(title: String, details: String)
 signal final_defense_started
 signal final_defense_completed
+signal hive_discovered
+signal boss_defeated
+signal final_core_changed(collected: bool, installed: bool)
 
 const SALVAGE_DROP_SCENE: PackedScene = preload("res://Scenes/Prefabs/salvage_drop.tscn")
 const INVENTORY_ITEM_IDS: PackedStringArray = [
@@ -18,7 +22,32 @@ const INVENTORY_ITEM_IDS: PackedStringArray = [
 	"med_kit",
 	"access_card",
 	"data_log",
+	"alien_biomass",
+	"hardened_carapace",
+	"acid_gland",
+	"alien_core",
+	"final_core",
 ]
+
+const WEAPON_UPGRADE_MAX_LEVEL := 3
+const WEAPON_UPGRADE_COSTS: Dictionary = {
+	"damage": {
+		2: {"alien_biomass": 3, "hardened_carapace": 1},
+		3: {"hardened_carapace": 3, "alien_core": 1},
+	},
+	"fire_rate": {
+		2: {"alien_biomass": 3, "acid_gland": 1},
+		3: {"acid_gland": 3, "alien_core": 1},
+	},
+	"energy": {
+		2: {"alien_biomass": 2, "acid_gland": 2},
+		3: {"hardened_carapace": 2, "acid_gland": 2, "alien_core": 1},
+	},
+}
+const WEAPON_DAMAGE_BY_LEVEL := [18, 25, 34]
+const WEAPON_FIRE_RATE_BY_LEVEL := [5.0, 6.25, 7.5]
+const WEAPON_PROJECTILE_SPEED_BY_LEVEL := [760.0, 900.0, 1040.0]
+const WEAPON_PROJECTILE_SCALE_BY_LEVEL := [1.0, 1.12, 1.28]
 
 var salvage: int = 0
 var hp: int = 100
@@ -37,6 +66,10 @@ var death_in_progress := false
 var pending_spawn: StringName = &""
 var landing_intro_seen := false
 var unknown_ai_contacted := false
+var hive_entered := false
+var boss_arena_entered := false
+var boss_defeated_state := false
+var final_core_installed := false
 var final_defense_active := false
 var final_defense_done := false
 var ship_systems: Dictionary = {
@@ -46,6 +79,11 @@ var ship_systems: Dictionary = {
 }
 var current_objective := "Inspect the damaged ship"
 var current_objective_details := "LANDING ZONE // E - INTERACT"
+var weapon_upgrade_levels: Dictionary = {
+	"damage": 1,
+	"fire_rate": 1,
+	"energy": 1,
+}
 
 var dropped_salvage: Array[Dictionary] = []
 var next_drop_id := 1
@@ -56,6 +94,11 @@ var inventory: Dictionary = {
 	"med_kit": 0,
 	"access_card": 0,
 	"data_log": 0,
+	"alien_biomass": 0,
+	"hardened_carapace": 0,
+	"acid_gland": 0,
+	"alien_core": 0,
+	"final_core": 0,
 }
 var collected_pickups: Dictionary = {}
 
@@ -87,12 +130,69 @@ func spend_item(item_id: StringName, amount: int) -> bool:
 	return true
 
 
+func get_weapon_upgrade_level(category: StringName) -> int:
+	return clampi(int(weapon_upgrade_levels.get(String(category), 1)), 1, WEAPON_UPGRADE_MAX_LEVEL)
+
+
+func get_next_weapon_upgrade_cost(category: StringName) -> Dictionary:
+	var key := String(category)
+	var next_level := get_weapon_upgrade_level(category) + 1
+	if next_level > WEAPON_UPGRADE_MAX_LEVEL or !WEAPON_UPGRADE_COSTS.has(key):
+		return {}
+	return Dictionary(WEAPON_UPGRADE_COSTS[key]).get(next_level, {}).duplicate(true)
+
+
+func can_afford(cost: Dictionary) -> bool:
+	for item_id in cost:
+		if get_item_count(StringName(item_id)) < int(cost[item_id]):
+			return false
+	return true
+
+
+func purchase_weapon_upgrade(category: StringName) -> bool:
+	var key := String(category)
+	if !weapon_upgrade_levels.has(key):
+		return false
+	var current_level := get_weapon_upgrade_level(category)
+	if current_level >= WEAPON_UPGRADE_MAX_LEVEL:
+		return false
+	var cost := get_next_weapon_upgrade_cost(category)
+	if cost.is_empty() or !can_afford(cost):
+		return false
+	# The affordability pass makes this an atomic inventory transaction.
+	for item_id in cost:
+		spend_item(StringName(item_id), int(cost[item_id]))
+	var new_level := current_level + 1
+	weapon_upgrade_levels[key] = new_level
+	weapon_upgrade_changed.emit(category, new_level)
+	return true
+
+
+func get_weapon_damage() -> int:
+	var level := get_weapon_upgrade_level(&"damage")
+	var base_damage: int = WEAPON_DAMAGE_BY_LEVEL[level - 1]
+	# Energy III is an overcharged projectile and adds a small power bonus.
+	return base_damage + (3 if get_weapon_upgrade_level(&"energy") >= 3 else 0)
+
+
+func get_weapon_fire_rate() -> float:
+	return float(WEAPON_FIRE_RATE_BY_LEVEL[get_weapon_upgrade_level(&"fire_rate") - 1])
+
+
+func get_weapon_projectile_speed() -> float:
+	return float(WEAPON_PROJECTILE_SPEED_BY_LEVEL[get_weapon_upgrade_level(&"energy") - 1])
+
+
+func get_weapon_projectile_scale() -> float:
+	return float(WEAPON_PROJECTILE_SCALE_BY_LEVEL[get_weapon_upgrade_level(&"energy") - 1])
+
+
 func use_med_kit() -> bool:
 	if death_in_progress or hp <= 0 or hp >= max_hp or get_item_count(&"med_kit") <= 0:
 		return false
 	if !spend_item(&"med_kit", 1):
 		return false
-	add_hp(ceili(max_hp * 0.25))
+	add_hp(max_hp)
 	return true
 
 
@@ -105,12 +205,7 @@ func repair_ship_system(system_id: StringName, item_id: StringName, cost: int) -
 		return false
 	ship_systems[key] = true
 	ship_system_changed.emit(system_id, true)
-	if are_all_systems_repaired() and !final_defense_active and !final_defense_done:
-		final_defense_active = true
-		set_objective("Defend the ship", "LAUNCH PREPARATION // INCOMING HOSTILES")
-		final_defense_started.emit()
-	else:
-		set_objective("Repair the three primary ship systems", get_ship_status_text())
+	_advance_progression_objective()
 	return true
 
 
@@ -142,6 +237,83 @@ func set_objective(title: String, details: String = "") -> void:
 	current_objective = title
 	current_objective_details = details
 	objective_changed.emit(title, details)
+
+
+func contact_unknown_ai() -> void:
+	unknown_ai_contacted = true
+	_advance_progression_objective()
+
+
+func can_enter_signal_base() -> bool:
+	return get_item_count(&"access_card") > 0
+
+
+func can_enter_hive() -> bool:
+	return can_enter_signal_base() and are_all_systems_repaired() and unknown_ai_contacted
+
+
+func mark_hive_entered() -> void:
+	if !hive_entered:
+		hive_entered = true
+		hive_discovered.emit()
+	set_objective("Reach the anomalous energy source", "ALIEN HIVE // THREAT LEVEL HIGH")
+
+
+func can_enter_boss_arena() -> bool:
+	return can_enter_hive() and hive_entered
+
+
+func mark_boss_arena_entered() -> void:
+	boss_arena_entered = true
+	set_objective("Defeat the Hive Matriarch", "BOSS ARENA // VERY HIGH THREAT")
+
+
+func mark_boss_defeated() -> void:
+	if boss_defeated_state:
+		return
+	boss_defeated_state = true
+	boss_defeated.emit()
+	set_objective("Recover the Final Launch Core", "BOSS ARENA // GUARANTEED DROP")
+
+
+func collect_final_core() -> bool:
+	if final_core_installed or get_item_count(&"final_core") > 0:
+		return false
+	if !add_item(&"final_core", 1):
+		return false
+	final_core_changed.emit(true, false)
+	set_objective("Return to the ship", "FINAL LAUNCH CORE RECOVERED // LANDING ZONE")
+	return true
+
+
+func install_final_core() -> bool:
+	if final_core_installed or !are_all_systems_repaired() or !boss_defeated_state:
+		return false
+	if !spend_item(&"final_core", 1):
+		return false
+	final_core_installed = true
+	final_core_changed.emit(false, true)
+	set_objective("Board the ship and launch", "FINAL LAUNCH SYSTEM // OPERATIONAL")
+	return true
+
+
+func can_launch() -> bool:
+	return are_all_systems_repaired() and boss_defeated_state and final_core_installed
+
+
+func _advance_progression_objective() -> void:
+	if can_launch():
+		set_objective("Board the ship and launch", "FINAL LAUNCH SYSTEM // OPERATIONAL")
+	elif get_item_count(&"final_core") > 0:
+		set_objective("Return to the ship", "FINAL LAUNCH CORE RECOVERED // LANDING ZONE")
+	elif boss_defeated_state:
+		set_objective("Recover the Final Launch Core", "BOSS ARENA // GUARANTEED DROP")
+	elif can_enter_hive():
+		set_objective("Locate the anomalous energy source", "ALIEN HIVE ACCESS // SIGNAL BASE")
+	elif are_all_systems_repaired():
+		set_objective("Investigate the UNKNOWN AI signal", "ABANDONED SIGNAL BASE")
+	else:
+		set_objective("Repair the three primary ship systems", get_ship_status_text())
 
 
 func complete_final_defense() -> void:
@@ -204,9 +376,14 @@ func reset_new_game_state() -> void:
 	pending_spawn = &""
 	landing_intro_seen = false
 	unknown_ai_contacted = false
+	hive_entered = false
+	boss_arena_entered = false
+	boss_defeated_state = false
+	final_core_installed = false
 	final_defense_active = false
 	final_defense_done = false
 	ship_systems = {"power": false, "navigation": false, "engine": false}
+	weapon_upgrade_levels = {"damage": 1, "fire_rate": 1, "energy": 1}
 	current_objective = "Inspect the damaged ship"
 	current_objective_details = "LANDING ZONE // E - INTERACT"
 	dropped_salvage.clear()
@@ -214,10 +391,14 @@ func reset_new_game_state() -> void:
 	current_level = "res://Scenes/Levels/zone_67_prologue.tscn"
 	health_changed.emit(hp, max_hp)
 	salvage_changed.emit(salvage)
+	for category in weapon_upgrade_levels:
+		weapon_upgrade_changed.emit(StringName(category), int(weapon_upgrade_levels[category]))
 
 
 func damage(value: int = 1) -> void:
 	if death_in_progress:
+		return
+	if is_instance_valid(player) and player.has_method("is_invulnerable") and player.is_invulnerable():
 		return
 	hp = clampi(hp - value, 0, max_hp)
 	health_changed.emit(hp, max_hp)
@@ -380,7 +561,12 @@ func save_game() -> bool:
 		"collected_pickups": collected_pickups.keys(),
 		"landing_intro_seen": landing_intro_seen,
 		"unknown_ai_contacted": unknown_ai_contacted,
+		"hive_entered": hive_entered,
+		"boss_arena_entered": boss_arena_entered,
+		"boss_defeated_state": boss_defeated_state,
+		"final_core_installed": final_core_installed,
 		"ship_systems": ship_systems.duplicate(true),
+		"weapon_upgrade_levels": weapon_upgrade_levels.duplicate(true),
 		"final_defense_active": final_defense_active,
 		"final_defense_done": final_defense_done,
 		"objective": current_objective,
@@ -431,9 +617,19 @@ func load_game() -> void:
 			collected_pickups[String(pickup_id)] = true
 	landing_intro_seen = bool(data.get("landing_intro_seen", true))
 	unknown_ai_contacted = bool(data.get("unknown_ai_contacted", false))
+	hive_entered = bool(data.get("hive_entered", false))
+	boss_arena_entered = bool(data.get("boss_arena_entered", false))
+	boss_defeated_state = bool(data.get("boss_defeated_state", false))
+	final_core_installed = bool(data.get("final_core_installed", false))
 	var saved_systems = data.get("ship_systems", {})
 	for system_id in ship_systems:
 		ship_systems[system_id] = bool(saved_systems.get(system_id, false)) if typeof(saved_systems) == TYPE_DICTIONARY else false
+	weapon_upgrade_levels = {"damage": 1, "fire_rate": 1, "energy": 1}
+	var saved_upgrades = data.get("weapon_upgrade_levels", {})
+	if typeof(saved_upgrades) == TYPE_DICTIONARY:
+		for category in weapon_upgrade_levels:
+			weapon_upgrade_levels[category] = clampi(int(saved_upgrades.get(category, 1)), 1, WEAPON_UPGRADE_MAX_LEVEL)
+			weapon_upgrade_changed.emit(StringName(category), int(weapon_upgrade_levels[category]))
 	final_defense_active = bool(data.get("final_defense_active", false))
 	final_defense_done = bool(data.get("final_defense_done", false))
 	current_objective = String(data.get("objective", "Inspect the damaged ship"))

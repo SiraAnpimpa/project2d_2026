@@ -11,10 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://cdw5raswmk1km" path="res://Assets/UI/Items/med_kit.png" id="9_medkit"]
 [ext_resource type="PackedScene" path="res://Scenes/Actors/alien_crawler.tscn" id="10_crawler"]
 [ext_resource type="PackedScene" path="res://Scenes/Actors/alien_spitter.tscn" id="11_spitter"]
-[ext_resource type="Script" path="res://Scenes/Gameplay/unknown_ai_terminal.gd" id="12_terminal"]
-[ext_resource type="Texture2D" path="res://Assets/Gameplay/UI/unknown_ai_portrait.png" id="13_unknown"]
-[ext_resource type="Script" path="res://Scenes/Gameplay/enemy_respawn_manager.gd" id="14_respawn"]
-[ext_resource type="Script" path="res://Scenes/Gameplay/enemy_spawn_slot.gd" id="15_slot"]
+[ext_resource type="Script" uid="uid://dvnq71onw7rs1" path="res://Scenes/Gameplay/unknown_ai_terminal.gd" id="12_terminal"]
+[ext_resource type="Texture2D" uid="uid://byk3ry8ngnnye" path="res://Assets/Gameplay/UI/unknown_ai_portrait.png" id="13_unknown"]
+[ext_resource type="Script" uid="uid://72yhjpac426m" path="res://Scenes/Gameplay/enemy_respawn_manager.gd" id="14_respawn"]
+[ext_resource type="Script" uid="uid://ugewnkebadej" path="res://Scenes/Gameplay/enemy_spawn_slot.gd" id="15_slot"]
 
 [node name="AbandonedSignalBase" type="Node2D" unique_id=811933570]
 script = ExtResource("1_script")
@@ -25,19 +25,18 @@ map_bounds = Rect2(-836, -470.5, 1672, 941)
 
 [node name="EnvironmentPack" parent="." unique_id=782261071 instance=ExtResource("2_pack")]
 
-[node name="ManualCollision" type="StaticBody2D" parent="."]
+[node name="ManualCollision" type="StaticBody2D" parent="." unique_id=1136613155]
 editor_description = "เพิ่ม CollisionPolygon2D เป็นโหนดลูก แล้วคลิกจุดรอบพื้นที่ที่ต้องการปิดกั้น จากนั้นคลิกจุดแรกเพื่อปิดรูป"
-collision_layer = 1
 collision_mask = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ManualCollision" index="0" unique_id=1149615908]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ManualCollision" unique_id=1149615908]
 build_mode = 1
 polygon = PackedVector2Array(-75, -397, 65, -397, 65, -284, 93, -280, 122, -327, 159, -335, 184, -321, 182, -277, 200, -263, 205, -187, 221, -183, 221, -256, 248, -275, 336, -268, 442, -270, 506, -277, 520, -268, 552, -256, 520, -236, 503, -236, 499, -149, 503, -123, 379, -107, 308, -107, 294, -84, 258, -86, 251, 1, 329, 10, 329, 193, 365, 193, 366, 109, 531, 118, 526, 72, 607, 79, 605, 175, 526, 177, 528, 240, 526, 306, 255, 308, 226, 281, 202, 283, 164, 318, 95, 315, 97, 286, 62, 286, 65, 308, -66, 304, -75, 286, -110, 288, -108, 317, -236, 320, -275, 278, -300, 281, -323, 297, -477, 302, -505, 258, -541, 256, -566, 308, -619, 309, -597, 255, -596, 184, -629, 161, -633, 93, -622, 49, -516, 56, -479, 53, -440, 76, -429, 120, -417, 143, -411, 193, -387, 191, -383, 24, -383, 7, -339, 10, -323, 12, -314, -40, -321, -79, -351, -80, -369, -100, -587, -107, -635, -151, -635, -194, -596, -197, -590, -249, -617, -270, -567, -319, -401, -319, -392, -302, -305, -296, -284, -293, -279, -179, -252, -183, -268, -241, -245, -252, -241, -323, -178, -321, -163, -291, -119, -277, -78, -279)
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="ManualCollision" index="1" unique_id=1146873677]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="ManualCollision" unique_id=1146873677]
 polygon = PackedVector2Array(-532, -305, -528, -270, -553, -243, -558, -203, -507, -194, -489, -206, -449, -208, -424, -211, -427, -250, -452, -247, -461, -268, -463, -305)
 
-[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="ManualCollision" index="2" unique_id=1605190388]
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="ManualCollision" unique_id=1605190388]
 polygon = PackedVector2Array(-62, 97, -70, 205, -121, 173, -137, 180, -167, 164, -155, 131, -172, 120, -188, 100, -211, 93, -217, 14, -155, -6, -103, -52, -77, -66, 28, -66, 81, -11, 108, -8, 148, 10, 145, 99, 120, 100, 115, 127, 93, 122, 106, 143, 79, 180, 58, 171, 39, 191, 21, 205, 21, 129, 17, 83)
 
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=10652116]
@@ -48,45 +47,47 @@ position = Vector2(-6, 229.5)
 [node name="FromCrystal" type="Marker2D" parent="SpawnPoints" unique_id=1544387914]
 position = Vector2(-6, 229.5)
 
+[node name="FromHive" type="Marker2D" parent="SpawnPoints" unique_id=1000315482]
+position = Vector2(575, 180)
+
 [node name="Player" parent="." unique_id=1774404856 instance=ExtResource("3_player")]
 unique_name_in_owner = true
 position = Vector2(-6, 229.5)
 
-[node name="EnemyRespawnManager" type="Node2D" parent="."]
+[node name="EnemyRespawnManager" type="Node2D" parent="." unique_id=513276845]
 script = ExtResource("14_respawn")
-respawn_interval = 60.0
-maximum_alive = 6
 safe_spawn_distance = 320.0
 
-[node name="ActiveEnemies" type="Node2D" parent="EnemyRespawnManager"]
+[node name="ActiveEnemies" type="Node2D" parent="EnemyRespawnManager" unique_id=1279054179]
 
-[node name="CrawlerWest" type="Marker2D" parent="EnemyRespawnManager"]
+[node name="CrawlerWest" type="Marker2D" parent="EnemyRespawnManager" unique_id=469495542]
 position = Vector2(-310, 130)
 script = ExtResource("15_slot")
 enemy_scene = ExtResource("10_crawler")
 slot_id = &"crawler_west"
 
-[node name="CrawlerEast" type="Marker2D" parent="EnemyRespawnManager"]
+[node name="CrawlerEast" type="Marker2D" parent="EnemyRespawnManager" unique_id=2083723539]
 position = Vector2(315, 125)
 script = ExtResource("15_slot")
 enemy_scene = ExtResource("10_crawler")
 slot_id = &"crawler_east"
 
-[node name="SpitterNorth" type="Marker2D" parent="EnemyRespawnManager"]
+[node name="SpitterNorth" type="Marker2D" parent="EnemyRespawnManager" unique_id=1255416123]
 position = Vector2(-120, -215)
 script = ExtResource("15_slot")
 enemy_scene = ExtResource("11_spitter")
 slot_id = &"spitter_north"
 
-[node name="SignalTerminal" type="Node2D" parent="."]
+[node name="SignalTerminal" type="Node2D" parent="." unique_id=1659434359]
 position = Vector2(350, -210)
 script = ExtResource("12_terminal")
 
-[node name="Hologram" type="Sprite2D" parent="SignalTerminal"]
-texture_filter = 1
-texture = ExtResource("13_unknown")
-scale = Vector2(0.052, 0.052)
+[node name="Hologram" type="Sprite2D" parent="SignalTerminal" unique_id=845794653]
 modulate = Color(0.55, 0.8, 1, 0.78)
+texture_filter = 1
+position = Vector2(-373, 297)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("13_unknown")
 
 [node name="Pickups" type="Node2D" parent="." unique_id=320267674]
 
@@ -125,10 +126,18 @@ icon = ExtResource("9_medkit")
 glow_color = Color(1, 0.322, 0.267, 0.32)
 
 [node name="ToCrystalField" parent="." unique_id=1463616939 instance=ExtResource("6_gate")]
-position = Vector2(-6, 398.5)
+position = Vector2(-6, 384)
 target_scene = "res://Scenes/Levels/crystal_field.tscn"
 target_spawn = &"FromBase"
 gate_label = "CRYSTAL FIELD"
 accent_color = Color(0.439, 0.31, 1, 0.46)
+
+[node name="ToAlienHive" parent="." unique_id=1289173286 instance=ExtResource("6_gate")]
+position = Vector2(-6, -347)
+target_scene = "res://Scenes/Levels/alien_hive.tscn"
+target_spawn = &"FromBase"
+gate_label = "ALIEN HIVE  >"
+accent_color = Color(0.57, 1, 0.18, 0.52)
+progression_requirement = "hive"
 
 [node name="UserInterface" parent="." unique_id=1052975663 instance=ExtResource("4_hud")]

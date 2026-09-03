@@ -88,18 +88,6 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxDpadCenter"]
-bg_color = Color(0.012, 0.031, 0.051, 0.78)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.078, 0.243, 0.318, 0.85)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxSettingsPanel"]
 bg_color = Color(0.006, 0.016, 0.03, 0.985)
 border_width_left = 2
@@ -288,94 +276,6 @@ theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
 theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
 theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
 text = "SETTINGS"
-
-[node name="DPad" type="Control" parent="GameUI"]
-layout_mode = 1
-anchor_left = 0.0
-anchor_top = 1.0
-anchor_right = 0.0
-anchor_bottom = 1.0
-offset_left = 12.0
-offset_top = -172.0
-offset_right = 168.0
-offset_bottom = -16.0
-grow_vertical = 0
-
-[node name="Up" type="Button" parent="GameUI/DPad"]
-layout_mode = 0
-offset_left = 54.0
-offset_right = 102.0
-offset_bottom = 48.0
-focus_mode = 0
-theme_override_fonts/font = ExtResource("3_pixel_display")
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxHudButtonNormal")
-theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
-theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
-theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
-text = "▲"
-
-[node name="Left" type="Button" parent="GameUI/DPad"]
-layout_mode = 0
-offset_top = 54.0
-offset_right = 48.0
-offset_bottom = 102.0
-focus_mode = 0
-theme_override_fonts/font = ExtResource("3_pixel_display")
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxHudButtonNormal")
-theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
-theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
-theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
-text = "◀"
-
-[node name="Center" type="PanelContainer" parent="GameUI/DPad"]
-layout_mode = 0
-offset_left = 54.0
-offset_top = 54.0
-offset_right = 102.0
-offset_bottom = 102.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxDpadCenter")
-
-[node name="Label" type="Label" parent="GameUI/DPad/Center"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.267, 0.525, 0.635, 1)
-theme_override_fonts/font = ExtResource("3_pixel_display")
-theme_override_font_sizes/font_size = 8
-text = "MOVE"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Right" type="Button" parent="GameUI/DPad"]
-layout_mode = 0
-offset_left = 108.0
-offset_top = 54.0
-offset_right = 156.0
-offset_bottom = 102.0
-focus_mode = 0
-theme_override_fonts/font = ExtResource("3_pixel_display")
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxHudButtonNormal")
-theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
-theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
-theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
-text = "▶"
-
-[node name="Down" type="Button" parent="GameUI/DPad"]
-layout_mode = 0
-offset_left = 54.0
-offset_top = 108.0
-offset_right = 102.0
-offset_bottom = 156.0
-focus_mode = 0
-theme_override_fonts/font = ExtResource("3_pixel_display")
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxHudButtonNormal")
-theme_override_styles/hover = SubResource("StyleBoxHudButtonHover")
-theme_override_styles/pressed = SubResource("StyleBoxHudButtonPressed")
-theme_override_styles/focus = SubResource("StyleBoxHudButtonFocus")
-text = "▼"
 
 [node name="InteractButton" type="Button" parent="GameUI"]
 layout_mode = 1
@@ -732,16 +632,7 @@ theme_override_fonts/font = ExtResource("4_readable")
 text = "กลับสู่เมนูหลัก  //  MAIN MENU"
 
 [connection signal="pressed" from="GameUI/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="button_down" from="GameUI/DPad/Up" to="." method="_on_btn_up_pressed"]
-[connection signal="button_up" from="GameUI/DPad/Up" to="." method="_on_btn_up_released"]
-[connection signal="button_down" from="GameUI/DPad/Left" to="." method="_on_btn_left_pressed"]
-[connection signal="button_up" from="GameUI/DPad/Left" to="." method="_on_btn_left_released"]
-[connection signal="button_down" from="GameUI/DPad/Right" to="." method="_on_btn_right_pressed"]
-[connection signal="button_up" from="GameUI/DPad/Right" to="." method="_on_btn_right_released"]
-[connection signal="button_down" from="GameUI/DPad/Down" to="." method="_on_btn_down_pressed"]
-[connection signal="button_up" from="GameUI/DPad/Down" to="." method="_on_btn_down_released"]
-[connection signal="button_down" from="GameUI/InteractButton" to="." method="_on_btn_interact_button_down"]
-[connection signal="button_up" from="GameUI/InteractButton" to="." method="_on_btn_interact_button_up"]
+[connection signal="button_down" from="GameUI/InteractButton" to="." method="_on_interact_button_down"]
 [connection signal="pressed" from="SettingsOverlay/SettingsPanel/Margin/Content/Header/CloseSettingsButton" to="." method="_on_close_settings_pressed"]
 [connection signal="toggled" from="SettingsOverlay/SettingsPanel/Margin/Content/MusicToggle" to="." method="_on_music_toggled"]
 [connection signal="toggled" from="SettingsOverlay/SettingsPanel/Margin/Content/SfxToggle" to="." method="_on_sfx_toggled"]

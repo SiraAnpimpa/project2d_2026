@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://Scenes/Gameplay/alien_egg.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://Assets/Gameplay/Hive/hive_props_atlas.png" id="2_hive"]
 
 [node name="AlienEgg" type="Node2D" groups=["AlienEgg"]]
 script = ExtResource("1_script")
@@ -14,24 +15,36 @@ color = Color(0, 0, 0, 0.45)
 position = Vector2(0, -19)
 
 [node name="Glow" type="Polygon2D" parent="Visual"]
+visible = false
 polygon = PackedVector2Array(-29, 18, -25, -9, -13, -32, 0, -41, 14, -31, 25, -8, 29, 18, 17, 29, -17, 29)
 color = Color(0.36, 0.95, 0.27, 0.22)
 scale = Vector2(1.18, 1.18)
 
 [node name="Shell" type="Polygon2D" parent="Visual"]
+visible = false
 polygon = PackedVector2Array(-25, 18, -22, -8, -12, -29, 0, -38, 13, -28, 22, -7, 25, 18, 15, 27, -15, 27)
 color = Color(0.16, 0.28, 0.13, 1)
 
 [node name="Core" type="Polygon2D" parent="Visual"]
+visible = false
 polygon = PackedVector2Array(-12, 14, -10, -7, -4, -22, 3, -28, 10, -17, 13, 3, 9, 18, -2, 22)
 color = Color(0.49, 0.9, 0.25, 0.82)
 
 [node name="CrackA" type="Line2D" parent="Visual"]
+visible = false
 points = PackedVector2Array(0, -34, -3, -18, 5, -9, 0, 4, 8, 15)
 width = 2.0
 default_color = Color(0.75, 1, 0.42, 0.9)
 
 [node name="CrackB" type="Line2D" parent="Visual"]
+visible = false
 points = PackedVector2Array(-21, 1, -10, 5, -5, 16)
 width = 2.0
 default_color = Color(0.62, 1, 0.35, 0.72)
+
+[node name="EggSprite" type="Sprite2D" parent="Visual"]
+texture_filter = 1
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 0, 250.8, 280)
+scale = Vector2(0.32, 0.32)

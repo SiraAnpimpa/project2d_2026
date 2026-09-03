@@ -1,0 +1,344 @@
+[gd_scene format=3 uid="uid://crey2hbwvp5yr"]
+
+[ext_resource type="Script" uid="uid://d2kpvq1ctfr3j" path="res://Scenes/Levels/boss_arena.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b3tsiq2p71tpn" path="res://Assets/Gameplay/Hive/hive_props_atlas.png" id="2_hive"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/top_down_player.tscn" id="3_player"]
+[ext_resource type="PackedScene" uid="uid://cdwabmqtlxr1y" path="res://Scenes/Levels/game_ui.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="5_gate"]
+[ext_resource type="PackedScene" path="res://Scenes/Actors/hive_matriarch.tscn" id="6_boss"]
+[ext_resource type="Script" uid="uid://cwb20r1d2sb4e" path="res://Scenes/Gameplay/acid_pool.gd" id="7_acid"]
+
+[sub_resource type="CircleShape2D" id="AcidShape"]
+radius = 72.0
+
+[sub_resource type="RectangleShape2D" id="BoundaryHorizontal"]
+size = Vector2(1672, 24)
+
+[sub_resource type="RectangleShape2D" id="BoundaryVertical"]
+size = Vector2(24, 941)
+
+[node name="BossArena" type="Node2D" unique_id=339541658]
+script = ExtResource("1_script")
+objective_title = "Defeat the Hive Matriarch"
+objective_details = "BOSS ARENA // THREAT LEVEL VERY HIGH"
+arrival_message = "BOSS ARENA // NORMAL RESPAWN DISABLED"
+map_bounds = Rect2(-790, -430, 1580, 860)
+
+[node name="Ground" type="Polygon2D" parent="." unique_id=984920268]
+z_index = -20
+color = Color(0.012, 0.006, 0.035, 1)
+polygon = PackedVector2Array(-836, -470, 836, -470, 836, 470, -836, 470)
+
+[node name="ArenaFloor" type="Polygon2D" parent="." unique_id=76793025]
+z_index = -18
+color = Color(0.065, 0.025, 0.082, 0.96)
+polygon = PackedVector2Array(-760, -390, -420, -430, 0, -400, 420, -430, 760, -390, 792, -80, 748, 360, 665.02014, 371.2745, 380, 410, 0, 385, -380, 410, -748, 360, -792, -80)
+
+[node name="ArenaNorthRim" type="Polygon2D" parent="." unique_id=194602565]
+z_index = -5
+color = Color(0.12, 0.025, 0.135, 0.98)
+polygon = PackedVector2Array(-836, -470, 836, -470, 772, -392, -650, -405, 0, -380, 650, -405)
+
+[node name="ArenaSouthRim" type="Polygon2D" parent="." unique_id=306877755]
+z_index = -5
+color = Color(0.1, 0.02, 0.12, 0.98)
+polygon = PackedVector2Array(-836, 470, 836, 470, 770, 388, 430, 408, 0, 378, -430, 408, -770, 388)
+
+[node name="ArenaWestRim" type="Polygon2D" parent="." unique_id=1002493898]
+z_index = -5
+color = Color(0.11, 0.022, 0.13, 0.98)
+polygon = PackedVector2Array(-836, -470, -760, -390, -780, 0, -760, 390, -836, 470)
+
+[node name="ArenaEastRim" type="Polygon2D" parent="." unique_id=625440196]
+z_index = -5
+color = Color(0.11, 0.022, 0.13, 0.98)
+polygon = PackedVector2Array(836, -470, 760, -390, 780, 0, 760, 390, 836, 470)
+
+[node name="ArenaGrowth" type="Sprite2D" parent="." unique_id=1883579688]
+z_index = -12
+texture_filter = 1
+position = Vector2(0, 10)
+scale = Vector2(1.45, 1.45)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 270, 755, 300)
+
+[node name="ArenaGrowthWest" type="Sprite2D" parent="." unique_id=1378298752]
+z_index = -11
+texture_filter = 1
+position = Vector2(-561, -183.99998)
+scale = Vector2(1.0516279, 0.92571425)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 270, 430, 280)
+
+[node name="ArenaGrowthWest2" type="Sprite2D" parent="." unique_id=1820475237]
+z_index = -11
+texture_filter = 1
+position = Vector2(-666, -349.00003)
+scale = Vector2(0.94282806, 0.78119993)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 270, 430, 280)
+
+[node name="ArenaGrowthWest3" type="Sprite2D" parent="." unique_id=1845906908]
+z_index = -11
+texture_filter = 1
+position = Vector2(-525.5, 266.5)
+scale = Vector2(1.6581396, 1.0035714)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 270, 430, 280)
+
+[node name="ArenaGrowthWest4" type="Sprite2D" parent="." unique_id=438727275]
+z_index = -11
+texture_filter = 1
+position = Vector2(-12.563385, 288.0009)
+scale = Vector2(1.7188995, 0.91429216)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 270, 430, 280)
+
+[node name="ArenaGrowthEast" type="Sprite2D" parent="." unique_id=287265227]
+z_index = -11
+texture_filter = 1
+position = Vector2(379, 219)
+scale = Vector2(0.72, 0.72)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast5" type="Sprite2D" parent="." unique_id=1131709843]
+z_index = -11
+texture_filter = 1
+position = Vector2(474.176, 129.084)
+scale = Vector2(0.5512635, 0.5385103)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast6" type="Sprite2D" parent="." unique_id=1882167562]
+z_index = -11
+texture_filter = 1
+position = Vector2(517.74335, 228.61023)
+scale = Vector2(0.53496283, 0.5076568)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast7" type="Sprite2D" parent="." unique_id=174334771]
+z_index = -11
+texture_filter = 1
+position = Vector2(221.49998, 165)
+scale = Vector2(0.6888889, 0.51724136)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast8" type="Sprite2D" parent="." unique_id=1733194817]
+z_index = -11
+texture_filter = 1
+position = Vector2(75.99999, 119)
+scale = Vector2(1.1619047, 0.724138)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast9" type="Sprite2D" parent="." unique_id=1165629339]
+z_index = -11
+texture_filter = 1
+position = Vector2(103.72812, -36.668755)
+scale = Vector2(0.57315475, 0.6597845)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast10" type="Sprite2D" parent="." unique_id=374181246]
+z_index = -11
+texture_filter = 1
+position = Vector2(119.63012, -162.00003)
+scale = Vector2(0.7515547, 0.43531558)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast11" type="Sprite2D" parent="." unique_id=1909810848]
+z_index = -11
+texture_filter = 1
+position = Vector2(233.01929, -265.73874)
+scale = Vector2(0.7236871, 0.70854294)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast12" type="Sprite2D" parent="." unique_id=814301771]
+z_index = -11
+texture_filter = 1
+position = Vector2(377, -259)
+scale = Vector2(0.77164656, 0.90084994)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast13" type="Sprite2D" parent="." unique_id=1188808235]
+z_index = -11
+texture_filter = 1
+position = Vector2(566.48627, -319.90002)
+scale = Vector2(1.1969129, 0.9786207)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast14" type="Sprite2D" parent="." unique_id=1662014941]
+z_index = -11
+texture_filter = 1
+position = Vector2(542.16077, -152.5)
+scale = Vector2(1.1100903, 0.8862069)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast3" type="Sprite2D" parent="." unique_id=355270812]
+z_index = -11
+texture_filter = 1
+position = Vector2(-560.00006, 4)
+scale = Vector2(1.2063493, 0.537931)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast4" type="Sprite2D" parent="." unique_id=932428657]
+z_index = -11
+texture_filter = 1
+position = Vector2(-621.8016, 100)
+scale = Vector2(1.3638197, 0.58275855)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaGrowthEast2" type="Sprite2D" parent="." unique_id=519749694]
+z_index = -11
+texture_filter = 1
+position = Vector2(-722, 5)
+scale = Vector2(0.5184, 0.5184)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(435, 265, 315, 290)
+
+[node name="ArenaVeinsSouth" type="Sprite2D" parent="." unique_id=1626699010]
+z_index = -9
+texture_filter = 1
+position = Vector2(-556, 374.00003)
+scale = Vector2(0.72, 0.58)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 790, 650, 245)
+
+[node name="ArenaVeinsSouth2" type="Sprite2D" parent="." unique_id=892069317]
+z_index = -9
+texture_filter = 1
+position = Vector2(-202.23999, 372.1045)
+scale = Vector2(0.6807385, 0.44983253)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 790, 650, 245)
+
+[node name="ArenaVeinsSouth3" type="Sprite2D" parent="." unique_id=1597535896]
+z_index = -9
+texture_filter = 1
+position = Vector2(170.19669, 370.8939)
+scale = Vector2(0.6270871, 0.39913374)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 790, 650, 245)
+
+[node name="ArenaVeinsSouth4" type="Sprite2D" parent="." unique_id=1850465387]
+z_index = -9
+texture_filter = 1
+position = Vector2(524, 378)
+scale = Vector2(0.7304653, 0.41434768)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(0, 790, 650, 245)
+
+[node name="AcidPoolNorth" type="Sprite2D" parent="." unique_id=1544408243]
+z_index = -10
+texture_filter = 1
+position = Vector2(420, -260)
+scale = Vector2(0.52, 0.52)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(735, 1015, 545, 265)
+
+[node name="AcidPoolNorth2" type="Sprite2D" parent="." unique_id=352464238]
+z_index = -10
+texture_filter = 1
+position = Vector2(244.1396, -289)
+scale = Vector2(0.3932646, 0.5433962)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(327, 1010, 279, 265)
+
+[node name="AcidPoolNorth3" type="Sprite2D" parent="." unique_id=1922463011]
+z_index = -10
+texture_filter = 1
+position = Vector2(611, -206)
+scale = Vector2(0.518189, 0.55518687)
+texture = ExtResource("2_hive")
+region_enabled = true
+region_rect = Rect2(327, 1010, 279, 265)
+
+[node name="AcidHazardNorth" type="Area2D" parent="." unique_id=1560177181]
+position = Vector2(420, -260)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_acid")
+tick_damage = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AcidHazardNorth" unique_id=2020534560]
+scale = Vector2(1.45, 0.65)
+shape = SubResource("AcidShape")
+
+[node name="Boundaries" type="StaticBody2D" parent="." unique_id=434423778]
+collision_mask = 0
+
+[node name="North" type="CollisionShape2D" parent="Boundaries" unique_id=834695890]
+position = Vector2(0, -458)
+shape = SubResource("BoundaryHorizontal")
+
+[node name="South" type="CollisionShape2D" parent="Boundaries" unique_id=1713240733]
+position = Vector2(0, 458)
+shape = SubResource("BoundaryHorizontal")
+
+[node name="West" type="CollisionShape2D" parent="Boundaries" unique_id=29925801]
+position = Vector2(-824, 0)
+shape = SubResource("BoundaryVertical")
+
+[node name="East" type="CollisionShape2D" parent="Boundaries" unique_id=1538639802]
+position = Vector2(824, 0)
+shape = SubResource("BoundaryVertical")
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=836326755]
+
+[node name="Default" type="Marker2D" parent="SpawnPoints" unique_id=1788222008]
+position = Vector2(-655, 0)
+
+[node name="FromHive" type="Marker2D" parent="SpawnPoints" unique_id=153534366]
+position = Vector2(-655, 0)
+
+[node name="Player" parent="." unique_id=883598905 instance=ExtResource("3_player")]
+unique_name_in_owner = true
+position = Vector2(-655, 0)
+
+[node name="HiveMatriarch" parent="." unique_id=1649544497 instance=ExtResource("6_boss")]
+position = Vector2(245, 0)
+
+[node name="ToHive" parent="." unique_id=1429480164 instance=ExtResource("5_gate")]
+position = Vector2(-760, 0)
+scale = Vector2(0.55, 0.55)
+target_scene = "res://Scenes/Levels/alien_hive.tscn"
+target_spawn = &"FromBoss"
+gate_label = "<  RETREAT TO HIVE"
+accent_color = Color(0.42, 0.72, 1, 0.5)
+
+[node name="UserInterface" parent="." unique_id=2050613479 instance=ExtResource("4_hud")]

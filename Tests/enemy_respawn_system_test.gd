@@ -41,7 +41,8 @@ func _run_test() -> void:
 		_fail("Initial slot enemy did not spawn at full HP")
 		return
 	test_player.position = Vector2.ZERO
-	first_enemy.material_drop_chance = 1.0
+	# A 2x test multiplier makes the crawler's configured common 62% roll deterministic.
+	first_enemy.material_drop_chance = 2.0
 	first_enemy.take_damage(first_enemy.max_hp)
 	await get_tree().process_frame
 	if !first_slot.waiting_for_respawn:

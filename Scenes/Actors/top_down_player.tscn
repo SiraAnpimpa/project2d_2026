@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" path="res://Assets/Spritesheet/olethros_astronaut_topdown_sheet_v2.png" id="2_astronaut"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_footprint"]
-radius = 18.0
+radius = 15.0
 
 [node name="TopDownPlayer" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
@@ -14,12 +14,12 @@ script = ExtResource("1_script")
 [node name="Shadow" type="Polygon2D" parent="."]
 z_index = -1
 position = Vector2(0, 1)
-polygon = PackedVector2Array(-31, 0, -23, -9, 0, -13, 23, -9, 31, 0, 23, 9, 0, 13, -23, 9)
+polygon = PackedVector2Array(-24, 0, -18, -7, 0, -10, 18, -7, 24, 0, 18, 7, 0, 10, -18, 7)
 color = Color(0.001, 0.004, 0.012, 0.48)
 
 [node name="Astronaut" type="Sprite2D" parent="."]
-position = Vector2(0, -48)
-scale = Vector2(0.42, 0.42)
+position = Vector2(0, -38)
+scale = Vector2(0.32, 0.32)
 texture_filter = 1
 texture = ExtResource("2_astronaut")
 hframes = 4
@@ -30,6 +30,7 @@ position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_footprint")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.08, 1.08)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 limit_left = -1420
@@ -38,7 +39,7 @@ limit_right = 1420
 limit_bottom = 820
 
 [node name="Muzzle" type="Marker2D" parent="."]
-position = Vector2(32, -24)
+position = Vector2(25, -19)
 
 [node name="FireSfx" type="AudioStreamPlayer2D" parent="."]
 bus = &"sfx"

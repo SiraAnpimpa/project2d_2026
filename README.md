@@ -55,6 +55,19 @@
 Godot_v4.7-stable_win64.exe --headless --path . --export-release Web docs/index.html
 ```
 
+## Extended progression systems
+
+The current campaign flow is Landing Zone → Crystal Field → Abandoned Signal Base → Alien Hive → Boss Arena → return to the ship. Repairing Power, Navigation, and Engine no longer unlocks launch by itself. The player must contact the UNKNOWN AI, enter the Hive, defeat the Hive Matriarch, recover its guaranteed Final Launch Core, and install that core at the ship console before launch becomes available.
+
+- Crawlers, Spitters, and Stalkers use reusable `EnemyDropTable` resources. Their renewable combat materials are Alien Biomass, Hardened Carapace, Acid Gland, and Alien Core; they never replace fixed ship-repair pickups.
+- The ship console provides Ship Repair, Weapon Upgrade, Ship Status, and ECHO sections. Damage, Fire Rate, and Energy each have three one-time levels with real inventory costs.
+- Press `Space` (or use the on-screen DODGE button) for a short cooldown-limited evasive burst with brief invulnerability.
+- Crystal Field and Signal Base use 60-second slot respawns. The Hive uses a 30-second interval, a maximum-alive cap, proximity/camera protection, renewable eggs, and stronger Stalkers.
+- The Boss Arena has no exploration respawn manager. The Matriarch uses three health phases, intentional summons, readable attacks, permanent defeat state, and a 100% Final Launch Core drop.
+- Inventory, repair state, story discoveries, upgrades, boss defeat, final-core possession, and final installation are saved. Normal exploration enemies reset on scene re-entry, while fixed world pickups remain collected.
+
+Run `Tests/extended_progression_test.tscn` headlessly to verify drop configuration, upgrade transactions and real weapon stats, Hive/Boss gating, boss phases/damage, the guaranteed final core, installation, launch gating, and save payload persistence.
+
 ## Credits
 
 โปรเจกต์ตั้งต้นสำหรับรายวิชา Computer Game Development, College of Computing, Khon Kaen University และได้รับการพัฒนาต่อเป็น OLETHROS // ZONE-67

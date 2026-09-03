@@ -9,63 +9,61 @@
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/zone_gate.tscn" id="7_gate"]
 [ext_resource type="Texture2D" uid="uid://cwk8pkjbmuts6" path="res://Assets/UI/Items/scrap_metal.png" id="8_scrap"]
 [ext_resource type="Texture2D" uid="uid://cdw5raswmk1km" path="res://Assets/UI/Items/med_kit.png" id="9_medkit"]
-[ext_resource type="Script" path="res://Scenes/Gameplay/ship_console_interactable.gd" id="10_ship_console"]
-[ext_resource type="Script" path="res://Scenes/Gameplay/final_defense_manager.gd" id="11_defense"]
-[ext_resource type="Texture2D" path="res://Assets/Gameplay/UI/aim_joystick.png" id="12_beacon"]
+[ext_resource type="Script" uid="uid://b7ma3dgxsbqn7" path="res://Scenes/Gameplay/ship_console_interactable.gd" id="10_ship_console"]
+[ext_resource type="Texture2D" path="res://Assets/Gameplay/UI/signal_beacon.png" id="12_beacon"]
 
 [node name="Zone67Prologue" type="Node2D" unique_id=892980323]
 script = ExtResource("1_script")
 
 [node name="EnvironmentPack" parent="." unique_id=1553110701 instance=ExtResource("5_pack")]
 
-[node name="ManualCollision" type="StaticBody2D" parent="."]
+[node name="ManualCollision" type="StaticBody2D" parent="." unique_id=648246923]
 editor_description = "เพิ่ม CollisionPolygon2D เป็นโหนดลูก แล้วคลิกจุดรอบพื้นที่ที่ต้องการปิดกั้น จากนั้นคลิกจุดแรกเพื่อปิดรูป"
-collision_layer = 1
 collision_mask = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ManualCollision" index="0" unique_id=997227026]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ManualCollision" unique_id=997227026]
 polygon = PackedVector2Array(-221, 29, -191, 56, -65, 17, -40, -1, 11, -21, 59, 11, 142, -22, 209, -86, 204, -130, 236, -175, 216, -226, 161, -256, 121, -253, 71, -249, 46, -239, 13, -251, -67, -215, -78, -189, -110, -148, -152, -107, -212, -26)
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="ManualCollision" index="1" unique_id=645047273]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="ManualCollision" unique_id=645047273]
 polygon = PackedVector2Array(-834, 87, -776, 89, -762, 119, -735, 105, -714, 151, -664, 158, -513, 64, -317, 167, -312, 206, -499, 353, -535, 424, -604, 456, -680, 467, -834, 463)
 
-[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="ManualCollision" index="2" unique_id=85904287]
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="ManualCollision" unique_id=85904287]
 polygon = PackedVector2Array(-428, 456, -451, 438, -409, 367, -365, 334, -289, 330, -250, 312, -221, 346, -175, 394, -141, 412, -117, 367, -46, 325, 41, 327, 133, 378, 206, 415, 220, 436, 215, 461, -51, 465)
 
-[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="ManualCollision" index="3" unique_id=321838651]
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="ManualCollision" unique_id=321838651]
 polygon = PackedVector2Array(429, 452, 447, 422, 594, 373, 659, 311, 698, 300, 822, 312, 835, 458)
 
-[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="ManualCollision" index="4" unique_id=1024893193]
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="ManualCollision" unique_id=1024893193]
 polygon = PackedVector2Array(813, 160, 684, 110, 677, 68, 760, -15, 810, -37, 831, -5)
 
-[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="ManualCollision" index="5" unique_id=353096567]
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="ManualCollision" unique_id=353096567]
 polygon = PackedVector2Array(218, 259, 218, 296, 252, 314, 273, 304, 271, 266, 252, 249)
 
-[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="ManualCollision" index="6" unique_id=908925493]
+[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="ManualCollision" unique_id=908925493]
 polygon = PackedVector2Array(500, 288, 500, 309, 525, 320, 564, 302, 558, 281, 539, 265)
 
-[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="ManualCollision" index="7" unique_id=1462122516]
+[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="ManualCollision" unique_id=1462122516]
 polygon = PackedVector2Array(493, 66, 493, 121, 549, 148, 571, 132, 560, 107, 544, 102, 541, 75, 516, 57)
 
-[node name="CollisionPolygon2D9" type="CollisionPolygon2D" parent="ManualCollision" index="8" unique_id=163619387]
+[node name="CollisionPolygon2D9" type="CollisionPolygon2D" parent="ManualCollision" unique_id=163619387]
 polygon = PackedVector2Array(186, -402, 183, -366, 239, -325, 271, -301, 340, -318, 411, -299, 376, -265, 425, -246, 427, -152, 441, -113, 537, -90, 642, -104, 712, -177, 817, -175, 833, -449, -831, -456, -836, 22, -760, 57, -664, 4, -602, -3, -538, -72, -645, -136, -662, -162, -591, -162, -526, -208, -471, -180, -351, -246, -301, -221, -274, -244, -304, -277, -273, -281, -219, -265, -164, -309, -211, -352, -242, -363, -198, -400, -129, -386, -46, -396, 4, -371, 101, -380, 153, -409)
 
-[node name="CollisionPolygon2D10" type="CollisionPolygon2D" parent="ManualCollision" index="9" unique_id=719585915]
+[node name="CollisionPolygon2D10" type="CollisionPolygon2D" parent="ManualCollision" unique_id=719585915]
 polygon = PackedVector2Array(-503, -42, -519, 4, -499, 24, -443, -6)
 
-[node name="CollisionPolygon2D11" type="CollisionPolygon2D" parent="ManualCollision" index="10" unique_id=1553217156]
+[node name="CollisionPolygon2D11" type="CollisionPolygon2D" parent="ManualCollision" unique_id=1553217156]
 polygon = PackedVector2Array(-152, 250, -195, 261, -209, 300, -147, 323, -99, 286, -90, 265)
 
-[node name="CollisionPolygon2D12" type="CollisionPolygon2D" parent="ManualCollision" index="11" unique_id=1970271730]
+[node name="CollisionPolygon2D12" type="CollisionPolygon2D" parent="ManualCollision" unique_id=1970271730]
 polygon = PackedVector2Array(-829, 29, -827, 82, -811, 79)
 
-[node name="CollisionPolygon2D13" type="CollisionPolygon2D" parent="ManualCollision" index="12" unique_id=13175112]
+[node name="CollisionPolygon2D13" type="CollisionPolygon2D" parent="ManualCollision" unique_id=13175112]
 polygon = PackedVector2Array(-573, 419, -437, 429, -441, 448, -597, 444)
 
-[node name="CollisionPolygon2D14" type="CollisionPolygon2D" parent="ManualCollision" index="13" unique_id=683456155]
+[node name="CollisionPolygon2D14" type="CollisionPolygon2D" parent="ManualCollision" unique_id=683456155]
 polygon = PackedVector2Array(219, 438, 217, 460, 443, 452)
 
-[node name="CollisionPolygon2D15" type="CollisionPolygon2D" parent="ManualCollision" index="14" unique_id=1284840459]
+[node name="CollisionPolygon2D15" type="CollisionPolygon2D" parent="ManualCollision" unique_id=1284840459]
 polygon = PackedVector2Array(813, 156, 821, 312, 793, 150)
 
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=795806398]
@@ -80,19 +78,16 @@ position = Vector2(444, -80.5)
 unique_name_in_owner = true
 position = Vector2(-16, 289.5)
 
-[node name="ShipConsole" type="Node2D" parent="."]
+[node name="ShipConsole" type="Node2D" parent="." unique_id=181039212]
 position = Vector2(-62, -54)
 script = ExtResource("10_ship_console")
 
-[node name="HolographicBeacon" type="Sprite2D" parent="ShipConsole"]
-position = Vector2(86, 76)
-texture_filter = 1
-texture = ExtResource("12_beacon")
-scale = Vector2(0.055, 0.055)
+[node name="HolographicBeacon" type="Sprite2D" parent="ShipConsole" unique_id=806357429]
 modulate = Color(0.45, 0.95, 1, 0.75)
-
-[node name="FinalDefense" type="Node2D" parent="."]
-script = ExtResource("11_defense")
+texture_filter = 1
+position = Vector2(86, 76)
+scale = Vector2(0.055, 0.055)
+texture = ExtResource("12_beacon")
 
 [node name="LandingPickups" type="Node2D" parent="." unique_id=222126420]
 
@@ -119,7 +114,7 @@ icon = ExtResource("9_medkit")
 glow_color = Color(1, 0.322, 0.267, 0.32)
 
 [node name="ToCrystalField" parent="." unique_id=1750031961 instance=ExtResource("7_gate")]
-position = Vector2(614, -50)
+position = Vector2(735, -93)
 scale = Vector2(0.7, 0.7)
 target_scene = "res://Scenes/Levels/crystal_field.tscn"
 target_spawn = &"FromLanding"

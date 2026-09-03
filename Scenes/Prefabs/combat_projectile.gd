@@ -21,6 +21,10 @@ func configure(new_direction: Vector2, new_damage: int, new_speed: float, new_li
 	speed = new_speed
 	lifetime = new_lifetime
 	hostile = is_hostile
+	if is_inside_tree():
+		remove_from_group("EnemyProjectile")
+		remove_from_group("PlayerProjectile")
+		add_to_group("EnemyProjectile" if hostile else "PlayerProjectile")
 	rotation = direction.angle()
 	if hostile:
 		collision_layer = 32
@@ -67,7 +71,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 func impact(color: Color) -> void:
 	set_physics_process(false)
-	monitoring = false
+	set_deferred("monitoring", false)
 	var burst := CPUParticles2D.new()
 	burst.one_shot = true
 	burst.amount = 10

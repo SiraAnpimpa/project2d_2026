@@ -8,8 +8,6 @@
 
 <img src="docs/index.png" alt="OLETHROS // ZONE-67" width="720" />
 
-> หาก GitHub Pages ยังไม่เปิดใช้งาน ให้ตั้งค่า **Settings → Pages → Deploy from a branch → `main` / `docs`**
-
 ## การควบคุม
 
 | ปุ่ม | การทำงาน |

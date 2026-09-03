@@ -239,6 +239,8 @@ func _page_title(text: String, color := Color(0.48, 0.92, 1.0)) -> Label:
 	var label := Label.new()
 	label.name = "PageTitle"
 	label.text = text
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.add_theme_font_size_override("font_size", 18 if compact_layout else 22)
 	label.add_theme_color_override("font_color", color)
 	page_root.add_child(label)
@@ -312,12 +314,16 @@ func _add_system_card(system_id: String, title: String, icon_texture: Texture2D,
 	row.add_child(details)
 	var name_label := Label.new()
 	name_label.text = title
-	name_label.add_theme_font_size_override("font_size", 18)
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	name_label.add_theme_font_size_override("font_size", 16 if compact_layout else 18)
 	details.add_child(name_label)
 	var status := Label.new()
+	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	status.add_theme_font_size_override("font_size", 14)
 	details.add_child(status)
 	var resource := Label.new()
+	resource.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	resource.add_theme_font_size_override("font_size", 14)
 	resource.add_theme_color_override("font_color", Color(0.72, 0.84, 0.9))
 	details.add_child(resource)
@@ -367,6 +373,7 @@ func _build_weapon_page() -> void:
 		details.add_child(name_label)
 		var description := Label.new()
 		description.text = spec.description
+		description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		description.add_theme_font_size_override("font_size", 13)
 		description.add_theme_color_override("font_color", Color(0.65, 0.75, 0.82))
 		details.add_child(description)
@@ -528,7 +535,9 @@ func _base_minigame(title_text: String, instruction: String) -> VBoxContainer:
 	var title := Label.new()
 	title.text = title_text
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 20)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_font_size_override("font_size", 18 if compact_layout else 20)
 	title.add_theme_color_override("font_color", Color(0.42, 0.9, 1.0))
 	box.add_child(title)
 	var hint := Label.new()
@@ -543,13 +552,13 @@ func _build_power_game() -> void:
 	feedback.text = "Resources commit only after circuit validation."
 	var box := _base_minigame("POWER // CONNECT ENERGY CIRCUIT", "Rotate every conductor to the horizontal position.")
 	var row := GridContainer.new()
-	row.columns = 4
+	row.columns = 2 if console_panel.size.x < 380.0 else 4
 	row.add_theme_constant_override("h_separation", 8)
 	box.add_child(row)
 	circuit_buttons.clear()
 	for index in range(4):
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(58, 56)
+		button.custom_minimum_size = Vector2(48 if compact_layout else 58, 52 if compact_layout else 56)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.add_theme_font_size_override("font_size", 26)
 		button.pressed.connect(_rotate_circuit.bind(index))
@@ -618,7 +627,7 @@ func _build_engine_game() -> void:
 	for label in ["VALVE A", "VALVE C", "VALVE B", "IGNITION"]:
 		var button := Button.new()
 		button.text = label
-		button.custom_minimum_size = Vector2(120, 50)
+		button.custom_minimum_size = Vector2(0, 50)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.pressed.connect(_engine_input.bind(label))
 		row.add_child(button)

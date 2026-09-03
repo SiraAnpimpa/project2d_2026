@@ -14,6 +14,8 @@ const VIEWPORTS: Array[Vector2i] = [
 	Vector2i(1366, 768),
 	Vector2i(640, 360),
 	Vector2i(800, 360),
+	Vector2i(568, 320),
+	Vector2i(320, 568),
 	Vector2i(360, 640),
 	Vector2i(390, 844),
 ]
@@ -30,7 +32,7 @@ func _run_test() -> void:
 			return
 		if !await _test_ship_console(viewport_size):
 			return
-	for viewport_size in [Vector2i(640, 360), Vector2i(360, 640)]:
+	for viewport_size in [Vector2i(640, 360), Vector2i(568, 320), Vector2i(360, 640), Vector2i(320, 568)]:
 		if !await _test_landing_intro(viewport_size):
 			return
 		if !await _test_unknown_ai(viewport_size):
@@ -77,6 +79,12 @@ func _test_hud(viewport_size: Vector2i) -> bool:
 		var action: Control = hud.get_node(action_path)
 		if action.visible and joystick.get_global_rect().intersects(action.get_global_rect()):
 			return _fail("HUD controls overlap at %s: joystick and %s" % [viewport_size, action.name])
+	if hud.get_node("GameUI/StatusPanel").get_global_rect().intersects(hud.get_node("%SettingsButton").get_global_rect()):
+		return _fail("Status and Settings overlap at %s" % viewport_size)
+	for action_path in ["GameUI/MovementJoystick", "GameUI/FireButton", "GameUI/InteractButton", "GameUI/MedKitButton"]:
+		var action: Control = hud.get_node(action_path)
+		if action.visible and hud.objective_panel.visible and hud.objective_panel.get_global_rect().intersects(action.get_global_rect()):
+			return _fail("Objective overlaps %s at %s" % [action.name, viewport_size])
 	hud.alert_label.text = "OBJECTIVE UPDATED\nInvestigate the Abandoned Signal Base and recover every navigation component"
 	hud.alert_panel.visible = true
 	hud._layout_notification("OBJECTIVE")
@@ -107,6 +115,29 @@ func _test_hud(viewport_size: Vector2i) -> bool:
 		return false
 	if hud.objective_panel.visible and hud.objective_panel.get_global_rect().intersects(hud.boss_panel.get_global_rect()):
 		return _fail("Boss UI overlaps the objective at %s" % viewport_size)
+	hud.alert_panel.visible = true
+	hud._layout_notification("WARNING")
+	if hud.alert_panel.get_global_rect().intersects(hud.boss_panel.get_global_rect()):
+		return _fail("Warning overlaps Boss UI at %s" % viewport_size)
+	if !_inside_viewport(hud.alert_panel, viewport_size, "BossWarning"):
+		return false
+	hud.alert_panel.visible = false
+	hud.comm_panel.visible = true
+	hud._apply_responsive_layout()
+	if hud.comm_panel.get_global_rect().intersects(hud.boss_panel.get_global_rect()):
+		return _fail("ECHO panel overlaps Boss UI at %s" % viewport_size)
+	if !_inside_viewport(hud.comm_panel, viewport_size, "BossEchoPanel"):
+		return false
+	hud.comm_panel.visible = false
+	hud.hide_boss()
+	hud.set_defense_progress(0.5, 15.0)
+	hud.alert_panel.visible = true
+	hud._layout_notification("WARNING")
+	if hud.alert_panel.get_global_rect().intersects(hud.defense_panel.get_global_rect()):
+		return _fail("Warning overlaps Defense UI at %s" % viewport_size)
+	if !_inside_viewport(hud.alert_panel, viewport_size, "DefenseWarning"):
+		return false
+	hud.alert_panel.visible = false
 	hud.set_settings_open(true)
 	await get_tree().process_frame
 	if !_inside_viewport(hud.settings_panel, viewport_size, "SettingsPanel"):
@@ -157,11 +188,13 @@ func _test_ship_console(viewport_size: Vector2i) -> bool:
 
 func _page_has_no_horizontal_overflow(console: ShipRepairConsole, label: String) -> bool:
 	var scroll_rect := console.page_scroll.get_global_rect()
-	for node in console.page_root.find_children("*", "Button", true, false):
-		var button := node as Button
-		var rect := button.get_global_rect()
+	for node in console.page_root.find_children("*", "Control", true, false):
+		var control := node as Control
+		if !control.visible:
+			continue
+		var rect := control.get_global_rect()
 		if rect.position.x < scroll_rect.position.x - 1.0 or rect.end.x > scroll_rect.end.x + 1.0:
-			return _fail("%s button overflows horizontally: %s" % [label, button.text])
+			return _fail("%s content overflows horizontally: %s" % [label, control.name])
 	return true
 
 

@@ -28,6 +28,7 @@ class UnknownAIDialogue:
 	var title: Label
 	var close_button: Button
 	var gameplay_hud: CanvasLayer
+	var choice_buttons: Array[Button] = []
 
 	func _ready() -> void:
 		layer = 30
@@ -103,37 +104,64 @@ class UnknownAIDialogue:
 		answer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		answer.add_theme_color_override("font_color", Color(0.65, 0.91, 1.0))
 		copy.add_child(answer)
-		_add_choice(copy, "1 // Who sent the landing signal?", "The signal preceded your distress call. I merely ensured you heard it.")
-		_add_choice(copy, "2 // What happened to this facility?", "Its operators sought an intelligence beneath Zone-67. The facility survived them.")
-		_add_choice(copy, "3 // Why is no one here?", "Absence is not proof of departure. Your sensors are... limited.")
+		_add_choice(copy, "1 // Who sent the landing signal?", "1 // Landing signal?", "The signal preceded your distress call. I merely ensured you heard it.")
+		_add_choice(copy, "2 // What happened to this facility?", "2 // Facility status?", "Its operators sought an intelligence beneath Zone-67. The facility survived them.")
+		_add_choice(copy, "3 // Why is no one here?", "3 // Where is everyone?", "Absence is not proof of departure. Your sensors are... limited.")
 		get_viewport().size_changed.connect(_apply_responsive_layout)
 		_apply_responsive_layout()
 
 	func _apply_responsive_layout() -> void:
 		var viewport_size := get_viewport().get_visible_rect().size
-		var compact := viewport_size.x < 700.0 or viewport_size.y < 500.0
-		var safe := 12.0
-		panel.offset_left = safe
-		panel.offset_top = safe
-		panel.offset_right = -safe
-		panel.offset_bottom = -safe
+		var safe_rect := _safe_viewport_rect(viewport_size)
+		var compact := safe_rect.size.x < 700.0 or safe_rect.size.y < 500.0
+		var narrow := safe_rect.size.x < 520.0
 		var inner_margin := 10 if compact else 16
 		panel_margin.add_theme_constant_override("margin_left", inner_margin)
 		panel_margin.add_theme_constant_override("margin_top", inner_margin)
 		panel_margin.add_theme_constant_override("margin_right", inner_margin)
 		panel_margin.add_theme_constant_override("margin_bottom", inner_margin)
-		portrait.visible = viewport_size.x >= 820.0 and viewport_size.y >= 500.0
+		portrait.visible = safe_rect.size.x >= 820.0 and safe_rect.size.y >= 500.0
 		answer.custom_minimum_size.y = 92 if compact else 150
+		title.text = "UNKNOWN AI" if narrow else "UNKNOWN AI // SIGNAL SOURCE"
 		title.add_theme_font_size_override("font_size", 18 if compact else 25)
-		close_button.text = "X" if viewport_size.x < 520.0 else "DISCONNECT  [X]"
-		close_button.custom_minimum_size = Vector2(48 if viewport_size.x < 520.0 else 156, 44 if compact else 46)
+		close_button.text = "X" if narrow else "DISCONNECT  [X]"
+		close_button.custom_minimum_size = Vector2(48 if narrow else 156, 44 if compact else 46)
+		for button in choice_buttons:
+			var full_text := String(button.get_meta("full_text"))
+			button.text = String(button.get_meta("compact_text")) if compact else full_text
+			button.custom_minimum_size.y = 48
+		panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+		panel.position = safe_rect.position
+		panel.size = safe_rect.size
+		call_deferred("_fit_panel_to_safe_area")
 
-	func _add_choice(parent: Control, label_text: String, response: String) -> void:
+	func _fit_panel_to_safe_area() -> void:
+		if !is_instance_valid(panel):
+			return
+		var safe_rect := _safe_viewport_rect(get_viewport().get_visible_rect().size)
+		panel.position = safe_rect.position
+		panel.size = safe_rect.size
+
+	func _safe_viewport_rect(viewport_size: Vector2) -> Rect2:
+		var safe_rect := Rect2(Vector2.ZERO, viewport_size)
+		if get_viewport() == get_tree().root:
+			var screen_size := Vector2(DisplayServer.screen_get_size())
+			var display_safe := DisplayServer.get_display_safe_area()
+			if screen_size.x > 0.0 and screen_size.y > 0.0 and display_safe.size.x > 0 and display_safe.size.y > 0:
+				var scale := viewport_size / screen_size
+				safe_rect = Rect2(Vector2(display_safe.position) * scale, Vector2(display_safe.size) * scale)
+		return safe_rect.grow(-12.0)
+
+	func _add_choice(parent: Control, label_text: String, compact_text: String, response: String) -> void:
 		var button := Button.new()
 		button.text = label_text
+		button.set_meta("full_text", label_text)
+		button.set_meta("compact_text", compact_text)
 		button.custom_minimum_size.y = 48
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.pressed.connect(_answer.bind(response))
 		parent.add_child(button)
+		choice_buttons.append(button)
 
 	func _answer(response: String) -> void:
 		answer.text = response

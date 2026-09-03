@@ -508,31 +508,34 @@ func _apply_responsive_layout() -> void:
 	var safe_rect := _safe_viewport_rect(viewport_size)
 	var narrow := safe_rect.size.x < 520.0
 	var portrait := safe_rect.size.x < safe_rect.size.y
+	var compact_landscape := compact_layout and !portrait
 	var gap := 8.0
 	for control in [status_panel, objective_panel, settings_button, movement_joystick, fire_button, interact_button, med_kit_button, interaction_prompt, item_belt, combat_material_panel, defense_panel, boss_panel, comm_panel, alert_panel]:
 		control.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
-	status_panel.position = safe_rect.position
-	status_panel.size = Vector2(minf(330.0, safe_rect.size.x), 60.0)
-	salvage_label.visible = !narrow
-	hp_bar.custom_minimum_size.x = 120.0 if narrow else 184.0
 	settings_button.position = Vector2(safe_rect.end.x - 86.0, safe_rect.position.y)
 	settings_button.size = Vector2(86, 44)
+	var status_width := minf(330.0, safe_rect.size.x - settings_button.size.x - gap)
+	status_panel.position = safe_rect.position
+	status_panel.size = Vector2(status_width, 60.0)
+	salvage_label.visible = !narrow
+	hp_bar.custom_minimum_size.x = minf(120.0 if narrow else 184.0, maxf(72.0, status_width - 40.0))
 	var objective_top := status_panel.position.y + status_panel.size.y + 10.0
-	if narrow:
-		settings_button.position.y = objective_top
-		objective_top = settings_button.position.y + settings_button.size.y + gap
 	objective_panel.position = Vector2(safe_rect.position.x, objective_top)
-	objective_panel.size = Vector2(minf(450.0, safe_rect.size.x), 106.0 if narrow else 96.0)
+	objective_panel.size = Vector2(minf(450.0, safe_rect.size.x), 78.0 if compact_landscape else (106.0 if narrow else 96.0))
 	var joystick_size := minf(172.0, minf(safe_rect.size.x * 0.44, safe_rect.size.y * 0.48))
 	var fire_size := minf(134.0, minf(safe_rect.size.x * 0.36, safe_rect.size.y * 0.37))
 	joystick_size = maxf(112.0, joystick_size)
 	fire_size = maxf(104.0, fire_size)
+	if compact_landscape and safe_rect.size.x < 620.0:
+		joystick_size = 112.0
 	movement_joystick.position = Vector2(safe_rect.position.x, safe_rect.end.y - joystick_size)
 	movement_joystick.size = Vector2.ONE * joystick_size
 	fire_button.position = Vector2(safe_rect.end.x - fire_size, safe_rect.end.y - fire_size)
 	fire_button.size = Vector2.ONE * fire_size
 	var action_width := minf(150.0, maxf(112.0, safe_rect.size.x * 0.34))
-	if portrait or narrow:
+	if compact_landscape and safe_rect.size.x < 620.0:
+		action_width = 112.0
+	if portrait:
 		interact_button.position = Vector2(safe_rect.end.x - action_width, fire_button.position.y - 66.0 - gap)
 		med_kit_button.position = Vector2(safe_rect.end.x - action_width, interact_button.position.y - 62.0 - gap)
 	else:
@@ -558,18 +561,22 @@ func _apply_responsive_layout() -> void:
 	defense_panel.position = Vector2(safe_rect.get_center().x - major_width * 0.5, boss_panel.position.y + (74.0 if boss_panel.visible else 0.0))
 	defense_panel.size = Vector2(major_width, 66)
 	comm_portrait.visible = !compact_layout and safe_rect.size.x >= 720.0
-	var compact_landscape := compact_layout and safe_rect.size.x >= safe_rect.size.y
 	comm_copy.custom_minimum_size.x = 96.0 if compact_landscape else (220.0 if compact_layout else 300.0)
 	comm_text.max_lines_visible = 7 if compact_layout else 5
 	comm_panel.size = Vector2(minf(440.0, safe_rect.size.x), 170.0 if compact_landscape else (118.0 if compact_layout else 122.0))
 	comm_panel.position = Vector2(safe_rect.position.x, status_panel.position.y + status_panel.size.y + gap)
-	if compact_landscape:
-		var message_left := movement_joystick.position.x + movement_joystick.size.x + gap
+	if compact_layout:
+		var message_left := movement_joystick.position.x + movement_joystick.size.x + gap if compact_landscape else safe_rect.position.x
 		var message_right := minf(interact_button.position.x, fire_button.position.x) - gap
 		if message_right - message_left >= 110.0:
-			comm_panel.position.x = message_left
-			comm_panel.size.x = message_right - message_left
-			comm_panel.position.y = boss_panel.position.y + boss_panel.size.y + gap if boss_panel.visible else status_panel.position.y + status_panel.size.y + gap
+			if compact_landscape or boss_panel.visible or defense_panel.visible:
+				comm_panel.position.x = message_left
+				comm_panel.size.x = message_right - message_left
+		comm_panel.position.y = _major_ui_bottom() + gap
+		comm_panel.size.y = minf(comm_panel.size.y, safe_rect.end.y - comm_panel.position.y)
+	elif boss_panel.visible or defense_panel.visible:
+		comm_panel.position.y = _major_ui_bottom() + gap
+		comm_panel.size.y = minf(comm_panel.size.y, safe_rect.end.y - comm_panel.position.y)
 	var settings_size := Vector2(minf(420.0, safe_rect.size.x), minf(540.0, safe_rect.size.y))
 	settings_panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	settings_panel.position = safe_rect.get_center() - settings_size * 0.5
@@ -600,18 +607,27 @@ func _layout_notification(category: String) -> void:
 		alert_panel.size = Vector2(pickup_width, 58)
 	else:
 		var notice_width := minf(520.0, safe_rect.size.x)
-		var top := status_panel.position.y + status_panel.size.y + 8.0
-		if boss_panel != null and boss_panel.visible:
-			top = boss_panel.position.y + boss_panel.size.y + 8.0
+		var top := _major_ui_bottom() + 8.0
 		var left := safe_rect.get_center().x - notice_width * 0.5
-		if compact_layout and safe_rect.size.x >= safe_rect.size.y and movement_joystick != null:
-			var message_left := movement_joystick.position.x + movement_joystick.size.x + 8.0
+		if compact_layout and movement_joystick != null:
+			var message_left := movement_joystick.position.x + movement_joystick.size.x + 8.0 if safe_rect.size.x >= safe_rect.size.y else safe_rect.position.x
 			var message_right := minf(interact_button.position.x, fire_button.position.x) - 8.0
 			if message_right - message_left >= 110.0:
-				left = message_left
-				notice_width = message_right - message_left
+				if safe_rect.size.x >= safe_rect.size.y or boss_panel.visible or defense_panel.visible:
+					left = message_left
+					notice_width = message_right - message_left
 		alert_panel.position = Vector2(left, top)
-		alert_panel.size = Vector2(notice_width, 82 if compact_layout else 64)
+		var notice_height := 82.0 if compact_layout else 64.0
+		alert_panel.size = Vector2(notice_width, minf(notice_height, safe_rect.end.y - top))
+
+
+func _major_ui_bottom() -> float:
+	var bottom := status_panel.position.y + status_panel.size.y
+	if boss_panel != null and boss_panel.visible:
+		bottom = maxf(bottom, boss_panel.position.y + boss_panel.size.y)
+	if defense_panel != null and defense_panel.visible:
+		bottom = maxf(bottom, defense_panel.position.y + defense_panel.size.y)
+	return bottom
 
 
 func _safe_viewport_rect(viewport_size: Vector2) -> Rect2:

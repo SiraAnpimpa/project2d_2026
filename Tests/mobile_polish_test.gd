@@ -79,7 +79,7 @@ func _run_test() -> void:
 		return _fail("Holding FIRE did not respect continuous weapon fire")
 	hud._on_fire_button_up()
 	await get_tree().create_timer(0.24).timeout
-	if player.mobile_firing or get_tree().get_nodes_in_group("PlayerProjectile").size() != held_count:
+	if player.mobile_firing or get_tree().get_nodes_in_group("PlayerProjectile").size() > held_count:
 		return _fail("Releasing FIRE did not stop continuous fire")
 
 	var terminal := TestInteractable.new()

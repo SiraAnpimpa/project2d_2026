@@ -36,10 +36,11 @@ func configure(new_direction: Vector2, new_damage: int, new_speed: float, new_li
 		collision_mask = 5
 		sprite.texture = PULSE_TEXTURE
 	modulate = Color.WHITE
+	_sync_projectile_group()
 
 
 func _ready() -> void:
-	add_to_group("EnemyProjectile" if hostile else "PlayerProjectile")
+	_sync_projectile_group()
 	body_entered.connect(_on_body_entered)
 	get_tree().create_timer(lifetime, false).timeout.connect(_expire)
 
@@ -93,3 +94,9 @@ func impact(color: Color) -> void:
 func _expire() -> void:
 	if is_inside_tree():
 		queue_free()
+
+
+func _sync_projectile_group() -> void:
+	remove_from_group("PlayerProjectile")
+	remove_from_group("EnemyProjectile")
+	add_to_group("EnemyProjectile" if hostile else "PlayerProjectile")

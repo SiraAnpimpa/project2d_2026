@@ -1,6 +1,7 @@
 extends Node
 
 const CRAWLER := preload("res://Scenes/Actors/alien_crawler.tscn")
+const SPITTER := preload("res://Scenes/Actors/alien_spitter.tscn")
 const EGG := preload("res://Scenes/Gameplay/alien_egg.tscn")
 const HIVE_GROUP := preload("res://Scenes/Gameplay/hive_respawn_group.tscn")
 
@@ -69,6 +70,67 @@ func _run_test() -> void:
 		_fail("Respawned enemy did not return with full HP and reset state")
 		return
 
+	var blocker := StaticBody2D.new()
+	blocker.position = Vector2(1400, 0)
+	blocker.collision_layer = 1
+	blocker.collision_mask = 0
+	var blocker_shape := CollisionShape2D.new()
+	var blocker_circle := CircleShape2D.new()
+	blocker_circle.radius = 54.0
+	blocker_shape.shape = blocker_circle
+	blocker.add_child(blocker_shape)
+	add_child(blocker)
+	await get_tree().physics_frame
+	var relocated: Dictionary = manager.find_clear_spawn_position(blocker.global_position)
+	if !bool(relocated.get("found", false)):
+		_fail("Blocked spawn slot could not find a nearby clear position")
+		return
+	var relocated_position: Vector2 = relocated.get("position", blocker.global_position)
+	if relocated_position.distance_to(blocker.global_position) < blocker_circle.radius + manager.spawn_clearance:
+		_fail("Spawn relocation still overlaps world collision")
+		return
+
+	var steering_wall := StaticBody2D.new()
+	steering_wall.position = Vector2(1760, 200)
+	steering_wall.collision_layer = 1
+	steering_wall.collision_mask = 0
+	var steering_wall_shape := CollisionShape2D.new()
+	var steering_rectangle := RectangleShape2D.new()
+	steering_rectangle.size = Vector2(30, 180)
+	steering_wall_shape.shape = steering_rectangle
+	steering_wall.add_child(steering_wall_shape)
+	add_child(steering_wall)
+	var steering_enemy := CRAWLER.instantiate() as AlienEnemy
+	steering_enemy.position = Vector2(1700, 200)
+	add_child(steering_enemy)
+	test_player.position = Vector2(1950, 200)
+	await get_tree().physics_frame
+	if !steering_enemy._direction_is_blocked(Vector2.RIGHT):
+		_fail("Enemy obstacle sensor did not detect a wall in its chase path")
+		return
+	var steered_direction := steering_enemy._get_steered_direction(Vector2.RIGHT)
+	if absf(steered_direction.y) < 0.2:
+		_fail("Enemy AI did not steer around a blocked direct path")
+		return
+	var steering_start := steering_enemy.global_position
+	await get_tree().create_timer(0.8).timeout
+	if steering_enemy.global_position.distance_to(steering_start) < 35.0:
+		_fail("Enemy remained stuck after obstacle steering and recovery")
+		return
+	steering_enemy.queue_free()
+	steering_wall.queue_free()
+
+	var crawler_stats := CRAWLER.instantiate() as AlienEnemy
+	var spitter_stats := SPITTER.instantiate() as AlienEnemy
+	if crawler_stats.max_hp < 64 or crawler_stats.attack_damage < 14 or crawler_stats.move_speed < 160.0:
+		_fail("Crawler difficulty tuning was not applied")
+		return
+	if spitter_stats.max_hp < 84 or spitter_stats.attack_damage < 18 or spitter_stats.projectile_speed < 480.0:
+		_fail("Spitter difficulty tuning was not applied")
+		return
+	crawler_stats.free()
+	spitter_stats.free()
+
 	if !_check_area_configuration("res://Scenes/Levels/crystal_field.tscn", 60.0):
 		return
 	if !_check_area_configuration("res://Scenes/Levels/abandoned_signal_base.tscn", 60.0):
@@ -115,6 +177,20 @@ func _check_area_configuration(scene_path: String, expected_interval: float) -> 
 		level.free()
 		_fail("Exploration area has no bounded maximum alive count: " + scene_path)
 		return false
+	var configured_slots := manager.find_children("*", "EnemySpawnSlot", true, false)
+	if configured_slots.size() < manager.maximum_alive:
+		level.free()
+		_fail("Exploration area does not fill its configured enemy cap: " + scene_path)
+		return false
+	var environment := level.get_node_or_null("EnvironmentPack") as FullMapEnvironment
+	if environment != null:
+		for node in configured_slots:
+			var slot := node as EnemySpawnSlot
+			if slot != null and environment.is_local_point_blocked(environment.to_local(slot.global_position), manager.spawn_clearance):
+				var blocked_slot_name := String(slot.name)
+				level.free()
+				_fail("Configured enemy spawn slot overlaps map collision: %s/%s" % [scene_path, blocked_slot_name])
+				return false
 	level.free()
 	return true
 

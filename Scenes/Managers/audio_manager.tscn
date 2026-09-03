@@ -1,10 +1,15 @@
-[gd_scene format=3 uid="uid://bssjjygu83iwl"]
+[gd_scene load_steps=11 format=3 uid="uid://bssjjygu83iwl"]
 
 [ext_resource type="Script" uid="uid://da11xjja1ocm7" path="res://Scenes/Managers/audio_manager.gd" id="1_hp1cr"]
 [ext_resource type="AudioStream" uid="uid://cyjn00m1ehkp1" path="res://Assets/Sound/FX/jump.wav" id="2_esrla"]
 [ext_resource type="AudioStream" uid="uid://d2yw2hs5pd8cm" path="res://Assets/Sound/FX/coin_pickup.wav" id="3_qes3j"]
-[ext_resource type="AudioStream" uid="uid://b5gyns7mtiq0d" path="res://Assets/Sound/FX/hurt.wav" id="4_84782"]
 [ext_resource type="AudioStream" uid="uid://cbquowt7cd3d6" path="res://Assets/Sound/FX/level_complete.wav" id="5_84782"]
+[ext_resource type="AudioStream" path="res://Assets/Sound/SFX/player_death.mp3" id="6_player_death"]
+[ext_resource type="AudioStream" path="res://Assets/Sound/Music/background_music.mp3" id="7_background"]
+[ext_resource type="AudioStream" path="res://Assets/Sound/SFX/enemy_encounter.mp3" id="8_encounter"]
+[ext_resource type="AudioStream" path="res://Assets/Sound/SFX/enemy_death.mp3" id="9_enemy_death"]
+[ext_resource type="AudioStream" path="res://Assets/Sound/SFX/ship_flyby.mp3" id="10_ship"]
+[ext_resource type="AudioStream" path="res://Assets/Sound/SFX/radio_transmission.mp3" id="11_radio"]
 
 [node name="AudioManager" type="Node" unique_id=1179160635]
 script = ExtResource("1_hp1cr")
@@ -19,7 +24,7 @@ stream = ExtResource("3_qes3j")
 bus = &"sfx"
 
 [node name="DeathSfx" type="AudioStreamPlayer" parent="." unique_id=1498187337]
-stream = ExtResource("4_84782")
+stream = ExtResource("6_player_death")
 volume_db = -3.0
 bus = &"sfx"
 
@@ -29,4 +34,30 @@ bus = &"sfx"
 [node name="LevelCompleteSfx" type="AudioStreamPlayer" parent="." unique_id=1672470775]
 stream = ExtResource("5_84782")
 volume_db = -4.0
+bus = &"sfx"
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_background")
+volume_db = -12.0
+bus = &"music"
+
+[node name="EnemyEncounterSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_encounter")
+volume_db = -8.0
+bus = &"sfx"
+
+[node name="EnemyDeathSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_enemy_death")
+volume_db = -5.0
+max_polyphony = 6
+bus = &"sfx"
+
+[node name="ShipFlybySfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_ship")
+volume_db = -5.0
+bus = &"sfx"
+
+[node name="RadioTransmissionSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_radio")
+volume_db = -10.0
 bus = &"sfx"

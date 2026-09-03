@@ -115,13 +115,13 @@ safe_spawn_distance = 300.0
 [node name="ActiveEnemies" type="Node2D" parent="EnemyRespawnManager"]
 
 [node name="CrawlerNorth" type="Marker2D" parent="EnemyRespawnManager"]
-position = Vector2(72, -276)
+position = Vector2(148, -160)
 script = ExtResource("12_slot")
 enemy_scene = ExtResource("9_crawler")
 slot_id = &"crawler_north"
 
 [node name="CrawlerCenter" type="Marker2D" parent="EnemyRespawnManager"]
-position = Vector2(112, 193)
+position = Vector2(205, 185)
 script = ExtResource("12_slot")
 enemy_scene = ExtResource("9_crawler")
 slot_id = &"crawler_center"
@@ -133,10 +133,22 @@ enemy_scene = ExtResource("9_crawler")
 slot_id = &"crawler_east"
 
 [node name="SpitterEast" type="Marker2D" parent="EnemyRespawnManager"]
-position = Vector2(585, 30)
+position = Vector2(505, 135)
 script = ExtResource("12_slot")
 enemy_scene = ExtResource("10_spitter")
 slot_id = &"spitter_east"
+
+[node name="CrawlerWest" type="Marker2D" parent="EnemyRespawnManager"]
+position = Vector2(-276, -155)
+script = ExtResource("12_slot")
+enemy_scene = ExtResource("9_crawler")
+slot_id = &"crawler_west"
+
+[node name="SpitterSouthWest" type="Marker2D" parent="EnemyRespawnManager"]
+position = Vector2(-250, 55)
+script = ExtResource("12_slot")
+enemy_scene = ExtResource("10_spitter")
+slot_id = &"spitter_south_west"
 
 [node name="Pickups" type="Node2D" parent="." unique_id=26285527]
 

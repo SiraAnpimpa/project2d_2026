@@ -9,5 +9,8 @@ respawn_interval = 30.0
 maximum_alive = 10
 safe_spawn_distance = 340.0
 blocked_retry_interval = 3.0
+enemy_health_multiplier = 1.35
+enemy_damage_multiplier = 1.25
+enemy_speed_multiplier = 1.12
 
 [node name="ActiveEnemies" type="Node2D" parent="."]

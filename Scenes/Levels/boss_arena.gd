@@ -27,6 +27,7 @@ func _begin_boss_encounter() -> void:
 	await hud.show_boss_intro("HIVE MATRIARCH")
 	if !is_instance_valid(boss) or GameManager.boss_defeated_state:
 		return
+	AudioManager.play_enemy_encounter()
 	boss.set_encounter_active(true)
 	player.set_movement_enabled(true)
 	hud.show_echo("Energy source located. Major attacks are telegraphed—dodge, counterattack, and use cover.")

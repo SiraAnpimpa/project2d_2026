@@ -28,9 +28,17 @@ const STATUS_COLORS := {
 
 var screen: Control
 var console_panel: PanelContainer
+var outer_margin: MarginContainer
 var header_title: Label
+var header_subtitle: Label
+var close_button: Button
+var navigation: HBoxContainer
+var section_tabs: Dictionary = {}
+var page_scroll: ScrollContainer
 var page_root: VBoxContainer
+var gameplay_hud: CanvasLayer
 var selected_section := "repair"
+var compact_layout := false
 var system_rows: Dictionary = {}
 var upgrade_rows: Dictionary = {}
 var final_core_row: Dictionary = {}
@@ -56,9 +64,13 @@ func _ready() -> void:
 	GameManager.weapon_upgrade_changed.connect(_on_weapon_upgrade_changed)
 	get_viewport().size_changed.connect(_apply_responsive_layout)
 	get_tree().paused = true
+	gameplay_hud = get_tree().get_first_node_in_group("GameHUD") as CanvasLayer
+	if is_instance_valid(gameplay_hud):
+		gameplay_hud.visible = false
 	var player := GameManager.player
 	if is_instance_valid(player) and player.has_method("set_movement_enabled"):
 		player.set_movement_enabled(false)
+	_apply_responsive_layout()
 	_show_section("repair")
 	_apply_responsive_layout()
 
@@ -87,7 +99,7 @@ func _build_ui() -> void:
 	console_panel.set_anchors_preset(Control.PRESET_CENTER)
 	console_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	screen.add_child(console_panel)
-	var outer_margin := MarginContainer.new()
+	outer_margin = MarginContainer.new()
 	outer_margin.add_theme_constant_override("margin_left", 20)
 	outer_margin.add_theme_constant_override("margin_top", 16)
 	outer_margin.add_theme_constant_override("margin_right", 20)
@@ -108,51 +120,93 @@ func _build_ui() -> void:
 	header_title.add_theme_font_size_override("font_size", 26)
 	header_title.add_theme_color_override("font_color", Color(0.4, 0.92, 1.0))
 	heading.add_child(header_title)
-	var subtitle := Label.new()
-	subtitle.text = "OLETHROS RESTORATION LINK"
-	subtitle.add_theme_font_size_override("font_size", 13)
-	subtitle.add_theme_color_override("font_color", Color(0.56, 0.72, 0.8))
-	heading.add_child(subtitle)
-	var close := Button.new()
-	close.text = "CLOSE  [ESC]"
-	close.custom_minimum_size = Vector2(142, 48)
-	close.focus_mode = Control.FOCUS_NONE
-	close.pressed.connect(_close)
-	header.add_child(close)
+	header_subtitle = Label.new()
+	header_subtitle.text = "OLETHROS RESTORATION LINK"
+	header_subtitle.add_theme_font_size_override("font_size", 13)
+	header_subtitle.add_theme_color_override("font_color", Color(0.56, 0.72, 0.8))
+	heading.add_child(header_subtitle)
+	close_button = Button.new()
+	close_button.name = "CloseButton"
+	close_button.text = "CLOSE  [ESC]"
+	close_button.custom_minimum_size = Vector2(142, 48)
+	close_button.focus_mode = Control.FOCUS_NONE
+	close_button.pressed.connect(_close)
+	header.add_child(close_button)
 
-	var navigation := HBoxContainer.new()
+	navigation = HBoxContainer.new()
+	navigation.name = "SectionTabs"
 	navigation.alignment = BoxContainer.ALIGNMENT_CENTER
 	navigation.add_theme_constant_override("separation", 8)
 	content.add_child(navigation)
 	for section in ["repair", "weapon", "echo"]:
 		var tab := Button.new()
 		tab.text = {"repair": "SHIP STATUS", "weapon": "WEAPON UPGRADES", "echo": "ECHO LOG"}[section]
-		tab.custom_minimum_size = Vector2(175, 46)
+		tab.custom_minimum_size = Vector2(0, 46)
+		tab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		tab.focus_mode = Control.FOCUS_NONE
 		tab.pressed.connect(_show_section.bind(section))
 		navigation.add_child(tab)
+		section_tabs[section] = tab
 	content.add_child(HSeparator.new())
 
-	var scroll := ScrollContainer.new()
-	scroll.name = "PageScroll"
-	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.add_child(scroll)
+	page_scroll = ScrollContainer.new()
+	page_scroll.name = "PageScroll"
+	page_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	page_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	page_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	page_scroll.follow_focus = true
+	content.add_child(page_scroll)
 	page_root = VBoxContainer.new()
 	page_root.name = "PageContent"
 	page_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	page_root.add_theme_constant_override("separation", 10)
-	scroll.add_child(page_root)
+	page_scroll.add_child(page_root)
 
 
 func _apply_responsive_layout() -> void:
 	if console_panel == null:
 		return
 	var viewport_size := get_viewport().get_visible_rect().size
-	var panel_size := Vector2(minf(1050.0, viewport_size.x - 32.0), minf(720.0, viewport_size.y - 24.0))
-	console_panel.position = -panel_size * 0.5
+	var safe_rect := _safe_viewport_rect(viewport_size)
+	compact_layout = safe_rect.size.x < 700.0 or safe_rect.size.y < 520.0
+	var panel_size := Vector2(
+		minf(1050.0, safe_rect.size.x),
+		minf(720.0, safe_rect.size.y)
+	)
+	console_panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	console_panel.position = safe_rect.get_center() - panel_size * 0.5
 	console_panel.size = panel_size
-	header_title.add_theme_font_size_override("font_size", 20 if viewport_size.x < 760.0 else 26)
+	var inner_margin := 10 if compact_layout else 20
+	outer_margin.add_theme_constant_override("margin_left", inner_margin)
+	outer_margin.add_theme_constant_override("margin_top", 10 if compact_layout else 16)
+	outer_margin.add_theme_constant_override("margin_right", inner_margin)
+	outer_margin.add_theme_constant_override("margin_bottom", 10 if compact_layout else 16)
+	header_title.add_theme_font_size_override("font_size", 18 if compact_layout else 26)
+	header_subtitle.visible = !compact_layout or viewport_size.x >= 520.0
+	close_button.text = "X" if viewport_size.x < 520.0 else "CLOSE  [ESC]"
+	close_button.custom_minimum_size = Vector2(48 if viewport_size.x < 520.0 else 142, 44 if compact_layout else 48)
+	navigation.add_theme_constant_override("separation", 4 if compact_layout else 8)
+	var compact_tab_text := {"repair": "STATUS", "weapon": "UPGRADES", "echo": "ECHO"}
+	var full_tab_text := {"repair": "SHIP STATUS", "weapon": "WEAPON UPGRADES", "echo": "ECHO LOG"}
+	for section in section_tabs:
+		var tab: Button = section_tabs[section]
+		tab.text = compact_tab_text[section] if compact_layout else full_tab_text[section]
+		tab.custom_minimum_size.y = 42 if compact_layout else 46
+		tab.add_theme_font_size_override("font_size", 13 if compact_layout else 16)
+	var current_page_title := page_root.get_node_or_null("PageTitle") as Label
+	if current_page_title != null:
+		current_page_title.add_theme_font_size_override("font_size", 18 if compact_layout else 22)
+
+
+func _safe_viewport_rect(viewport_size: Vector2) -> Rect2:
+	var safe_rect := Rect2(Vector2.ZERO, viewport_size)
+	if get_viewport() == get_tree().root:
+		var screen_size := Vector2(DisplayServer.screen_get_size())
+		var display_safe := DisplayServer.get_display_safe_area()
+		if screen_size.x > 0.0 and screen_size.y > 0.0 and display_safe.size.x > 0 and display_safe.size.y > 0:
+			var scale := viewport_size / screen_size
+			safe_rect = Rect2(Vector2(display_safe.position) * scale, Vector2(display_safe.size) * scale)
+	return safe_rect.grow(-16.0)
 
 
 func _show_section(section: String) -> void:
@@ -183,8 +237,9 @@ func _clear_page() -> void:
 
 func _page_title(text: String, color := Color(0.48, 0.92, 1.0)) -> Label:
 	var label := Label.new()
+	label.name = "PageTitle"
 	label.text = text
-	label.add_theme_font_size_override("font_size", 22)
+	label.add_theme_font_size_override("font_size", 18 if compact_layout else 22)
 	label.add_theme_color_override("font_color", color)
 	page_root.add_child(label)
 	return label
@@ -203,11 +258,11 @@ func _make_feedback() -> Label:
 
 func _build_repair_page() -> void:
 	_page_title("SHIP STATUS")
-	var overall := HBoxContainer.new()
+	var overall := VBoxContainer.new()
 	overall.add_theme_constant_override("separation", 12)
 	page_root.add_child(overall)
 	overall_label = Label.new()
-	overall_label.custom_minimum_size.x = 260
+	overall_label.custom_minimum_size.x = 0
 	overall_label.add_theme_font_size_override("font_size", 18)
 	overall.add_child(overall_label)
 	overall_bar = ProgressBar.new()
@@ -231,7 +286,6 @@ func _build_repair_page() -> void:
 func _add_system_card(system_id: String, title: String, icon_texture: Texture2D, action: Callable) -> Dictionary:
 	var card := PanelContainer.new()
 	card.name = system_id.capitalize().replace(" ", "") + "Card"
-	card.custom_minimum_size.y = 90
 	page_root.add_child(card)
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 14)
@@ -239,9 +293,12 @@ func _add_system_card(system_id: String, title: String, icon_texture: Texture2D,
 	margin.add_theme_constant_override("margin_right", 14)
 	margin.add_theme_constant_override("margin_bottom", 9)
 	card.add_child(margin)
+	var card_box := VBoxContainer.new()
+	card_box.add_theme_constant_override("separation", 8)
+	margin.add_child(card_box)
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 14)
-	margin.add_child(row)
+	row.add_theme_constant_override("separation", 10)
+	card_box.add_child(row)
 	var icon := TextureRect.new()
 	icon.custom_minimum_size = Vector2(58, 58)
 	icon.texture = icon_texture
@@ -265,10 +322,11 @@ func _add_system_card(system_id: String, title: String, icon_texture: Texture2D,
 	resource.add_theme_color_override("font_color", Color(0.72, 0.84, 0.9))
 	details.add_child(resource)
 	var button := Button.new()
-	button.custom_minimum_size = Vector2(180, 54)
+	button.custom_minimum_size = Vector2(0, 48)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.focus_mode = Control.FOCUS_NONE
 	button.pressed.connect(action)
-	row.add_child(button)
+	card_box.add_child(button)
 	return {"resource": resource, "status": status, "button": button, "icon": icon}
 
 
@@ -290,7 +348,6 @@ func _build_weapon_page() -> void:
 	for category in UPGRADE_SPECS:
 		var spec: Dictionary = UPGRADE_SPECS[category]
 		var card := PanelContainer.new()
-		card.custom_minimum_size.y = 118
 		page_root.add_child(card)
 		var margin := MarginContainer.new()
 		margin.add_theme_constant_override("margin_left", 14)
@@ -298,8 +355,8 @@ func _build_weapon_page() -> void:
 		margin.add_theme_constant_override("margin_right", 14)
 		margin.add_theme_constant_override("margin_bottom", 9)
 		card.add_child(margin)
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 14)
+		var row := VBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
 		margin.add_child(row)
 		var details := VBoxContainer.new()
 		details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -320,7 +377,8 @@ func _build_weapon_page() -> void:
 		requirements.add_theme_color_override("font_color", Color(0.72, 0.86, 0.92))
 		details.add_child(requirements)
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(190, 56)
+		button.custom_minimum_size = Vector2(0, 50)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.focus_mode = Control.FOCUS_NONE
 		button.pressed.connect(_purchase_upgrade.bind(category))
 		row.add_child(button)
@@ -484,14 +542,15 @@ func _base_minigame(title_text: String, instruction: String) -> VBoxContainer:
 func _build_power_game() -> void:
 	feedback.text = "Resources commit only after circuit validation."
 	var box := _base_minigame("POWER // CONNECT ENERGY CIRCUIT", "Rotate every conductor to the horizontal position.")
-	var row := HBoxContainer.new()
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override("separation", 14)
+	var row := GridContainer.new()
+	row.columns = 4
+	row.add_theme_constant_override("h_separation", 8)
 	box.add_child(row)
 	circuit_buttons.clear()
 	for index in range(4):
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(82, 60)
+		button.custom_minimum_size = Vector2(58, 56)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.add_theme_font_size_override("font_size", 26)
 		button.pressed.connect(_rotate_circuit.bind(index))
 		row.add_child(button)
@@ -525,12 +584,13 @@ func _build_navigation_game() -> void:
 	nav_slider.value = 22
 	nav_slider.custom_minimum_size = Vector2(0, 46)
 	box.add_child(nav_slider)
-	var actions := HBoxContainer.new()
-	actions.alignment = BoxContainer.ALIGNMENT_CENTER
+	var actions := VBoxContainer.new()
+	actions.add_theme_constant_override("separation", 8)
 	box.add_child(actions)
 	var sync := Button.new()
 	sync.text = "SYNCHRONIZE SIGNAL"
-	sync.custom_minimum_size = Vector2(240, 48)
+	sync.custom_minimum_size = Vector2(0, 48)
+	sync.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	sync.pressed.connect(_check_navigation)
 	actions.add_child(sync)
 	_add_cancel_button(actions)
@@ -548,16 +608,18 @@ func _check_navigation() -> void:
 func _build_engine_game() -> void:
 	feedback.text = "VALVE ORDER // A → C → B → IGNITION"
 	var box := _base_minigame("ENGINE // STARTUP SEQUENCE", "Wrong input safely resets the sequence.")
-	var row := HBoxContainer.new()
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override("separation", 8)
+	var row := GridContainer.new()
+	row.columns = 2
+	row.add_theme_constant_override("h_separation", 8)
+	row.add_theme_constant_override("v_separation", 8)
 	box.add_child(row)
 	engine_progress = 0
 	engine_buttons.clear()
 	for label in ["VALVE A", "VALVE C", "VALVE B", "IGNITION"]:
 		var button := Button.new()
 		button.text = label
-		button.custom_minimum_size = Vector2(142, 54)
+		button.custom_minimum_size = Vector2(120, 50)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.pressed.connect(_engine_input.bind(label))
 		row.add_child(button)
 		engine_buttons.append(button)
@@ -583,7 +645,8 @@ func _engine_input(value: String) -> void:
 func _add_cancel_button(parent: Control) -> void:
 	var cancel := Button.new()
 	cancel.text = "CANCEL DIAGNOSTIC"
-	cancel.custom_minimum_size = Vector2(185, 44)
+	cancel.custom_minimum_size = Vector2(0, 44)
+	cancel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	cancel.pressed.connect(_cancel_minigame)
 	parent.add_child(cancel)
 
@@ -641,6 +704,8 @@ func _on_weapon_upgrade_changed(_category: StringName, _level: int) -> void:
 
 func _close() -> void:
 	get_tree().paused = false
+	if is_instance_valid(gameplay_hud):
+		gameplay_hud.visible = true
 	var player := GameManager.player
 	if is_instance_valid(player) and player.has_method("set_movement_enabled") and !GameManager.death_in_progress:
 		player.set_movement_enabled(true)

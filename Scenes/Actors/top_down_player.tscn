@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://Scenes/Actors/top_down_player.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://Assets/Spritesheet/olethros_astronaut_topdown_sheet_v2.png" id="2_astronaut"]
+[ext_resource type="AudioStream" path="res://Assets/Sound/SFX/player_laser.mp3" id="3_fire"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_footprint"]
 radius = 15.0
@@ -42,6 +43,10 @@ limit_bottom = 820
 position = Vector2(25, -19)
 
 [node name="FireSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_fire")
+volume_db = -7.0
+max_distance = 900.0
+max_polyphony = 4
 bus = &"sfx"
 
 [node name="ImpactSfx" type="AudioStreamPlayer2D" parent="."]

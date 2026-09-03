@@ -11,6 +11,14 @@ signal enemy_slot_emptied(slot: EnemySpawnSlot, respawn_delay: float)
 @export_range(0.0, 1000.0, 10.0) var safe_spawn_distance := 300.0
 @export_range(0.25, 30.0, 0.25) var blocked_retry_interval := 4.0
 @export var avoid_visible_camera := true
+@export_range(12.0, 80.0, 1.0) var spawn_clearance := 32.0
+@export_range(0.0, 320.0, 8.0) var relocation_radius := 192.0
+@export_range(8.0, 64.0, 4.0) var relocation_step := 32.0
+
+@export_category("Area Difficulty")
+@export_range(0.5, 3.0, 0.05) var enemy_health_multiplier := 1.0
+@export_range(0.5, 3.0, 0.05) var enemy_damage_multiplier := 1.0
+@export_range(0.5, 2.0, 0.05) var enemy_speed_multiplier := 1.0
 
 @export_category("Optional Spawn Sources")
 @export_range(0.0, 10.0, 0.1) var external_spawn_lockout := 1.25
@@ -60,18 +68,21 @@ func _try_spawn_slot(slot: EnemySpawnSlot, entering_area: bool) -> bool:
 		return false
 	if get_alive_count() >= maximum_alive:
 		return false
-	if !_is_player_distance_safe(slot.global_position):
+	var resolved: Dictionary = find_clear_spawn_position(slot.global_position)
+	if !bool(resolved.get("found", false)):
 		return false
-	if !entering_area and !_is_spawn_location_safe(slot.global_position):
+	var spawn_position: Vector2 = resolved.get("position", slot.global_position)
+	if !entering_area and !_is_spawn_location_safe(spawn_position):
 		return false
 	var enemy := slot.enemy_scene.instantiate() as AlienEnemy
 	if enemy == null:
 		return false
+	_apply_area_difficulty(enemy)
 	var container := get_node_or_null("ActiveEnemies")
 	if container == null:
 		container = self
 	container.add_child(enemy)
-	enemy.global_position = slot.global_position
+	enemy.global_position = spawn_position
 	slot.mark_spawned(enemy)
 	enemy.died.connect(_on_slot_enemy_died.bind(slot), CONNECT_ONE_SHOT)
 	enemy_spawned.emit(enemy, slot)
@@ -105,14 +116,19 @@ func can_spawn_external() -> bool:
 func spawn_external(enemy_scene: PackedScene, world_position: Vector2) -> AlienEnemy:
 	if enemy_scene == null or !can_spawn_external():
 		return null
+	var resolved: Dictionary = find_clear_spawn_position(world_position, false)
+	if !bool(resolved.get("found", false)):
+		return null
+	var spawn_position: Vector2 = resolved.get("position", world_position)
 	var enemy := enemy_scene.instantiate() as AlienEnemy
 	if enemy == null:
 		return null
+	_apply_area_difficulty(enemy)
 	var container := get_node_or_null("ActiveEnemies")
 	if container == null:
 		container = self
 	container.add_child(enemy)
-	enemy.global_position = world_position
+	enemy.global_position = spawn_position
 	_external_enemies.append(enemy)
 	_external_lockout_remaining = external_spawn_lockout
 	enemy.died.connect(_on_external_enemy_died.bind(enemy), CONNECT_ONE_SHOT)
@@ -164,3 +180,46 @@ func _is_player_distance_safe(world_position: Vector2) -> bool:
 	if !is_instance_valid(active_player):
 		return true
 	return active_player.global_position.distance_to(world_position) >= safe_spawn_distance
+
+
+func find_clear_spawn_position(origin: Vector2, respect_player_distance: bool = true) -> Dictionary:
+	if _is_world_position_clear(origin) and (!respect_player_distance or _is_player_distance_safe(origin)):
+		return {"found": true, "position": origin}
+	if relocation_radius <= 0.0:
+		return {"found": false}
+	var ring_count := ceili(relocation_radius / relocation_step)
+	for ring in range(1, ring_count + 1):
+		var radius := float(ring) * relocation_step
+		var sample_count := 12 + ring * 4
+		for sample in range(sample_count):
+			var angle := TAU * float(sample) / float(sample_count) + float(ring % 2) * 0.17
+			var candidate := origin + Vector2.from_angle(angle) * radius
+			if _is_world_position_clear(candidate) and (!respect_player_distance or _is_player_distance_safe(candidate)):
+				return {"found": true, "position": candidate}
+	return {"found": false}
+
+
+func _is_world_position_clear(world_position: Vector2) -> bool:
+	for node in get_tree().get_nodes_in_group("FullMapEnvironment"):
+		var environment := node as FullMapEnvironment
+		if environment == null or get_tree().current_scene == null:
+			continue
+		if !get_tree().current_scene.is_ancestor_of(environment):
+			continue
+		if environment.is_local_point_blocked(environment.to_local(world_position), spawn_clearance):
+			return false
+	var shape := CircleShape2D.new()
+	shape.radius = spawn_clearance
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = shape
+	query.transform = Transform2D(0.0, world_position)
+	query.collision_mask = 1
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	return get_world_2d().direct_space_state.intersect_shape(query, 1).is_empty()
+
+
+func _apply_area_difficulty(enemy: AlienEnemy) -> void:
+	enemy.max_hp = maxi(roundi(float(enemy.max_hp) * enemy_health_multiplier), 1)
+	enemy.attack_damage = maxi(roundi(float(enemy.attack_damage) * enemy_damage_multiplier), 1)
+	enemy.move_speed = maxf(enemy.move_speed * enemy_speed_multiplier, 1.0)

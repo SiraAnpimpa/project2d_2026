@@ -17,7 +17,7 @@ func _run_test() -> void:
 	if "--preview-main-menu" in OS.get_cmdline_user_args():
 		hud.set_settings_open(true)
 		await get_tree().process_frame
-		hud.get_node("SettingsOverlay/SettingsPanel/Margin/Content/MainMenuButton").pressed.emit()
+		hud.main_menu_button.pressed.emit()
 		return
 
 	var movement_joystick: Control = hud.get_node("GameUI/MovementJoystick")
@@ -67,7 +67,7 @@ func _run_test() -> void:
 	if !hud.get_node("SettingsOverlay").visible or !get_tree().paused:
 		_fail("In-game settings did not open and pause gameplay")
 		return
-	var main_menu_button: Button = hud.get_node("SettingsOverlay/SettingsPanel/Margin/Content/MainMenuButton")
+	var main_menu_button: Button = hud.main_menu_button
 	if main_menu_button.text.find("MAIN MENU") < 0 or main_menu_button.pressed.get_connections().is_empty():
 		_fail("Main Menu action is missing from Settings")
 		return

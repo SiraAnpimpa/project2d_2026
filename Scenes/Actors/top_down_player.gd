@@ -22,6 +22,7 @@ signal interaction_requested
 @onready var astronaut: Sprite2D = $Astronaut
 @onready var camera: Camera2D = $Camera2D
 @onready var muzzle: Marker2D = $Muzzle
+@onready var fire_sfx: AudioStreamPlayer2D = $FireSfx
 
 var movement_enabled := true
 var spawn_point := Vector2.ZERO
@@ -208,6 +209,8 @@ func _has_line_of_sight_to(target: Node2D) -> bool:
 func fire_weapon() -> void:
 	if fire_cooldown > 0.0 or projectile_scene == null or !movement_enabled:
 		return
+	if GameManager.sfx_on:
+		fire_sfx.play()
 	var projectile := projectile_scene.instantiate() as CombatProjectile
 	get_tree().current_scene.add_child(projectile)
 	projectile.global_position = muzzle.global_position

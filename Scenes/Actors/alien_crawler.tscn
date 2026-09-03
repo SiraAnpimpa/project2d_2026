@@ -11,10 +11,14 @@ radius = 23.0
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1")
-max_hp = 48
-move_speed = 142.0
-attack_damage = 11
-attack_cooldown = 0.85
+max_hp = 64
+move_speed = 166.0
+detection_range = 540.0
+attack_damage = 14
+attack_cooldown = 0.72
+telegraph_duration = 0.34
+recovery_duration = 0.24
+acceleration = 1250.0
 drop_table = ExtResource("3_drops")
 
 [node name="Shadow" type="Polygon2D" parent="."]

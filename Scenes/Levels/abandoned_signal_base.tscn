@@ -79,13 +79,13 @@ enemy_scene = ExtResource("11_spitter")
 slot_id = &"spitter_north"
 
 [node name="SignalTerminal" type="Node2D" parent="." unique_id=1659434359]
-position = Vector2(350, -210)
+position = Vector2(-22, 91)
 script = ExtResource("12_terminal")
 
 [node name="Hologram" type="Sprite2D" parent="SignalTerminal" unique_id=845794653]
 modulate = Color(0.55, 0.8, 1, 0.78)
 texture_filter = 1
-position = Vector2(-373, 297)
+position = Vector2(-8, -3)
 scale = Vector2(0.08, 0.08)
 texture = ExtResource("13_unknown")
 
